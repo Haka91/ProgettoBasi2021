@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  web:
+    #image: haka91/progettobasiv0.1
+    build: ./Web
+    command: python manage.py run -h 0.0.0.0
+    volumes:
+      - ./Web/Project:/usr/src/app/
+    ports:
+      - 5000:5000
+    env_file:
+      - .env.dev
+    depends_on:
+      - db
+    #restart: always
+
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_HOST= db
+    
+
+      
+
+volumes:
+  postgres_data:
