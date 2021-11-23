@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+
+<!-- Links in the navbar -->
+{% block navbar %}
+<ul class="navbar-nav" >
+    <li class="nav-item">
+        <a class="nav-link" href="#">Login</a>  <!-- INSERIRE LINK PER LOGIN -->
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Registrati</a> <!-- INSERIRE LINK PER REGISTRAZIONE -->
+    </li>
+</ul>
+{% endblock %}
+
+
+{% block body %}
+
+<!-- BLOCCHI COMMENTATI IN ATTESA DEI DATI DA PASSARE DAL BACKEND -->
+
+<!-- Stampa la lista dei corsi 
+<h1> Corsi offerti </h1>
+<ul class="collection with-header">
+    {% for corso in corsi %}
+        <li class="collection-item">{{ corso.nomeCorso }} , {{ corso.nomeIstruttore }} , {{ corso.dataInizio }} , {{ corso.dataFine }}</li>
+    {% endfor %}
+</ul>
+-->
+
+<br> <br>
+
+<!-- Stampa la lista delle sale 
+<h1> Sale presenti </h1>
+<ul class="collection with-header">
+    {% for sala in sale %}
+        <li class="collection-item">{{ sala.nome }} , {{ sala.capienza }}</li>
+    {% endfor %}
+</ul>
+-->
+
+
+
+
+{% endblock %}
