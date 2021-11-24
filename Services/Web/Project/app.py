@@ -1,5 +1,5 @@
 from os import name
-from flask import Flask, sessions
+from flask import Flask, sessions, g, render_template
 from sqlalchemy.dialects import postgresql
 import psycopg2
 from sqlalchemy import create_engine
@@ -60,3 +60,8 @@ def home():
     return 'Hello World!'
 
 
+# import blueprints
+from flask_website.views import General
+from flask_website.views import User
+app.register_blueprint(General.mod)
+app.register_blueprint(User.mod)

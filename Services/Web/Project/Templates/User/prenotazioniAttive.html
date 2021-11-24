@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+<!-- Links in the navbar -->
+{% block navbar %}
+<ul class="navbar-nav navbar-light">
+    <li class="nav-item">
+        <a class="nav-link" href="#">Introduzione</a> <!-- AGGIUNGERE LINK -->
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Prenotazioni Attive</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Prenota Sala Pesi</a>  <!-- AGGIUNGERE LINK -->
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Iscrizione ai Corsi</a>  <!-- AGGIUNGERE LINK -->
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Prenota Lezione Corso</a>  <!-- AGGIUNGERE LINK -->
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Gestione Utente</a>  <!-- AGGIUNGERE LINK -->
+    </li>
+    <!--  QUI SERVIREBBE UN TASTO LOGOUT -->
+</ul>
+{% endblock %}
+
+
+<!-- Block body -->
+{% block body %}
+
+<!-- Stampa la lista delle prenotazioni attive
+<h1> Prenotazioni attive </h1>
+<ul class="collection with-header">
+    {% for prenotazione in prenotazioni %}
+        <li class="collection-item">{{ prenotazione.nome }} , {{ prenotazione.istruttore }} , {{ prenotazione.locale }} , {{ corso.dataorainizio }} , {{ corso.dataorafine }}</li>
+    {% endfor %}
+</ul>
+-->
+
+{% endblock %}

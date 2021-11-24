@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+<!-- Links in the navbar -->
+{% block navbar %}
+<ul class="navbar-nav navbar-light">
+    <li class="nav-item">
+        <a class="nav-link" href="#">Introduzione</a> <!-- AGGIUNGERE LINK -->
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Prenotazioni Attive</a>  <!-- AGGIUNGERE LINK -->
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Prenota Sala Pesi</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Iscrizione ai Corsi</a>  <!-- AGGIUNGERE LINK -->
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Prenota Lezione Corso</a>  <!-- AGGIUNGERE LINK -->
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Gestione Utente</a>  <!-- AGGIUNGERE LINK -->
+    </li>
+    <!--  QUI SERVIREBBE UN TASTO LOGOUT -->
+</ul>
+{% endblock %}
+
+
+<!-- Block body -->
+{% block body %}
+
+<!-- DEVO CAPIRE COME FARE IN MODO DI POTER PRENOTARE UN DETERMINATO SLOT ORARIO, PER ORA LI STAMPO -->
+
+<!-- Stampa la lista degli slot di palestra attivi
+<h1> Slot Liberi Sala Pesi </h1>
+<p> Ogni slot ha la durata di xyz minuti </p>
+<ul class="collection with-header">
+    {% for slot in salapesi %}
+        <li class="collection-item">{{ slot.data }} , {{ slot.ora }} </li>
+    {% endfor %}
+</ul>
+-->
+
+{% endblock %}

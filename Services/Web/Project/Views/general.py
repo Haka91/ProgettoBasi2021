@@ -14,15 +14,15 @@ from sqlalchemy.sql.functions import user
 from config import DATABASE_CONNECTION_URI
 
 
-mod = Blueprint('general',__name__)
+mod = Blueprint('General',__name__)
 
 
 # homepage
 @mod.route('/')
 def index():
     # mi servono due query:
-    # 1) lista dei corsi (nome corso, nome istruttore, data inizio, data fine)  <- i campi sono quelli che secondo me servono 
-    # 2) lista delle sale (nome sala, capienza)  <- i campi sono quelli che secondo me servono 
+    # 1) lista dei corsi (nome corso, nome istruttore, data inizio, data fine)  
+    # 2) lista delle sale (nome sala, capienza)  
     # ---
     # Secondo te inseriamo pure gli orari di apertura e chiusura?
     return render_template('/General/homepage.html') # UNA VOLTA PRESENTI LE QUERY PASSARE I DATI AL TEMPLATE
