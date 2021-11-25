@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+<!-- Links in the navbar -->
+{% block navbar %}
+<ul class="navbar-nav navbar-light">
+    <li class="nav-item">
+        <a class="nav-link" href="#">Gestione Utente</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Gestione Trainer</a>  <!-- AGGIUNGERE LINK -->
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Gestione Sale</a>  <!-- AGGIUNGERE LINK -->
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Statistiche</a>  <!-- AGGIUNGERE LINK -->
+    </li>
+    <!--  QUI SERVIREBBE UN TASTO LOGOUT -->
+</ul>
+{% endblock %}
+
+
+<!-- Block body -->
+{% block body %}
+<!-- MANCA ULTIMA COLONNA CON LINK PER ATTIVARE O DISATTIVARE L'UTENTE -->
+<!-- Stampa la lista di tutti gli utenti con la possibilità di attivare e disattivare gli utenti
+<h1> Lista Utenti </h1>
+<ul class="collection with-header">
+    {% for utente in utenti %}
+        <li class="collection-item">{{ utente.ruolo }} , {{ utente.nome }} , {{ utente.cognome }} , {{ utente.attivatoNonAttivato }}</li>
+    {% endfor %}
+</ul>
+-->
+
+{% endblock %}

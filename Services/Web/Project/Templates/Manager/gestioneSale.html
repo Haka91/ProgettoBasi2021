@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+<!-- Links in the navbar -->
+{% block navbar %}
+<ul class="navbar-nav navbar-light">
+    <li class="nav-item">
+        <a class="nav-link" href="#">Gestione Utente</a>  <!-- AGGIUNGERE LINK -->
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Gestione Trainer</a>  <!-- AGGIUNGERE LINK -->
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Gestione Sale</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Statistiche</a>  <!-- AGGIUNGERE LINK -->
+    </li>
+    <!--  QUI SERVIREBBE UN TASTO LOGOUT -->
+</ul>
+{% endblock %}
+
+
+<!-- Block body -->
+{% block body %}
+<!-- MANCA ULTIMA COLONNA CON LINK PER ELIMINARE UNA DETERMINATA SALA -->
+<!-- Stampa la lista di tutte le sale
+<h1> Lista Utenti </h1>
+<ul class="collection with-header">
+    {% for sala in sale %}
+        <li class="collection-item">{{ sala.nome }} , {{ sala.capienza }}</li>
+    {% endfor %}
+</ul>
+-->
+
+<br><br>
+
+<!-- CREARE FUNZIONE PER GESTIRE L'INSERIMENTO DI UNA NUOVA SALA -->
+<!-- Form per creare una nuova sala
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-2"></div>
+        <div class="col-lg-6 col-md-8 login-box">
+            <div class="col-lg-12 login-key">
+                <i class="fa fa-key" aria-hidden="true"></i>
+            </div>
+            <h1 align="center">
+                Crea Sala
+            </h1>
+
+            <br> <br>
+
+            <div class="col-lg-12 login-form">
+                <div class="col-lg-12 login-form">
+                    <form action="#" method="post">
+                        <input type="text" id="nome" name="nome" class="form-control" placeholder="Nome Sala">
+                        <input type="text" id="capienza" name="capienza" class="form-control" placeholder="Capienza Sala">
+                        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Inserisci" name="Inserisci" />
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-2"></div>
+        </div>
+    </div>
+</div>
+-->
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+<!-- Links in the navbar -->
+{% block navbar %}
+<ul class="navbar-nav navbar-light">
+    <li class="nav-item">
+        <a class="nav-link" href="#">Gestione Utente</a>  <!-- AGGIUNGERE LINK -->
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Gestione Trainer</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Gestione Sale</a>  <!-- AGGIUNGERE LINK -->
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Statistiche</a>  <!-- AGGIUNGERE LINK -->
+    </li>
+    <!--  QUI SERVIREBBE UN TASTO LOGOUT -->
+</ul>
+{% endblock %}
+
+
+<!-- Block body -->
+{% block body %}
+<!-- MANCA ULTIMA COLONNA CON LINK PER ELIMIARE UN TRAINER -->
+<!-- Stampa la lista di tutti i trainers con la possibilità di eliminarli
+<h1> Lista Trainers </h1>
+<ul class="collection with-header">
+    {% for trainer in trainers %}
+        <li class="collection-item">{{ trainer.nome }} , {{ trainer.cognome }} , {{ trainer.attivatoNonAttivato }} , {{ trainer.allenaCorsi }}</li>
+    {% endfor %}
+</ul>
+-->
+
+<br><br>
+
+<!-- MANCA ULTIMA COLONNA CON LINK PER TRASFORMARE UTENTE IN TRAINER -->
+<!-- Stampa la lista di tutti gli utenti con la possibilità di trasformargli in trainer
+<h1> Lista Utenti che possono essere trasformati in trainers </h1>
+<ul class="collection with-header">
+    {% for utente in utenti %}
+        <li class="collection-item">{{ utente.nome }} , {{ utente.cognome }} , {{ utente.attivatoNonAttivato }}</li>
+    {% endfor %}
+</ul>
+-->
+
+{% endblock %}

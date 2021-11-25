@@ -11,6 +11,12 @@ from sqlalchemy.sql.functions import user
 from config import DATABASE_CONNECTION_URI
 
 
+# import blueprints (between from and import goes the name of the folders)
+from .Views.general import general
+from .Views.user import user
+from .Views.instructor import instructor
+from .Views.manager import manager
+
 
 #testing purpose,give it a real name after setting docker compose
 Base=declarative_base()
@@ -39,15 +45,16 @@ from Models import Reservations #3
 
 
 Base.metadata
-Base.metadata.drop_all(engine)
-Base.metadata.create_all(engine)
+#Base.metadata.drop_all(engine)
+#Base.metadata.create_all(engine)
 
 
 
-#conn= engine.connect()
-#conn.execute("CREATE USER admin WITH password 'standard';")
+conn= engine.connect()
+conn.execute("CREATE USER admin WITH password 'standard';")
     
-    
+
+
 
 
 
@@ -57,11 +64,9 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():    
+    # registring blueprints
+    app.register_blueprint(general)
+    app.register_blueprint(user)
+    app.register_blueprint(instructor)
+    app.register_blueprint(manager)
     return 'Hello World!'
-
-
-# import blueprints
-from flask_website.views import General
-from flask_website.views import User
-app.register_blueprint(General.mod)
-app.register_blueprint(User.mod)
