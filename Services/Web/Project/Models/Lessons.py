@@ -11,11 +11,15 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy.sql.expression import false, true
+#from Models.Courses import Course
+#from Models.Reservations import Course_Reservations
+#from Models.Users import User
+from DbController import Base,engine
 
-from app import Base,engine
 
 
-class Lessons(Base):
+
+class Lesson(Base):
 
     __tablename__='Lessons'
    
@@ -23,6 +27,16 @@ class Lessons(Base):
     id = Column("id",Integer, primary_key=True)
     reservation_slot_occupied = Column(Integer,nullable=False)
     start_time =Column(Time,nullable=False)
+    course = Column(Integer,ForeignKey("Courses.id"),nullable=False)
+    trainer = Column(Integer,ForeignKey("Users.id"),nullable=False)
+
+
+
+    course_obj =  relationship("Course",back_populates="lessons_obj")
+    trainer_obj= relationship("User", back_populates="lessons_obj")
+
+    course_reservations_obj=relationship("Course_Reservations",back_populates="lesson_obj")
+    
     
 
     def add_obj(self):

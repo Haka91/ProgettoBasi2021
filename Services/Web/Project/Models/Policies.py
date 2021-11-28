@@ -11,11 +11,11 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy.sql.schema import CheckConstraint
-from app import Base,engine
+from DbController import Base,engine
 
 
 
-class Policies(Base):
+class Policy(Base):
 
     __tablename__='Policies'
    

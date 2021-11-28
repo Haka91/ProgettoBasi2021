@@ -10,17 +10,20 @@ from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import with_polymorphic
-from app import Base,engine
+from DbController import Base,engine
+#from Models.Users import User
 
 
 
-class Roles(Base):
+class Role(Base):
 
     __tablename__='Roles'
   
 
     id = Column("id",Integer, primary_key=True)
     name = Column(String(50))
+
+    users_obj=relationship("User",back_populates="role_obj")
 
     def add_obj(self):
 

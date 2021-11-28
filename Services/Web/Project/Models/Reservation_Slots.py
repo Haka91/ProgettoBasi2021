@@ -11,12 +11,11 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy.sql.expression import false
-from app import Base,engine
+from DbController import Base,engine
 
 
 
-
-class Reservation_slots(Base):
+class Reservation_slot(Base):
 
     __tablename__='Reservation_slots'
   

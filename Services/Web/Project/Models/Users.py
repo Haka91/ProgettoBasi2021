@@ -8,12 +8,15 @@ from sqlalchemy.orm import validates
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy.sql.expression import column, false
 from sqlalchemy.sql.sqltypes import (Boolean)
+from DbController import Base,engine
+#from Lessons import Lesson
+#from Reservations import Reservation
+#from Roles import Role
 
-from app import Base,engine
 
 
 
-class Users(Base):
+class User(Base):
 
     __tablename__='Users'
  
@@ -30,6 +33,10 @@ class Users(Base):
     is_authenticated = Column( Boolean, default=False, nullable=False)
     is_activated = Column( Boolean, default=False, nullable=False)
 
+    role_obj=relationship("Role",back_populates="users_obj")
+
+    lessons_obj=relationship("Lesson",back_populates="trainer_obj")
+    reservations_obj=relationship("Reservation",back_populates="user_obj")
     def add_obj(self):
 
             try:

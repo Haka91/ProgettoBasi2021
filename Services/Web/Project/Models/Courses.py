@@ -10,11 +10,14 @@ from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship, relationships
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import with_polymorphic
-from app import Base,engine
+from DbController import Base,engine
+#from Models.Lessons import Lesson
 
 
 
-class Courses(Base):
+
+
+class Course(Base):
 
     __tablename__='Courses'
  
@@ -22,7 +25,9 @@ class Courses(Base):
     id= Column("id",Integer, primary_key=True)
     name = Column(String(50))
     description=Column(String(50))
-    trainer = Column(Integer,ForeignKey("Users.id"),nullable=False)
+    lessons_obj= relationship("Lesson",back_populates="course_obj")
+   
+    
 
   
     def add_obj(self):

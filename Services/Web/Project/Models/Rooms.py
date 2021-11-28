@@ -12,10 +12,13 @@ from sqlalchemy.orm import Session
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy.sql.expression import false, true
 from sqlalchemy.sql.sqltypes import Boolean
-from app import Base,engine
+from DbController import Base,engine
+#from Models.Reservations import Weight_Room_Reservations
 
 
-class Rooms(Base):
+
+#JOINED TABLE INHERITANCE
+class Room(Base):
     __tablename__='Rooms'
 
 
@@ -30,11 +33,14 @@ class Rooms(Base):
       'polymorphic_on':is_weight
     }
 
-class Weight_Room(Rooms):
+class Weight_Room(Room):
 
     __tablename__='Weight_Rooms'   
          
-    id = Column(Integer,ForeignKey(Rooms.id),primary_key=True)
+    id = Column(Integer,ForeignKey(Room.id),primary_key=True)
+
+    weight_reservations_obj=relationship("Weight_Room_Reservations" ,back_populates="weight_room_obj")
+
 
     def add_obj(self):
 
@@ -61,11 +67,11 @@ class Weight_Room(Rooms):
         'polymorphic_identity':True
     }
 
-class Course_Room(Rooms):
+class Course_Room(Room):
 
     __tablename__='Course_Rooms' 
         
-    id = Column(Integer,ForeignKey(Rooms.id),primary_key=True)      
+    id = Column(Integer,ForeignKey(Room.id),primary_key=True)      
     __mapper_args__ = {
        
         'polymorphic_identity':False
