@@ -33,7 +33,7 @@ def prenotaSalaPesi():
 @user.route('/iscrizioneAiCorsi')
 def iscrizioneAiCorsi():
     # mi serve una query:
-    # 1) lista degi corsi a cui l'utente in questione non è ancora iscritto
+    # 1) lista degi corsi a cui l'utente in questione non è ancora iscritto (idCorso,nomeCorso)
     return render_template('/User/iscrizioneAiCorsi.html') # UNA VOLTA PRESENTE LA QUERY PASSARE I DATI AL TEMPLATE
 
 

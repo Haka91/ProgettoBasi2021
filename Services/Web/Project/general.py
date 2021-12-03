@@ -41,4 +41,5 @@ def registerPage():
 @general.route('/registerFunction')
 def registerFunction():
     # do stuff
-    return
+    # Once finisced the register process, the new user is redirected directly to the login page, where he can login with his new credentials
+    return render_template('/General/login.html')

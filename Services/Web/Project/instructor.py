@@ -1,7 +1,8 @@
 # Blueprint per la sezione user
 
 from flask import Flask
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, url_for
+from flask.helpers import url_for
 
 
 
@@ -23,5 +24,14 @@ def prossimeLezioni():
     return render_template('/Instructor/prossimeLezioni.html') # UNA VOLTA PRESENTE LA QUERY PASSARE I DATI AL TEMPLATE
 
 
-# DA FARE
-#@instructor.route('/creazioneLezioni')
+@instructor.route('/creazioneLezioni')
+def creazioneLezioni():
+    # mi serve una query:
+    # 1) lista con tutti i corsi che l'istruttore insegna ( nome corso )
+    return render_template('/Istructor/creaLezioni.html')
+
+# METODO PER INSERIRE LE LEZIONI NEL DB, IL METODO VA POI AGGIUNTO NEL FORM CHE SI TROVA NELL'HTML (PRE SPECIFICARE L'AZIONE DEL FORM)
+@instructor.route('/inserisciLezioni', methods = ['POST', 'GET'])
+def inserisciLezioni():
+    # INSERIRE LE LEZIONI NEL DB
+    return redirect(url_for(instructor.prossimeLezioni))  # ridirezione l'istruttore, dopo l'inserimento delle lezioni, verso la lista delle sue lezioni da fare

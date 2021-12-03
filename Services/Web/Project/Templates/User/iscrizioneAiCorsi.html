@@ -4,22 +4,22 @@
 {% block navbar %}
 <ul class="navbar-nav navbar-light">
     <li class="nav-item">
-        <a class="nav-link" href="#">Introduzione</a> <!-- AGGIUNGERE LINK -->
+        <a class="nav-link" href="{{url_for('user.introduzione')}}">Introduzione</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Prenotazioni Attive</a>  <!-- AGGIUNGERE LINK -->
+        <a class="nav-link" href="{{url_for('user.prenotazioniAttive')}}">Prenotazioni Attive</a>  
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Prenota Sala Pesi</a>  <!-- AGGIUNGERE LINK -->
+        <a class="nav-link" href="{{url_for('user.prenotaSalaPesi')}}">Prenota Sala Pesi</a>  
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Iscrizione ai Corsi</a>  <!-- AGGIUNGERE LINK -->
+        <a class="nav-link" href="{{url_for('user.iscrizioneAiCorsi')}}">Iscrizione ai Corsi</a>  
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Prenota Lezione Corso</a>  
+        <a class="nav-link" href="{{url_for('user.prenotaLezioneCorso')}}">Prenota Lezione Corso</a>  
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Gestione Utente</a>  <!-- AGGIUNGERE LINK -->
+        <a class="nav-link" href="{{url_for('user.cambiaDatiUtente')}}">Cambia dati utente</a>  
     </li>
     <!--  QUI SERVIREBBE UN TASTO LOGOUT -->
 </ul>
@@ -29,8 +29,36 @@
 <!-- Block body -->
 {% block body %}
 
-<!-- DEVO CAPIRE COME FARE IN MODO DA POTER ISCRIVERE UN UTENTE AD UN DETERMINATO CORSO, PER ORA LI STAMPO -->
+<!-- Iscrizione dell'utente ad un corso -->
+<br> <br>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-2"></div>
+        <div class="col-lg-6 col-md-8 login-box">
+            <div class="col-lg-12 login-key">
+                <i class="fa fa-key" aria-hidden="true"></i>
+            </div>
+            <h1 align="center">
+                Iscriviti ad un corso
+            </h1>
 
+            <br> <br>
 
+            <div class="col-lg-12 login-form">
+                <div class="col-lg-12 login-form">
+                    <form action="#" method="post"> <!-- AGGIUNGERE AZIONE -->
+                        <select id="course" name="course">
+                            {% for corso in corsi %}
+                                <option value="{{corso.id}}">{{corso.nome}}</option>
+                            {% endfor %}
+                        </select>
+                        <input class="btn btn-lg btn-primary btn-block" type="submit" value="iscriviti" name="iscriviti" />
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-2"></div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

@@ -9,7 +9,7 @@ manager = Blueprint('manager',__name__,url_prefix='/manager')
 
 # AGGIUNGERE LINK PER OGNI UTENTE PER FARE IN MODO DI MODIFICARE IL SUO STATO DI ATTIVATO O NON ATTIVATO
 @manager.route('/gestioneUtenti')
-def gestioneUtente():
+def gestioneUtenti():
     # mi serve una query:
     # 1) lista di tutti gli utenti ( ruolo , nome, cognome , attivato/nonAttivato )
     return render_template('/Manager/gestioneUtenti.html') # UNA VOLTA PRESENTE LA QUERY PASSARE I DATI AL TEMPLATE

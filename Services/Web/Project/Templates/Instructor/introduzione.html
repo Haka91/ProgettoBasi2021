@@ -4,13 +4,13 @@
 {% block navbar %}
 <ul class="navbar-nav navbar-light">
     <li class="nav-item">
-        <a class="nav-link" href="#">Introduzione</a>
+        <a class="nav-link" href="{{url_for('instructor.introduzione')}}">Introduzione</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Prossime Lezioni</a>  <!-- AGGIUNGERE LINK -->
+        <a class="nav-link" href="{{url_for('instructor.prossimeLezioni')}}">Prossime Lezioni</a> 
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Crea Lezioni</a>  <!-- AGGIUNGERE LINK -->
+        <a class="nav-link" href="{{url_for('instructor.creazioneLezioni')}}">Crea Lezioni</a> 
     </li>
     <!--  QUI SERVIREBBE UN TASTO LOGOUT -->
 </ul>
@@ -31,8 +31,8 @@
 
 <br><br>
 
-<!-- Stampa la lista delle lezioni da insegnare questa settimana
-<h1> Lezioni di questa settimana in cui insegnare </h1>
+<!-- Stampa la lista delle lezioni che l'istruttore insegna questa settimana
+<h1> Lezioni di questa settimana in cui insegno </h1>
 <ul class="collection with-header">
     {% for lezione in lezioni %}
         <li class="collection-item">{{ lezione.corso }} , {{ lezione.locale }} , {{ lezione.dataOraInizio }} , {{ lezione.dataOraFine }} , {{ lezione.numeroPrenotati }}</li>
