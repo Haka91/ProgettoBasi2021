@@ -9,6 +9,8 @@ from sqlalchemy.orm import with_polymorphic
 from sqlalchemy.sql.expression import column, false
 from sqlalchemy.sql.sqltypes import (Boolean)
 from DbController import Base,engine
+#from flask_login import UserMixin
+from flask_security import UserMixin
 #from Lessons import Lesson
 #from Reservations import Reservation
 #from Roles import Role
@@ -16,7 +18,7 @@ from DbController import Base,engine
 
 
 
-class User(Base):
+class User(UserMixin,Base):
 
     __tablename__='Users'
  
@@ -29,9 +31,10 @@ class User(Base):
     city = Column(String(30), nullable=False)
     password = Column( String, nullable=False)
     salt=Column(String,nullable=false)
-    role = Column(Integer,ForeignKey("Roles.id"),nullable=False,default=3)
-    is_authenticated = Column( Boolean, default=False, nullable=False)
-    is_activated = Column( Boolean, default=False, nullable=False)
+    role = Column(Integer,ForeignKey("Roles.id"),nullable=False,default=3)    
+    #is_authenticated = Column( Boolean, default=False, nullable=False)
+    #is_active = Column( Boolean, default=False, nullable=False)
+    # is_anonymous=Column( Boolean, default=False, nullable=False)
 
     role_obj=relationship("Role",back_populates="users_obj")
 

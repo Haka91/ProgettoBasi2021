@@ -1,6 +1,8 @@
 from os import name
 from flask import Flask, sessions, g, render_template
-from config import DATABASE_CONNECTION_URI
+from config import DATABASE_CONNECTION_URI,secret_key
+from flask_login import LoginManager
+from flask_bcrypt import Bcrypt
 
 
 
@@ -12,8 +14,17 @@ from config import DATABASE_CONNECTION_URI
 
 app = Flask(__name__)
 
+app.secret_key=secret_key
 
 from DbController import db_start,create_db_users
+#we initialize Bcrypt
+bcrypt = Bcrypt(app)
+
+#we initialize the flask-login
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.session_protection = "strong"
+
 db_start()
 create_db_users()
 

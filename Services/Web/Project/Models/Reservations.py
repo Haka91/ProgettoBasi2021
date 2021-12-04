@@ -36,13 +36,15 @@ class Reservation(Base):
      
     }
 
-class Weight_Room_Reservations(Reservation):
+class Weight_Room_Reservation(Reservation):
 
         __tablename__='Weight_Room_Reservations'  
           
         id = Column(Integer,ForeignKey(Reservation.id),primary_key=True)
         weight_room = Column(Integer,ForeignKey("Weight_Rooms.id"),nullable=False)
+        reservation_slot=Column(Integer,ForeignKey("Reservation_slots.id"),nullable=false)
 
+        reservation_slot_obj=relationship("Reservation_slot",back_populates="weight_reservations_obj")
         weight_room_obj=relationship("Weight_Room",back_populates="weight_reservations_obj")    
 
         
@@ -74,7 +76,7 @@ class Weight_Room_Reservations(Reservation):
      
     }
 
-class Course_Reservations(Reservation):
+class Course_Reservation(Reservation):
 
         __tablename__='Course_Reservations'
       

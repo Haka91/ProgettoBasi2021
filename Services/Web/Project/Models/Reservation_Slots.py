@@ -24,6 +24,8 @@ class Reservation_slot(Base):
     slot_time =Column(Time,nullable=False)
     day = Column(Date,ForeignKey("Days.date"),nullable=False)
 
+    lessons_obj=relationship("Lesson",back_populates="reservation_slot_obj")
+    weight_reservations_obj=relationship("Weight_Room_Reservation",back_populates="reservation_slot_obj")
     day_obj=relationship("Day", back_populates="reservation_slots_obj")
 
     def add_obj(self):
