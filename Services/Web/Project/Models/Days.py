@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy.sql.schema import CheckConstraint
 from DbController import Base,engine
+from Models.Reservation_Slots import Reservation_slot
 
 
 
@@ -27,7 +28,8 @@ class Day(Base):
     break_time =Column(Time)
     break_slot =Column(Integer,CheckConstraint('break_slot>0'),CheckConstraint('break_slot<47'),nullable=False)
   
-
+    reservation_slots_obj=relationship("Reservation_slot",back_populates="day_obj")
+     
     def add_obj(self):
 
         try:
@@ -49,4 +51,15 @@ class Day(Base):
             engine.session.rollback()
             return False
 
-  
+    def update_obj(self, date ,opening,closing,break_time,break_slot):
+        try:            
+            self.opening = opening         
+            self.closing =closing
+            self.break_time=break_time
+            self.break_slot=break_slot  
+            engine.session.commit()
+            return True
+        except:
+            engine.session.rollback()
+            return False
+

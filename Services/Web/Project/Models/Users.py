@@ -59,4 +59,34 @@ class User(Base):
                return False
 
 
+    def update_obj(self,name,surname,email,address,city,password,role):
+        try:
+            self.name=name 
+            self.surname=surname
+            self.email=email
+            self.address=address
+            self.city=city             
+            engine.session.commit()
+            return True
+        except:
+            engine.session.rollback()
+            return False
 
+
+    def update_password(self,password):
+        try:
+            #usa password+salt
+            engine.session.commit()
+            return True
+        except:
+            engine.session.rollback()
+            return False
+
+    def update_role(self,role):
+        try:
+            self.role=role
+            engine.session.commit()
+            return True
+        except:
+            engine.session.rollback()
+            return False

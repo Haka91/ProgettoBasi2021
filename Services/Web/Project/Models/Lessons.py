@@ -59,3 +59,15 @@ class Lesson(Base):
         except:
             engine.session.rollback()
             return False
+
+    def update_obj(self, reservation_slot_occupied ,start_time,course,trainer):
+        try:
+            self.reservation_slot_occupied=reservation_slot_occupied
+            self.start_time = start_time         
+            self.course =course
+            self.trainer=trainer           
+            engine.session.commit()
+            return True
+        except:
+            engine.session.rollback()
+            return False

@@ -28,6 +28,10 @@ class Course(Base):
     lessons_obj= relationship("Lesson",back_populates="course_obj")
    
     
+    def __init__(self,name,description):
+        self.name=name,
+        self.description=description
+
 
   
     def add_obj(self):
@@ -42,7 +46,7 @@ class Course(Base):
             return False
 
     def delete_obj(self):
-       
+        
         try:
             engine.session.delete(self)
             engine.session.commit()
@@ -51,4 +55,12 @@ class Course(Base):
             engine.session.rollback()
             return False
 
-    
+    def update_obj(self, name ,description):
+        try:
+            self.name=name
+            self.description = description           
+            engine.session.commit()
+            return True
+        except:
+            engine.session.rollback()
+            return False

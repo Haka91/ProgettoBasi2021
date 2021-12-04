@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+<!-- Links in the navbar -->
+{% block navbar %}
+<ul class="navbar-nav navbar-light">
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('instructor.introduzione')}}">Introduzione</a> 
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('instructor.prossimeLezioni')}}">Prossime Lezioni</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('instructor.creazioneLezioni')}}">Crea Lezioni</a>  
+    </li>
+    <!--  QUI SERVIREBBE UN TASTO LOGOUT -->
+</ul>
+{% endblock %}
+
+
+<!-- Block body -->
+{% block body %}
+
+<!-- Form to add new lessons to an existing course, available only if the course is teached by the instructor -->
+<br> <br>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-2"></div>
+        <div class="col-lg-6 col-md-8 login-box">
+            <div class="col-lg-12 login-key">
+                <i class="fa fa-key" aria-hidden="true"></i>
+            </div>
+            <h1 align="center">
+                Crea lezioni
+            </h1>
+
+            <br> <br>
+
+            <div class="col-lg-12 login-form">
+                <div class="col-lg-12 login-form">
+                    <form action="#" method="post"> 
+                        <!-- Choose course in which add lessons -->
+                        <select id="course" name="course">
+                            {% for corso in corsi %}
+                                <option value="{{corso.id}}">{{corso.nome}}</option>
+                            {% endfor %}
+                        </select>
+                        <!-- Choose how many lessons do in a week -->
+                        <select id="timesAWeek" name="timesAWeek">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                        </select>
+                        <!-- Lesson 1 -->
+                        <!-- Day of the week -->
+                        <select id="one_timesAWeek" name="one_timesAWeek">
+                            <option value="1">Lunedì</option>
+                            <option value="2">Martedì</option>
+                            <option value="3">Mercoledì</option>
+                            <option value="4">Giovedì</option>
+                            <option value="5">Venerdì</option>
+                        </select>
+                        <!-- When it starts -->
+                        <select id="one_starts" name="one_starts">
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                        </select>
+                        <!-- How much does it lasts -->
+                        <select id="one_length" name="one_length">
+                            <option value="0.5">0.5 hr</option>
+                            <option value="1">1 hr</option>
+                            <option value="1.5">1.5 hr</option>
+                        </select>
+                        <!-- Where it's done -->
+                        <select id="one_where" name="one_where">
+                            {% for room in rooms %}
+                                <option value="{{room.id}}">{{room.name}}</option>
+                            {% endfor %}
+                        </select>
+
+                        <!-- Lesson 2 -->
+                        <!-- Day of the week -->
+                        <select id="two_timesAWeek" name="two_timesAWeek">
+                            <option value="1">Lunedì</option>
+                            <option value="2">Martedì</option>
+                            <option value="3">Mercoledì</option>
+                            <option value="4">Giovedì</option>
+                            <option value="5">Venerdì</option>
+                        </select>
+                        <!-- When it starts -->
+                        <select id="two_starts" name="two_starts">
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                        </select>
+                        <!-- How much does it lasts -->
+                        <select id="two_length" name="two_length">
+                            <option value="0.5">0.5 hr</option>
+                            <option value="1">1 hr</option>
+                            <option value="1.5">1.5 hr</option>
+                        </select>
+                        <!-- Where it's done -->
+                        <select id="two_where" name="two_where">
+                            {% for room in rooms %}
+                                <option value="{{room.id}}">{{room.name}}</option>
+                            {% endfor %}
+                        </select>
+
+                        <!-- Lesson 3 -->
+                        <!-- Day of the week -->
+                        <select id="three_timesAWeek" name="three_timesAWeek">
+                            <option value="1">Lunedì</option>
+                            <option value="2">Martedì</option>
+                            <option value="3">Mercoledì</option>
+                            <option value="4">Giovedì</option>
+                            <option value="5">Venerdì</option>
+                        </select>
+                        <!-- When it starts -->
+                        <select id="three_starts" name="three_starts">
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                        </select>
+                        <!-- How much does it lasts -->
+                        <select id="three_length" name="three_length">
+                            <option value="0.5">0.5 hr</option>
+                            <option value="1">1 hr</option>
+                            <option value="1.5">1.5 hr</option>
+                        </select>
+                        <!-- Where it's done -->
+                        <select id="three_where" name="three_where">
+                            {% for room in rooms %}
+                                <option value="{{room.id}}">{{room.name}}</option>
+                            {% endfor %}
+                        </select>
+
+                        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Crea Lezioni" name="Crea Lezioni" />
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-2"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

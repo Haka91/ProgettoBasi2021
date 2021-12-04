@@ -45,3 +45,15 @@ class Policy(Base):
         except:
             engine.session.rollback()
             return False
+
+
+    def update_obj(self, name ,room_percent,max_user_reserv):
+        try:
+            self.name=name
+            self.room_percent = room_percent        
+            self.max_user_reserv =max_user_reserv      
+            engine.session.commit()
+            return True
+        except:
+            engine.session.rollback()
+            return False

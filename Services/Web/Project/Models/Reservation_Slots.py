@@ -22,6 +22,9 @@ class Reservation_slot(Base):
 
     id = Column("id",Integer,primary_key=True)
     slot_time =Column(Time,nullable=False)
+    day = Column(Date,ForeignKey("Days.date"),nullable=False)
+
+    day_obj=relationship("Day", back_populates="reservation_slots_obj")
 
     def add_obj(self):
 
@@ -44,4 +47,13 @@ class Reservation_slot(Base):
             engine.session.rollback()
             return False
 
+    def update_obj(self, slot_time,day):
+        try:
+            self.slot_time=slot_time 
+            self.day=day       
+            engine.session.commit()
+            return True
+        except:
+            engine.session.rollback()
+            return False
   

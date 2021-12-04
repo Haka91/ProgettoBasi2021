@@ -46,6 +46,14 @@ class Role(Base):
                engine.session.rollback()
                return False
  
+    def update_obj(self, name):
+        try:
+            self.name=name                    
+            engine.session.commit()
+            return True
+        except:
+            engine.session.rollback()
+            return False
 
 
 
