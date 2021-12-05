@@ -8,9 +8,11 @@ from sqlalchemy.orm import validates
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy.sql.expression import column, false
 from sqlalchemy.sql.sqltypes import (Boolean)
-from DbController import Base,engine
+from DbController import Base,session
 #from flask_login import UserMixin
 from flask_security import UserMixin
+from app import bcrypt
+
 #from Lessons import Lesson
 #from Reservations import Reservation
 #from Roles import Role
@@ -29,8 +31,7 @@ class User(UserMixin,Base):
     email = Column(String(40), nullable=False,unique=True)
     address = Column( String(30), nullable=False)
     city = Column(String(30), nullable=False)
-    password = Column( String, nullable=False)
-    salt=Column(String,nullable=false)
+    password = Column( String, nullable=False)    
     role = Column(Integer,ForeignKey("Roles.id"),nullable=False,default=3)    
     #is_authenticated = Column( Boolean, default=False, nullable=False)
     #is_active = Column( Boolean, default=False, nullable=False)
@@ -40,56 +41,84 @@ class User(UserMixin,Base):
 
     lessons_obj=relationship("Lesson",back_populates="trainer_obj")
     reservations_obj=relationship("Reservation",back_populates="user_obj")
+
+
+
+    def __init__(self,name,surname,email,address,city,password,role):
+        self.name=name
+        self.surname=surname
+        self.email=email 
+        self.address=address
+        self.city=city
+        self.password=bcrypt.generate_password_hash(password).decode("utf-8")
+        self.role=role
+
+    def checkpsw(self, password):
+        return bcrypt.check_password_hash(self._password, password)
+
     def add_obj(self):
 
             try:
-                engine.session.add(self)
-                engine.session.commit()
+                session.add(self)
+                session.commit()              
                 return True
             except Exception as e:
                 print(e)
-                engine.session.rollback()
+                session.rollback()
                 return False
 
     def delete_obj(self):
        
             try:
-                engine.session.delete(self)
-                engine.session.commit()
+                session.delete(self)
+                session.commit()
                 return True
             except:
-               engine.session.rollback()
+               session.rollback()
                return False
 
 
-    def update_obj(self,name,surname,email,address,city,password,role):
+    def update_obj(self,name,surname,email,address,city):
         try:
             self.name=name 
             self.surname=surname
             self.email=email
             self.address=address
             self.city=city             
-            engine.session.commit()
+            session.commit()
             return True
         except:
-            engine.session.rollback()
+            session.rollback()
             return False
 
 
-    def update_password(self,password):
+    def update_password(self,old_password,new_password):
         try:
-            #usa password+salt
-            engine.session.commit()
-            return True
+            if(self.checkpsw(old_password)):
+                self.password=bcrypt.generate_password_hash(new_password).decode("utf-8")
+                session.commit()
+                return True
+            else:
+                return False
+
         except:
-            engine.session.rollback()
+            session.rollback()
             return False
 
     def update_role(self,role):
         try:
             self.role=role
-            engine.session.commit()
+            session.commit()
             return True
         except:
-            engine.session.rollback()
+            session.rollback()
+            return False
+
+    def activate_or_deactivate_obj(self,bool):
+        try:
+            self.is_active=bool
+            session.commit()
+            return True
+        except:
+            session.rollback()
             return False

@@ -28,6 +28,7 @@ login_manager.session_protection = "strong"
 db_start()
 create_db_users()
 
+
 from Views.general import general
 from Views.user import user
 from Views.instructor import instructor
@@ -38,10 +39,24 @@ app.register_blueprint(user)
 app.register_blueprint(instructor)
 app.register_blueprint(manager)  
 
+
+
 @app.route('/')
 def home():  
+    from Models import Roles,Users,Rooms
 
- 
+    
+    role=Roles.Role("Admin")
+    role.add_obj()
+    
+    print(role.id,role.name)
+    ale=Users.User("ale","furlan","ale@gmail.com","via giacomo","jesolo","ciao",1)    
+    ale.add_obj()
+    print(ale.role_obj,ale.name,ale.id)
+    room=Rooms.Weight_Room("pesi","salapesi",100)
+    room2=Rooms.Course_Room("room","ciao",100)
+    room.add_obj()
+    room2.add_obj()
     return 'Hello World!'
 
 

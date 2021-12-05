@@ -10,9 +10,9 @@ from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import with_polymorphic
-from sqlalchemy.sql.expression import false, true
+from sqlalchemy.sql.expression import false, select, true
 from sqlalchemy.sql.sqltypes import Boolean
-from DbController import Base,engine
+from DbController import Base,session
 #from Lessons import Lesson
 #from Rooms import Weight_Room
 #from Users import User
@@ -36,6 +36,8 @@ class Reservation(Base):
      
     }
 
+
+
 class Weight_Room_Reservation(Reservation):
 
         __tablename__='Weight_Room_Reservations'  
@@ -44,29 +46,35 @@ class Weight_Room_Reservation(Reservation):
         weight_room = Column(Integer,ForeignKey("Weight_Rooms.id"),nullable=False)
         reservation_slot=Column(Integer,ForeignKey("Reservation_slots.id"),nullable=false)
 
-        reservation_slot_obj=relationship("Reservation_slot",back_populates="weight_reservations_obj")
+        reservation_slot_obj=relationship("Reservation_Slot",back_populates="weight_reservations_obj")
         weight_room_obj=relationship("Weight_Room",back_populates="weight_reservations_obj")    
 
-        
+
+        def __init__(self,weight_room,reservation_slot,user):
+            self.reservation_slot=reservation_slot
+            self.weight_room=weight_room
+            self.user=user
+ 
+
         def add_obj(self):
 
             try:
-                engine.session.add(self)
-                engine.session.commit()
+                session.add(self)
+                session.commit()
                 return True
             except Exception as e:
                 print(e)
-                engine.session.rollback()
+                session.rollback()
                 return False
 
         def delete_obj(self):
        
             try:
-                engine.session.delete(self)
-                engine.session.commit()
+                session.delete(self)
+                session.commit()
                 return True
             except:
-               engine.session.rollback()
+               session.rollback()
                return False
 
         __mapper_args__ = {
@@ -85,25 +93,29 @@ class Course_Reservation(Reservation):
 
         lesson_obj=relationship("Lesson",back_populates="course_reservations_obj")    
 
+        def __init__(self,lesson,user):
+            self.lesson=lesson
+            self.user=user
+         
         def add_obj(self):
 
             try:
-                engine.session.add(self)
-                engine.session.commit()
+                session.add(self)
+                session.commit()
                 return True
             except Exception as e:
                 print(e)
-                engine.session.rollback()
+                session.rollback()
                 return False
 
         def delete_obj(self):
        
             try:
-                engine.session.delete(self)
-                engine.session.commit()
+                session.delete(self)
+                session.commit()
                 return True
             except:
-               engine.session.rollback()
+               session.rollback()
                return False
 
         __mapper_args__ = {

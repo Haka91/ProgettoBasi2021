@@ -14,7 +14,7 @@ from sqlalchemy.sql.expression import false, true
 #from Models.Courses import Course
 #from Models.Reservations import Course_Reservations
 #from Models.Users import User
-from DbController import Base,engine
+from DbController import Base,session
 
 
 
@@ -25,39 +25,44 @@ class Lesson(Base):
    
 
     id = Column("id",Integer, primary_key=True)
-    reservation_slot_occupied = Column(Integer,nullable=False)
-    start_time =Column(Time,nullable=False)
+    reservation_slot=Column(Integer,ForeignKey("Reservation_slots.id"),nullable=False) 
     course = Column(Integer,ForeignKey("Courses.id"),nullable=False)
     trainer = Column(Integer,ForeignKey("Users.id"),nullable=False)
+    course_room = Column(Integer,ForeignKey("Course_Rooms.id"),nullable=False)
 
-
-
+    course_room_obj=relationship("Course_Room",back_populates="lessons_obj")
     course_obj =  relationship("Course",back_populates="lessons_obj")
     trainer_obj= relationship("User", back_populates="lessons_obj")
+    reservation_slot_obj=relationship("Reservation_Slot",back_populates="lessons_obj")
+    course_reservations_obj=relationship("Course_Reservation",back_populates="lesson_obj")
+    
+    
+    def __init__(self,reservation_slot,course,trainer,course_room):
+        self.reservation_slot=reservation_slot
+        self.course=course
+        self.trainer=trainer
+        self.course_room=course_room
 
-    course_reservations_obj=relationship("Course_Reservations",back_populates="lesson_obj")
-    
-    
 
     def add_obj(self):
 
         try:
-            engine.session.add(self)
-            engine.session.commit()
+            session.add(self)
+            session.commit()
             return True
         except Exception as e:
             print(e)
-            engine.session.rollback()
+            session.rollback()
             return False
 
     def delete_obj(self):
        
         try:
-            engine.session.delete(self)
-            engine.session.commit()
+            session.delete(self)
+            session.commit()
             return True
         except:
-            engine.session.rollback()
+            session.rollback()
             return False
 
     def update_obj(self, reservation_slot_occupied ,start_time,course,trainer):
@@ -66,8 +71,8 @@ class Lesson(Base):
             self.start_time = start_time         
             self.course =course
             self.trainer=trainer           
-            engine.session.commit()
+            session.commit()
             return True
         except:
-            engine.session.rollback()
+            session.rollback()
             return False

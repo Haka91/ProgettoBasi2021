@@ -11,11 +11,11 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy.sql.expression import false
-from DbController import Base,engine
+from DbController import Base,session
 
 
 
-class Reservation_slot(Base):
+class Reservation_Slot(Base):
 
     __tablename__='Reservation_slots'
   
@@ -28,34 +28,40 @@ class Reservation_slot(Base):
     weight_reservations_obj=relationship("Weight_Room_Reservation",back_populates="reservation_slot_obj")
     day_obj=relationship("Day", back_populates="reservation_slots_obj")
 
+
+    def __init__(self,slot_time,day):
+        self.slot_time=slot_time
+        self.day=day
+
+
     def add_obj(self):
 
         try:
-            engine.session.add(self)
-            engine.session.commit()
+            session.add(self)
+            session.commit()
             return True
         except Exception as e:
             print(e)
-            engine.session.rollback()
+            session.rollback()
             return False
 
     def delete_obj(self):
        
         try:
-            engine.session.delete(self)
-            engine.session.commit()
+            session.delete(self)
+            session.commit()
             return True
         except:
-            engine.session.rollback()
+            session.rollback()
             return False
 
     def update_obj(self, slot_time,day):
         try:
             self.slot_time=slot_time 
             self.day=day       
-            engine.session.commit()
+            session.commit()
             return True
         except:
-            engine.session.rollback()
+            session.rollback()
             return False
   

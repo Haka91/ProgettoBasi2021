@@ -12,7 +12,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy.sql.expression import false, true
 from sqlalchemy.sql.sqltypes import Boolean
-from DbController import Base,engine
+from DbController import Base,session
 #from Models.Reservations import Weight_Room_Reservations
 
 
@@ -39,28 +39,32 @@ class Weight_Room(Room):
          
     id = Column(Integer,ForeignKey(Room.id),primary_key=True)
 
-    weight_reservations_obj=relationship("Weight_Room_Reservations" ,back_populates="weight_room_obj")
+    weight_reservations_obj=relationship("Weight_Room_Reservation" ,back_populates="weight_room_obj")
 
+    def __init__(self,name,description,max_capacity):
+        self.name=name
+        self.description=description
+        self.max_capacity=max_capacity
 
     def add_obj(self):
 
             try:
-                engine.session.add(self)
-                engine.session.commit()
+                session.add(self)
+                session.commit()
                 return True
             except Exception as e:
                 print(e)
-                engine.session.rollback()
+                session.rollback()
                 return False
 
     def delete_obj(self):
        
             try:
-                engine.session.delete(self)
-                engine.session.commit()
+                session.delete(self)
+                session.commit()
                 return True
             except:
-               engine.session.rollback()
+               session.rollback()
                return False
     __mapper_args__ = {
      
@@ -71,7 +75,36 @@ class Course_Room(Room):
 
     __tablename__='Course_Rooms' 
         
-    id = Column(Integer,ForeignKey(Room.id),primary_key=True)      
+    id = Column(Integer,ForeignKey(Room.id),primary_key=True)  
+
+    lessons_obj=relationship("Lesson",back_populates="course_room_obj")
+ 
+
+    def __init__(self,name,description,max_capacity):
+        self.name=name
+        self.description=description
+        self.max_capacity=max_capacity  
+
+    def add_obj(self):
+
+            try:
+                session.add(self)
+                session.commit()
+                return True
+            except Exception as e:
+                print(e)
+                session.rollback()
+                return False
+
+    def delete_obj(self):
+       
+            try:
+                session.delete(self)
+                session.commit()
+                return True
+            except:
+               session.rollback()
+               return False
     __mapper_args__ = {
        
         'polymorphic_identity':False

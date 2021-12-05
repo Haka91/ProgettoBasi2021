@@ -11,7 +11,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy.sql.schema import CheckConstraint
-from DbController import Base,engine
+from DbController import Base,session
 
 
 
@@ -24,26 +24,35 @@ class Policy(Base):
     name = Column(String(50))
     room_percent=Column(Integer,CheckConstraint('room_percent<101'),CheckConstraint('room_percent>0'),nullable=False,default=100)
     max_user_reserv=Column(Integer,CheckConstraint('max_user_reserv>0'),CheckConstraint('max_user_reserv<49'),nullable=False,default=48)
+
+    days_obj=relationship("Day",back_populates="policy_obj")
+  
    
+    def __init__(self,name,room_percent,max_user_reserv):
+        self.name=name
+        self.room_percent=room_percent
+        self.max_user_reserv=max_user_reserv
+
+
     def add_obj(self):
 
         try:
-            engine.session.add(self)
-            engine.session.commit()
+            session.add(self)
+            session.commit()
             return True
         except Exception as e:
             print(e)
-            engine.session.rollback()
+            session.rollback()
             return False
 
     def delete_obj(self):
        
         try:
-            engine.session.delete(self)
-            engine.session.commit()
+            session.delete(self)
+            session.commit()
             return True
         except:
-            engine.session.rollback()
+            session.rollback()
             return False
 
 
@@ -52,8 +61,8 @@ class Policy(Base):
             self.name=name
             self.room_percent = room_percent        
             self.max_user_reserv =max_user_reserv      
-            engine.session.commit()
+            session.commit()
             return True
         except:
-            engine.session.rollback()
+            session.rollback()
             return False
