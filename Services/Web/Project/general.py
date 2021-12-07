@@ -2,9 +2,10 @@
 
 from flask import Flask
 from flask import Blueprint, render_template
+from flask_login import current_user
 
 
-general = Blueprint('general',__name__,url_prefix='/general')
+general = Blueprint('general',__name__)
 
 
 # homepage

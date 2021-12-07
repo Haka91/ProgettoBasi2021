@@ -4,16 +4,13 @@
 {% block navbar %}
 <ul class="navbar-nav navbar-light">
     <li class="nav-item">
-        <a class="nav-link" href="#">Gestione Utente</a>  <!-- AGGIUNGERE LINK -->
+        <a class="nav-link" href="{{url_for('manager.gestioneSale')}}">Gestione Utente</a>  
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Gestione Trainer</a>  
+        <a class="nav-link" href="{{url_for('manager.gestioneTrainers')}}">Gestione Trainer</a>  
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Gestione Sale</a>  <!-- AGGIUNGERE LINK -->
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Statistiche</a>  <!-- AGGIUNGERE LINK -->
+        <a class="nav-link" href="{{url_for('manager.gestioneSale')}}">Gestione Sale</a>  
     </li>
     <!--  QUI SERVIREBBE UN TASTO LOGOUT -->
 </ul>
