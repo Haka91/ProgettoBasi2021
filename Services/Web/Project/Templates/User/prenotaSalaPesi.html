@@ -4,22 +4,22 @@
 {% block navbar %}
 <ul class="navbar-nav navbar-light">
     <li class="nav-item">
-        <a class="nav-link" href="#">Introduzione</a> <!-- AGGIUNGERE LINK -->
+        <a class="nav-link" href="{{url_for('user.introduzione')}}">Introduzione</a> 
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Prenotazioni Attive</a>  <!-- AGGIUNGERE LINK -->
+        <a class="nav-link" href="{{url_for('user.prenotazioniAttive')}}">Prenotazioni Attive</a>  
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Prenota Sala Pesi</a>  
+        <a class="nav-link" href="{{url_for('user.prenotaSalaPesi')}}">Prenota Sala Pesi</a>  
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Iscrizione ai Corsi</a>  <!-- AGGIUNGERE LINK -->
+        <a class="nav-link" href="{{url_for('user.iscrizioneAiCorsi')}}">Iscrizione ai Corsi</a>  
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Prenota Lezione Corso</a>  <!-- AGGIUNGERE LINK -->
+        <a class="nav-link" href="{{url_for('user.prenotaLezioneCorso')}}">Prenota Lezione Corso</a>  
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Gestione Utente</a>  <!-- AGGIUNGERE LINK -->
+        <a class="nav-link" href="{{url_for('user.cambiaDatiUtente')}}">Gestione Utente</a>  
     </li>
     <!--  QUI SERVIREBBE UN TASTO LOGOUT -->
 </ul>
