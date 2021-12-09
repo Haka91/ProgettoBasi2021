@@ -10,7 +10,7 @@
         <a class="nav-link" href="{{url_for('instructor.prossimeLezioni')}}">Prossime Lezioni</a>  
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{url_for('instructor.creazioneLezioni')}}">Crea Lezioni</a>  
+        <a class="nav-link" href="{{url_for('instructor.creaLezioni')}}">Crea Lezioni</a>  
     </li>
     <!--  QUI SERVIREBBE UN TASTO LOGOUT -->
 </ul>
@@ -19,14 +19,17 @@
 
 <!-- Block body -->
 {% block body %}
+<br><br>
 
-<!-- Stampa la lista delle lezioni da insegnare in totale
-<h1> Lezioni in cui insegnare </h1>
+<!-- Stampa la lista delle lezioni da insegnare in totale -->
+<h1 align="center"> Prossime lezioni in cui insegnerò </h1>
 <ul class="collection with-header">
+    <!--
     {% for lezione in lezioni %}
         <li class="collection-item">{{ lezione.corso }} , {{ lezione.locale }} , {{ lezione.dataOraInizio }} , {{ lezione.dataOraFine }} , {{ lezione.numeroPrenotati }}</li>
     {% endfor %}
+    -->
 </ul>
--->
+
 
 {% endblock %}

@@ -4,13 +4,19 @@
 {% block navbar %}
 <ul class="navbar-nav navbar-light">
     <li class="nav-item">
-        <a class="nav-link" href="{{url_for('manager.gestioneSale')}}">Gestione Utente</a>  
+        <a class="nav-link" href="{{url_for('manager.gestioneUtenti')}}">Gestione Utente</a>  
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{url_for('manager.gestioneTrainers')}}">Gestione Trainer</a>  
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{url_for('manager.gestioneSale')}}">Gestione Sale</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('manager.gestioneOrariPalestra')}}">Gestione Orari Palestra</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('manager.gestionePolicy')}}">Gestione Policy</a>  
     </li>
     <!--  QUI SERVIREBBE UN TASTO LOGOUT -->
 </ul>
@@ -19,9 +25,11 @@
 
 <!-- Block body -->
 {% block body %}
+<br><br>
 <!-- MANCA ULTIMA COLONNA CON LINK PER ELIMIARE UN TRAINER -->
-<!-- Stampa la lista di tutti i trainers con la possibilità di eliminarli
-<h1> Lista Trainers </h1>
+<!-- Stampa la lista di tutti i trainers con la possibilità di eliminarli -->
+<h1 align="center"> Lista Trainers </h1>
+<!--
 <ul class="collection with-header">
     {% for trainer in trainers %}
         <li class="collection-item">{{ trainer.nome }} , {{ trainer.cognome }} , {{ trainer.attivatoNonAttivato }} , {{ trainer.allenaCorsi }}</li>
@@ -32,8 +40,9 @@
 <br><br>
 
 <!-- MANCA ULTIMA COLONNA CON LINK PER TRASFORMARE UTENTE IN TRAINER -->
-<!-- Stampa la lista di tutti gli utenti con la possibilità di trasformargli in trainer
-<h1> Lista Utenti che possono essere trasformati in trainers </h1>
+<!-- Stampa la lista di tutti gli utenti con la possibilità di trasformargli in trainer -->
+<h1 align="center"> Lista Utenti che possono essere trasformati in trainers </h1>
+<!--
 <ul class="collection with-header">
     {% for utente in utenti %}
         <li class="collection-item">{{ utente.nome }} , {{ utente.cognome }} , {{ utente.attivatoNonAttivato }}</li>

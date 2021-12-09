@@ -16,7 +16,13 @@ def index():
     # 2) lista delle sale (nome sala, capienza)  
     # ---
     # Secondo te inseriamo pure gli orari di apertura e chiusura?
-    return render_template('/General/homepage.html') # UNA VOLTA PRESENTI LE QUERY PASSARE I DATI AL TEMPLATE
+    corsi = [ 
+        [["nomeCorso", "Yoga"], ['nomeIstruttore', "John"], ['dataInizio', "09/12/2021"], ['dataFine', "10/01/2022"]],
+        [['nomeCorso', "Yoga"], ['nomeIstruttore', "John"], ['dataInizio', "09/12/2021"], ['dataFine', "10/01/2022"]],
+        [['nomeCorso', "Yoga"], ['nomeIstruttore', "John"], ['dataInizio', "09/12/2021"], ['dataFine', "10/01/2022"]],
+        [['nomeCorso', "Yoga"], ['nomeIstruttore', "John"], ['dataInizio', "09/12/2021"], ['dataFine', "10/01/2022"]]
+     ]
+    return render_template('/General/homepage.html',corsi=corsi) # UNA VOLTA PRESENTI LE QUERY PASSARE I DATI AL TEMPLATE
 
 
 # login page

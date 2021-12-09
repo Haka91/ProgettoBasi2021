@@ -4,13 +4,19 @@
 {% block navbar %}
 <ul class="navbar-nav navbar-light">
     <li class="nav-item">
-        <a class="nav-link" href="{{url_for('manager.gestioneSale')}}">Gestione Utente</a>  
+        <a class="nav-link" href="{{url_for('manager.gestioneUtenti')}}">Gestione Utente</a>  
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{url_for('manager.gestioneTrainers')}}">Gestione Trainer</a>  
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{url_for('manager.gestioneSale')}}">Gestione Sale</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('manager.gestioneOrariPalestra')}}">Gestione Orari Palestra</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('manager.gestionePolicy')}}">Gestione Policy</a>  
     </li>
     <!--  QUI SERVIREBBE UN TASTO LOGOUT -->
 </ul>
@@ -19,9 +25,11 @@
 
 <!-- Block body -->
 {% block body %}
+<br><br>
 <!-- MANCA ULTIMA COLONNA CON LINK PER ATTIVARE O DISATTIVARE L'UTENTE -->
-<!-- Stampa la lista di tutti gli utenti con la possibilità di attivare e disattivare gli utenti
-<h1> Lista Utenti </h1>
+<!-- Stampa la lista di tutti gli utenti con la possibilità di attivare e disattivare gli utenti -->
+<h1 align="center"> Lista Utenti </h1>
+<!--
 <ul class="collection with-header">
     {% for utente in utenti %}
         <li class="collection-item">{{ utente.ruolo }} , {{ utente.nome }} , {{ utente.cognome }} , {{ utente.attivatoNonAttivato }}</li>

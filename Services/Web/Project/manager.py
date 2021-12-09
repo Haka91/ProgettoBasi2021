@@ -29,5 +29,17 @@ def gestioneTrainers():
     # 2) lista di tutti gli utenti che non sono trainers oppure che non è il gestore ( nome, cognome , attivato/nonAttivato )
     return render_template('/Manager/gestioneTrainers.html') # UNA VOLTA PRESENTE LA QUERY PASSARE I DATI AL TEMPLATE
 
+@manager.route('/gestioneOrariPalestra')
+def gestioneOrariPalestra():
+    # mi serve una query:
+    # 1) 7 stringhe, ogni stringa rappresentante gli orari di apertura e chiusura della palestra
+    return render_template('/Manager/gestioneOrariPalestra.html')
+
+
+@manager.route('/gestionePolicy')
+def gestionePolicy():
+    # mi serve una query:
+    # 1) stringa con le policy attive
+    return render_template('/Manager/gestionePolicy.html')
 
 # DA FARE:  PAGINA STATISTICHE (?)

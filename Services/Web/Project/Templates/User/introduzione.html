@@ -28,9 +28,10 @@
 
 <!-- Block body -->
 {% block body %}
-
-<!-- Stampa la lista delle prenotazioni della settimana corrente
-<h1> Prenotazioni attive </h1>
+<br><br>
+<!-- Stampa la lista delle prenotazioni della settimana corrente -->
+<h1 align="center"> I tuoi prossimi impegni in palestra! </h1>
+<!--
 <ul class="collection with-header">
     {% for prenotazione in prenotazioni %}
         <li class="collection-item">{{ prenotazione.nome }} , {{ prenotazione.istruttore }} , {{ prenotazione.locale }} , {{ corso.dataorainizio }} , {{ corso.dataorafine }}</li>

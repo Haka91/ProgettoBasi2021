@@ -10,7 +10,7 @@
         <a class="nav-link" href="{{url_for('instructor.prossimeLezioni')}}">Prossime Lezioni</a>  
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{url_for('instructor.creazioneLezioni')}}">Crea Lezioni</a>  
+        <a class="nav-link" href="{{url_for('instructor.creaLezioni')}}">Crea Lezioni</a>  
     </li>
     <!--  QUI SERVIREBBE UN TASTO LOGOUT -->
 </ul>
@@ -19,25 +19,27 @@
 
 <!-- Block body -->
 {% block body %}
-
-<!-- Stampa la lista dei corsi con il numero di iscritti al corso
-<h1> Corsi in cui insegno </h1>
-<ul class="collection with-header">
-    {% for corso in corsi %}
-        <li class="collection-item">{{ corso.nome }} , {{ corso.locale }} , {{ corso.numeroPrenotati }}</li>
-    {% endfor %}
-</ul>
--->
-
 <br><br>
 
-<!-- Stampa la lista delle lezioni da insegnare questa settimana
-<h1> Lezioni di questa settimana in cui insegnare </h1>
+<!-- Stampa la lista delle lezioni da insegnare questa settimana -->
+<h1 align="center"> Lezioni di questa settimana in cui insegno </h1>
 <ul class="collection with-header">
+    <!--
     {% for lezione in lezioni %}
         <li class="collection-item">{{ lezione.corso }} , {{ lezione.locale }} , {{ lezione.dataOraInizio }} , {{ lezione.dataOraFine }} , {{ lezione.numeroPrenotati }}</li>
     {% endfor %}
+    -->
 </ul>
--->
+
+<br><br>
+<!-- Stampa la lista dei corsi con il numero di iscritti al corso -->
+<h1 align="center"> Corsi in cui insegno </h1>
+<ul class="collection with-header">
+    <!--
+    {% for corso in corsi %}
+        <li class="collection-item">{{ corso.nome }} , {{ corso.locale }} , {{ corso.numeroPrenotati }}</li>
+    {% endfor %}
+    -->
+</ul>
 
 {% endblock %}

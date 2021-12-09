@@ -25,11 +25,11 @@ def prossimeLezioni():
     return render_template('/Instructor/prossimeLezioni.html') # UNA VOLTA PRESENTE LA QUERY PASSARE I DATI AL TEMPLATE
 
 
-@instructor.route('/creazioneLezioni')
-def creazioneLezioni():
+@instructor.route('/creaLezioni')
+def creaLezioni():
     # mi serve una query:
     # 1) lista con tutti i corsi che l'istruttore insegna ( nome corso )
-    return render_template('/Istructor/creaLezioni.html')
+    return render_template('/Instructor/creaLezioni.html')
 
 # METODO PER INSERIRE LE LEZIONI NEL DB, IL METODO VA POI AGGIUNTO NEL FORM CHE SI TROVA NELL'HTML (PRE SPECIFICARE L'AZIONE DEL FORM)
 @instructor.route('/inserisciLezioni', methods = ['POST', 'GET'])
