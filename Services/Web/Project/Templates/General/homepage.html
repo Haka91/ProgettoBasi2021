@@ -20,8 +20,8 @@
 <!-- Stampa la lista dei corsi -->
 <h1> Corsi offerti </h1>
 <ul class="collection with-header">
-    {% for corso in corsi %}
-        <li class="collection-item">{{ corso.nomeCorso }} , {{ corso.nomeIstruttore }} , {{ corso.dataInizio }} , {{ corso.dataFine }}</li>
+    {% for Course in corsi %}
+        <li class="collection-item">{{ Course.name }}  {{ Course.description }}</li>
     {% endfor %}
 </ul>
 

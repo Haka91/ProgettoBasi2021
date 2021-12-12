@@ -28,14 +28,21 @@
 <br><br>
 <!-- MANCA ULTIMA COLONNA CON LINK PER ELIMINARE UNA DETERMINATA SALA -->
 <!-- Stampa la lista di tutte le sale -->
-<h1 align="center"> Lista Sale </h1>
-<!--
+<h1 align="center"> Lista Sale Pesi </h1>
+
 <ul class="collection with-header">
-    {% for sala in sale %}
-        <li class="collection-item">{{ sala.nome }} , {{ sala.capienza }}</li>
+    {% for Room in salePesi %}
+        <li class="collection-item">{{ Room.name }} , {{ Room.description }}, {{ Room.max_capacity }}  </li>
     {% endfor %}
 </ul>
--->
+<h1 align="center"> Lista Sale Corsi </h1>
+<ul class="collection with-header">
+    {% for Room in saleCorsi %}
+        <li class="collection-item">{{ Room.name }} , {{ Room.description }}, {{ Room.max_capacity }}</li>
+    {% endfor %}
+</ul>
+
+
 
 <br><br>
 
@@ -57,7 +64,12 @@
                 <div class="col-lg-12 login-form">
                     <form action="#" method="post">
                         <input type="text" id="nome" name="nome" class="form-control" placeholder="Nome Sala">
+                        <input type="text" id="descrizione" name="descrizione" class="form-control" placeholder="descrizione">
                         <input type="text" id="capienza" name="capienza" class="form-control" placeholder="Capienza Sala">
+                        <h2>Sala Corsi</h2>
+                        <input type="checkbox" id="isWeight" name="isWeight" value="false" class="form-control" >
+                    
+                       
                         <input class="btn btn-lg btn-primary btn-block" type="submit" value="Inserisci" name="Inserisci" />
                     </form>
                 </div>
@@ -66,5 +78,14 @@
         </div>
     </div>
 </div>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 
 {% endblock %}

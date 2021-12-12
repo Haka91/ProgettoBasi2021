@@ -5,7 +5,7 @@ from sqlalchemy import inspect
 from sqlalchemy import Integer
 from sqlalchemy import or_
 from sqlalchemy import String
-from flask_security import RoleMixin
+
 
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship
@@ -15,7 +15,7 @@ from DbController import Base,session
 
 
 
-class Role(RoleMixin,Base):
+class Role(Base):
 
     __tablename__='Roles'
   

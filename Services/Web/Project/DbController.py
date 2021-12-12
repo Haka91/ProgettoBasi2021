@@ -6,6 +6,8 @@ from config import DATABASE_CONNECTION_URI
 
 
 
+
+
 #testing purpose,give it a real name after setting docker compose
 Base = declarative_base()
 
@@ -41,6 +43,23 @@ def db_start():
 
 def create_db_users():
     conn= engine.connect()
+    from Models import Roles,Users
+
+   
+    role1=Roles.Role("User")
+    role1.add_obj()
+    role2=Roles.Role("Trainer")
+    role2.add_obj()
+    role3=Roles.Role("Admin")
+    role3.add_obj()
+    adminUser=Users.User("admin","admin","admin@gmail.com","12345","ovunque","behindyou","admin",3)
+    adminUser.add_obj()
+    trainerUser=Users.User("trainer","trainer","trainer@gmail.com","123456","boh","jesolo","trainer",2)
+    trainerUser.add_obj()
+    costumerUSer=Users.User("costumer","costumer","costumer@gmail.com","1234556","boh","jesolo","costumer",1)
+    costumerUSer.add_obj()
+    
+     
     try:
         conn.execute("CREATE USER manager WITH password 'manager';")
         conn.execute("CREATE USER trainer WITH password 'trainer';")
@@ -48,4 +67,6 @@ def create_db_users():
         conn.execute("CREATE USER anonymous WITH password 'anonymous';")
     except:
         print('figa è esploso tutto') #ti prego ricordati di modificare l'alert 
+
+
 

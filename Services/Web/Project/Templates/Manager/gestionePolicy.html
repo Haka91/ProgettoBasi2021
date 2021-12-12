@@ -25,7 +25,12 @@
 
 <!-- Block body -->
 {% block body %}
-<h1>Policy Attuale</h1>
+<h1> Policy Esistenti </h1>
+<ul class="collection with-header">
+    {% for Policy in policies %}
+        <li class="collection-item">{{ Policy.name }} {{ Policy.room_percent }} {{ Policy.max_user_reserv }}</li>
+    {% endfor %}
+</ul>
 <br>
 {{ policy_attuale }}
 
@@ -56,9 +61,17 @@
             </div>
             <div class="col-lg-3 col-md-2"></div>
         </div>
-    </div>
+    </div>    
 </div>
-
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 
 
 

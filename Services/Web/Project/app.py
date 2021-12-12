@@ -1,9 +1,9 @@
 from os import name
 from flask import Flask, sessions, g, render_template
-from flask.helpers import url_for
-from werkzeug.utils import redirect
+
+
 from config import DATABASE_CONNECTION_URI,secret_key
-from flask_login import LoginManager
+
 from flask_bcrypt import Bcrypt
 
 
@@ -11,21 +11,29 @@ from flask_bcrypt import Bcrypt
 
 
 
-    
 
 
 app = Flask(__name__)
-
 app.secret_key=secret_key
+#we initialize the flask-login
+from flask_login import LoginManager,current_user
+
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view=""
+
+
+
+
+login_manager.session_protection = "strong"
+
 
 from DbController import db_start,create_db_users
 #we initialize Bcrypt
 bcrypt = Bcrypt(app)
 
-#we initialize the flask-login
-login_manager = LoginManager()
-#login_manager.init_app(app)
-login_manager.session_protection = "strong"
+
 
 db_start()
 create_db_users()
@@ -61,4 +69,5 @@ def home():
     room2.add_obj()
     return redirect(url_for(general.homepage))
 """
+
 

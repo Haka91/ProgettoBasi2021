@@ -29,12 +29,12 @@
 <!-- MANCA ULTIMA COLONNA CON LINK PER ATTIVARE O DISATTIVARE L'UTENTE -->
 <!-- Stampa la lista di tutti gli utenti con la possibilità di attivare e disattivare gli utenti -->
 <h1 align="center"> Lista Utenti </h1>
-<!--
+
 <ul class="collection with-header">
-    {% for utente in utenti %}
-        <li class="collection-item">{{ utente.ruolo }} , {{ utente.nome }} , {{ utente.cognome }} , {{ utente.attivatoNonAttivato }}</li>
+    {% for User in utenti %}
+        <li class="collection-item">{{ User.role_obj.name}} , {{ User.name }} , {{ User.surname }} , {{ User.is_active }}</li>
     {% endfor %}
 </ul>
--->
+
 
 {% endblock %}
