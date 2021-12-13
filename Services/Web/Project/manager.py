@@ -2,11 +2,12 @@
 
 from flask import Flask,request
 from flask import Blueprint, render_template
-from flask.helpers import flash
+from flask.helpers import flash, url_for
+from werkzeug.utils import redirect
 from DbController import session
 from Models.Users import User,at_least_manager_required
 from Models.Policies import Policy
-from Models.Rooms import Weight_Room,Course_Room
+from Models.Rooms import Weight_Room,Course_Room,Room
 
 
 
@@ -23,9 +24,7 @@ def introduzione():
 @at_least_manager_required
 @manager.route('/gestioneUtenti')
 def gestioneUtenti():
-    # mi serve una query:
-    users= session.query(User).order_by(User.surname).all()
-    # 1) lista di tutti gli utenti ( ruolo , nome, cognome , attivato/nonAttivato )
+    users= session.query(User).order_by(User.surname).filter(User.role==1).all()
     return render_template('/Manager/gestioneUtenti.html',utenti=users) # UNA VOLTA PRESENTE LA QUERY PASSARE I DATI AL TEMPLATE
 
 @at_least_manager_required
@@ -50,9 +49,11 @@ def gestioneSale():
         else:
                 flash("Errore nei campi","error")
     
-    weightRooms=session.query(Weight_Room).all()
-    courseRooms=session.query(Course_Room).all()            
-    return render_template('/Manager/gestioneSale.html',salePesi=weightRooms,saleCorsi=courseRooms)
+    #weightRooms=session.query(Weight_Room).all()
+    #courseRooms=session.query(Course_Room).all()      
+    rooms=session.query(Room).all()      
+    #return render_template('/Manager/gestioneSale.html',salePesi=weightRooms,saleCorsi=courseRooms)
+    return render_template('/Manager/gestioneSale.html',rooms=rooms)
 
 
 @at_least_manager_required
@@ -95,4 +96,44 @@ def gestionePolicy():
                 
     return render_template('/Manager/gestionePolicy.html',policies=policies)
 
-# DA FARE:  PAGINA STATISTICHE (?)
+# Function for changing the state of a user (activated <-> deactivate)
+@at_least_manager_required
+@manager.route('/attivaDisattivaUser/<int:idUser>')
+def attivaDisattivaUser(idUser):
+    # DO STUFF
+    return redirect(url_for(manager.gestioneUtenti))
+
+# Function to trasform User in Trainer
+@at_least_manager_required
+@manager.route('/userToTrainer/<int:idUser>')
+def userToTrainer(idUser):
+    # DO STUFF
+    return redirect(url_for(manager.gestioneTrainer))
+
+# Function to delete a Trainer
+@at_least_manager_required
+@manager.route('/eliminaTrainer/<int:idUser>')
+def eliminaTrainer(idUser):
+    # DO STUFF
+    return redirect(url_for(manager.gestioneTrainer))
+
+# Function to delete a room
+@at_least_manager_required
+@manager.route('/eliminaSala/<int:idSala>')
+def eliminaSala(idSala):
+    # DO STUFF
+    return redirect(url_for(manager.gestioneSale))
+
+# Function to delete a date
+@at_least_manager_required
+@manager.route('/eliminaData/<int:data>')
+def eliminaData(data):
+    # DO STUFF
+    return redirect(url_for(manager.gestioneOrariPalestra))
+
+# Function do delete a Policy
+@at_least_manager_required
+@manager.route('/eliminaPolicy/<int:idPolicy>')
+def eliminaData(idPolicy):
+    # DO STUFF
+    return redirect(url_for(manager.gestionePolicy))

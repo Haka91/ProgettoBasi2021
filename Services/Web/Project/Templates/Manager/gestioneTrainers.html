@@ -29,28 +29,58 @@
 <!-- Block body -->
 {% block body %}
 <br><br>
-<!-- MANCA ULTIMA COLONNA CON LINK PER ELIMIARE UN TRAINER -->
 <!-- Stampa la lista di tutti i trainers con la possibilità di eliminarli -->
 <h1 align="center"> Lista Trainers </h1>
-
-<ul class="collection with-header">
-    {% for User in trainers %}
-        <li class="collection-item">{{ User.name }} , {{ User.surname }} , {{ User.role }} </li>
-    {% endfor %}
-</ul>
-
-
+<br><br>
+<table id="table" class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th style="text-align: center;" scope="col">Nome</th>
+            <th style="text-align: center;" scope="col">Cognome</th>
+            <th style="text-align: center;" scope="col">Elimina</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for User in trainers %}
+            <tr>
+                <td style="text-align: center; width: 10%;">{{ User.name }}</td>
+                <td style="text-align: center; width: 10%;">{{ User.surname }}</td>
+                <td style="text-align: center; width: 10%;">
+                    <a href="{{url_for('manager.eliminaTrainer', idUser=User.id)}}">Elimina</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 <br><br>
 
-<!-- MANCA ULTIMA COLONNA CON LINK PER TRASFORMARE UTENTE IN TRAINER -->
+
 <!-- Stampa la lista di tutti gli utenti con la possibilità di trasformargli in trainer -->
 <h1 align="center"> Lista Utenti che possono essere trasformati in trainers </h1>
+<br><br>
 
-<ul class="collection with-header">
-    {% for User in users %}
-        <li class="collection-item">{{ User.name }} , {{ User.surname }} , {{ User.role }} </li>
-    {% endfor %}
-</ul>
+<table id="table" class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th style="text-align: center;" scope="col">Nome</th>
+            <th style="text-align: center;" scope="col">Cognome</th>
+            <th style="text-align: center;" scope="col">Trasforma</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for User in users %}
+            <tr>
+                <td style="text-align: center; width: 10%;">{{ User.name }}</td>
+                <td style="text-align: center; width: 10%;">{{ User.surname }}</td>
+                <td style="text-align: center; width: 10%;">
+                    <a href="{{url_for('manager.userToTrainer', idUser=User.id)}}">trasforma in Trainer</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br><br>
+
 
 
 {% endblock %}
