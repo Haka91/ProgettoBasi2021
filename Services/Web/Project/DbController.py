@@ -43,7 +43,7 @@ def db_start():
 
 def create_db_users():
     conn= engine.connect()
-    from Models import Roles,Users
+    from Models import Roles,Users,Rooms,Policies,Courses
 
    
     role1=Roles.Role("User")
@@ -58,6 +58,24 @@ def create_db_users():
     trainerUser.add_obj()
     costumerUSer=Users.User("costumer","costumer","costumer@gmail.com","1234556","boh","jesolo","costumer",1)
     costumerUSer.add_obj()
+    weightRoom=Rooms.Weight_Room("sala pesi","piena di gente alle 7",30)
+    weightRoom.add_obj()
+    weightRoom2=Rooms.Weight_Room("sala pesi2","2",30)
+    weightRoom2.add_obj()
+    courseRoom=Rooms.Course_Room("sala corsi","usata come magazzino",12)
+    courseRoom.add_obj()
+    courseRoom2=Rooms.Course_Room("sala corsi2","2",12)
+    courseRoom2.add_obj()
+    standardPolicy=Policies.Policy("default",100,5)
+    standardPolicy.add_obj()
+    standardPolicy2=Policies.Policy("special",50,3)
+    standardPolicy2.add_obj()
+    yogaCourse=Courses.Course("yoga","fa tanto figo")
+    yogaCourse.add_obj()
+    pilatesCourse=Courses.Course("pilates","ci vanno le milf")
+    pilatesCourse.add_obj()
+
+
     
      
     try:
