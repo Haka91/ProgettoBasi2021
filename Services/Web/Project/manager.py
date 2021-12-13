@@ -165,3 +165,6 @@ def gestioneCorsi():
     courses=session.query(Course).all()
     stanze=session.query(Room).all()
     istruttori=session.query(User).order_by(User.surname).filter(User.role==2).all()
+=======
+    return render_template('Manager/gestioneCorsi.html')
+>>>>>>> 8a7a9e9461222dd7162301ab09d2dda45ac6dfd6
