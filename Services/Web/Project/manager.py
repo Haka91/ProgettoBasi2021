@@ -3,6 +3,7 @@
 from flask import Flask,request
 from flask import Blueprint, render_template
 from flask.helpers import flash, url_for
+from sqlalchemy.sql.sqltypes import ARRAY
 from werkzeug.utils import redirect
 from DbController import session
 from Models.Users import User,at_least_manager_required
@@ -74,7 +75,8 @@ def gestioneTrainers():
 def gestioneOrariPalestra():
     # mi serve una query:
     # 1) 7 stringhe, ogni stringa rappresentante gli orari di apertura e chiusura della palestra
-    return render_template('/Manager/gestioneOrariPalestra.html')
+    policies=session.query(Policy).all()
+    return render_template('/Manager/gestioneOrariPalestra.html',policies=policies)
 
 @at_least_manager_required
 @manager.route('/gestionePolicy',methods=['POST','GET'])
@@ -149,6 +151,4 @@ def eliminaStanza(idStanza):
 @at_least_manager_required
 @manager.route('/gestioneCorsi')
 def gestioneCorsi():
-    stanze=session.query(Room).all()
-    istruttori=session.query(User).order_by(User.surname).filter(User.role==2).all()
-    return render_template('Manager/gestioneCorsi.html', stanze=stanze, istruttori=istruttori)
+    return render_template('Manager/gestioneCorsi.html')
