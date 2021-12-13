@@ -82,22 +82,118 @@
             <div class="col-lg-12 login-form">
                 <div class="col-lg-12 login-form">
                     <form action="" method="post">
+                        <select id="policy" name="policy">
+                            {% for Policy in policies %}
+                                <option value="{{ Policy.id}}">{{ Policy.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="policy">policy</label> <br><br>
                         <input type="date" id="dataInizio" name="dataInizio">
                         <label for="dataInizio">data inizio</label> <br><br>
                         <input type="date" id="dataFine" name="dataFine">
                         <label for="dataFine">data fine</label><br><br>
-                        <input type="time" id="oraApertura">
-                        <label for="oraApertura">ora apertura</label><br><br>
-                        <input type="time" id="oraInizioPausaPranzo">
-                        <label for="oraInizioPausaPranzo">ora inzio pausa pranzo</label><br><br>
+                        <select id="ora_apertura" name="ora_apertura">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                        </select>
+                        <select id="minuto_apertura" name="minuto_apertura">
+                            <option value="00">00</option>
+                            <option value="30">30</option>
+                            
+                        </select>
+                        <label for="minuto_apertura">ora apertura</label><br><br>
+                        <select id="ora_inizioPausaPranzo" name="ora_inizioPausaPranzo">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                        </select>
+                        <select id="minuto_inizioPausaPranzo" name="minuto_inizioPausaPranzo">
+                            <option value="00">00</option>
+                            <option value="30">30</option>
+                            
+                        </select>
+                        <label for="minuto_inizioPausaPranzo">ora inzio pausa pranzo</label><br><br>
                         <select id="durataPausaPranzo" name="durataPausaPranzo">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
                         </select>
                         <label for="durataPausaPranzo">durata pausa pranzo (ogni slot dura 30 minuti)</label><br><br>
-                        <input type="time" id="oraChiusura">
-                        <label for="oraChiusura">ora chiusura</label><br><br>
+                        <select id="ora_chiusura" name="ora_chiusura">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                        </select>
+                        <select id="minuto_chiusura" name="minuto_chiusura">
+                            <option value="00">00</option>
+                            <option value="30">30</option>
+                            
+                        </select>
+                        <label for="minuto_chiusura">ora chiusura</label><br><br>
                         <input class="btn btn-lg btn-primary btn-block" type="submit" value="Inserisci" name="Inserisci" />
                     </form>
                 </div>
