@@ -15,10 +15,8 @@ user = Blueprint('user',__name__,url_prefix='/user')
 
 @user.route('/introduzione')
 def introduzione():
-    # mi serve una query:
-    # 1) lista delle prenotazioni di questa settimana, sia per i corsi sia per la sala pesi ( nome corso (se sala pesi, scrivere sala pesi) , istruttore ,  locale in cui si svolge , data ed ora inizio , data ed ora fine )
     prenotazioni=session.query(Reservation)
-    return render_template('/User/introduzione.html', prenotazioni=prenotazioni) # UNA VOLTA PRESENTE LA QUERY PASSARE I DATI AL TEMPLATE
+    return render_template('/User/introduzione.html', prenotazioni=prenotazioni)
 
 
 @user.route('/prenotazioniAttive')

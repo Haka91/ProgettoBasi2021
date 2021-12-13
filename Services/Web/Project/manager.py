@@ -59,12 +59,9 @@ def gestioneSale():
         else:
                 flash("Errore nei campi","error")
     
-    #weightRooms=session.query(Weight_Room).all()
-    #courseRooms=session.query(Course_Room).all()      
-    rooms=session.query(Room).all()      
-    #return render_template('/Manager/gestioneSale.html',salePesi=weightRooms,saleCorsi=courseRooms)
-    return render_template('/Manager/gestioneSale.html',rooms=rooms)
-
+    weightRooms=session.query(Weight_Room).all()
+    courseRooms=session.query(Course_Room).all()      
+    return render_template('/Manager/gestioneSale.html',weightRooms=weightRooms,courseRooms=courseRooms)
 
 
 @manager.route('/gestioneTrainers')
