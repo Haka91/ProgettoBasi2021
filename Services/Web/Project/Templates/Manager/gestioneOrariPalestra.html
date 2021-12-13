@@ -4,6 +4,9 @@
 {% block navbar %}
 <ul class="navbar-nav navbar-light">
     <li class="nav-item">
+        <a class="nav-link" href="{{url_for('manager.introduzione')}}">Introduzione</a>  
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="{{url_for('manager.gestioneUtenti')}}">Gestione Utente</a>  
     </li>
     <li class="nav-item">
@@ -55,6 +58,19 @@
             <div class="col-lg-12 login-form">
                 <div class="col-lg-12 login-form">
                     <form action="" method="post">
+                        <h3>Inizio e fine del nuovo orario palestra</h3>
+                        <!-- Choose date of beginning of the course -->
+                        <h4>Inizio</h4>
+                        <input type="text" id="begin_day" name="begin_day" class="form-control" placeholder="day of begin">
+                        <input type="text" id="begin_month" name="begin_month" class="form-control" placeholder="month of begin">
+                        <input type="text" id="begin_year" name="begin_year" class="form-control" placeholder="year of begin">
+                        <br>
+                        <!-- Choose date of end of the course -->
+                        <h4>Fine</h4>
+                        <input type="text" id="end_day" name="end_day" class="form-control" placeholder="day of end">
+                        <input type="text" id="end_month" name="end_month" class="form-control" placeholder="month of end">
+                        <input type="text" id="end_year" name="end_year" class="form-control" placeholder="year of end">
+                        <br><br>
                         <!-- monday -->
                         <input type="checkbox" id="monday" name="monday" value="monday">
                         <label for="monday">Lunedì</label><br>

@@ -24,11 +24,9 @@
 <!-- Stampa la lista delle lezioni da insegnare in totale -->
 <h1 align="center"> Prossime lezioni in cui insegnerò </h1>
 <ul class="collection with-header">
-    <!--
-    {% for lezione in lezioni %}
-        <li class="collection-item">{{ lezione.corso }} , {{ lezione.locale }} , {{ lezione.dataOraInizio }} , {{ lezione.dataOraFine }} , {{ lezione.numeroPrenotati }}</li>
+    {% for Lesson in lezioni %}
+        <li class="collection-item">{{ Lesson.id }} , {{ Lesson.course }} , {{ Lesson.course_room }} , {{ Lesson.reservation_slot }}</li>
     {% endfor %}
-    -->
 </ul>
 
 

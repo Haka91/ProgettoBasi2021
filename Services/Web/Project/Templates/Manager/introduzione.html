@@ -29,28 +29,10 @@
 <!-- Block body -->
 {% block body %}
 <br><br>
-<!-- MANCA ULTIMA COLONNA CON LINK PER ELIMIARE UN TRAINER -->
-<!-- Stampa la lista di tutti i trainers con la possibilità di eliminarli -->
-<h1 align="center"> Lista Trainers </h1>
 
-<ul class="collection with-header">
-    {% for User in trainers %}
-        <li class="collection-item">{{ User.name }} , {{ User.surname }} , {{ User.role }} </li>
-    {% endfor %}
-</ul>
-
-
-<br><br>
-
-<!-- MANCA ULTIMA COLONNA CON LINK PER TRASFORMARE UTENTE IN TRAINER -->
-<!-- Stampa la lista di tutti gli utenti con la possibilità di trasformargli in trainer -->
-<h1 align="center"> Lista Utenti che possono essere trasformati in trainers </h1>
-
-<ul class="collection with-header">
-    {% for User in users %}
-        <li class="collection-item">{{ User.name }} , {{ User.surname }} , {{ User.role }} </li>
-    {% endfor %}
-</ul>
+<h1 align="center"> Numero di trainers: {{numTrainers}} </h1>
+<br>
+<h1 align="center">Numero di utenti: {{numUsers}} </h1>
 
 
 {% endblock %}

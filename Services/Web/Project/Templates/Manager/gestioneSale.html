@@ -4,6 +4,9 @@
 {% block navbar %}
 <ul class="navbar-nav navbar-light">
     <li class="nav-item">
+        <a class="nav-link" href="{{url_for('manager.introduzione')}}">Introduzione</a>  
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="{{url_for('manager.gestioneUtenti')}}">Gestione Utente</a>  
     </li>
     <li class="nav-item">
@@ -66,10 +69,8 @@
                         <input type="text" id="nome" name="nome" class="form-control" placeholder="Nome Sala">
                         <input type="text" id="descrizione" name="descrizione" class="form-control" placeholder="descrizione">
                         <input type="text" id="capienza" name="capienza" class="form-control" placeholder="Capienza Sala">
-                        <h2>Sala Corsi</h2>
-                        <input type="checkbox" id="isWeight" name="isWeight" value="false" class="form-control" >
-                    
-                       
+                        <input type="checkbox" id="isWeight" name="isWeight" value="false">
+                        <label for="isWeight">sala pesi</label><br>
                         <input class="btn btn-lg btn-primary btn-block" type="submit" value="Inserisci" name="Inserisci" />
                     </form>
                 </div>

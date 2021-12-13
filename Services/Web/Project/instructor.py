@@ -3,35 +3,41 @@
 from flask import Flask
 from flask import Blueprint, render_template, redirect, url_for
 from flask.helpers import url_for
+from DbController import session
 from flask_login import current_user
+from Models.Courses import Course
+from Models.Lessons import Lesson
+from Models.Rooms import Room
+from Models.Users import User,at_least_trainer_required
+
+
 
 
 
 instructor = Blueprint('instructor',__name__,url_prefix='/instructor')
 
-
+@at_least_trainer_required
 @instructor.route('/introduzione')
 def introduzione():
-    # mi serve una query:
-    # 1) lista dei corsi attivi in cui insegna con numero di persone iscritte per ogni corso ( nome corso , numero iscritti )
-    # 2) lista delle lezioni di questa settimana ( nome corso , locale , dataOraInizio , dataOraFine , numero prenotati ) 
-    return render_template('/Instructor/introduzione.html') # UNA VOLTA PRESENTE LA QUERY PASSARE I DATI AL TEMPLATE
+    corsi=session.query(Course).all() #FILTRARE SOLO PER I CORSI FATTI DALL'ISTRUTTORE 
+    lezioni=session.query(Lesson).all() #FILTRARE SOLO PER LE LEZIONI DEI CORSI CHE FA L'ISTRUTTORE NELLA PROSSIMA SETTIMANA (O NEI PROSSIMI GIORNI)
+    return render_template('/Instructor/introduzione.html',lezioni=lezioni,corsi=corsi) 
 
-  
+@at_least_trainer_required  
 @instructor.route('/prossimeLezioni')
 def prossimeLezioni():
-    # mi serve una query:
-    # 1) lista con tutte le lezioni che l'istruttore deve fare ( nome corso , locale , dataOraInizio , dataOraFine , numero prenotati )
-    return render_template('/Instructor/prossimeLezioni.html') # UNA VOLTA PRESENTE LA QUERY PASSARE I DATI AL TEMPLATE
+    lezioni=session.query(Lesson).all() #FILTRARE SOLO PER LE LEZIONI CHE L'ISTRUTTORE FARA' DA OGGI IN POI
+    return render_template('/Instructor/prossimeLezioni.html',lezioni=lezioni) 
 
-
+@at_least_trainer_required
 @instructor.route('/creaLezioni')
 def creaLezioni():
-    # mi serve una query:
-    # 1) lista con tutti i corsi che l'istruttore insegna ( nome corso )
-    return render_template('/Instructor/creaLezioni.html')
+    corsi=session.query(Course).all() #FILTRARE SOLO I CORSI INSEGNATI DALL'ISTRUTTORE
+    rooms=session.query(Room).all() 
+    return render_template('/Instructor/creaLezioni.html',corsi=corsi,rooms=rooms)
 
-# METODO PER INSERIRE LE LEZIONI NEL DB, IL METODO VA POI AGGIUNTO NEL FORM CHE SI TROVA NELL'HTML (PRE SPECIFICARE L'AZIONE DEL FORM)
+# METODO PER INSERIRE LE LEZIONI NEL DB, IL METODO VA POI AGGIUNTO NEL FORM CHE SI TROVA NELL'HTML (PRE SPECIFICARE L'AZIONE DEL FORM) - FATTO
+@at_least_trainer_required
 @instructor.route('/inserisciLezioni', methods = ['POST', 'GET'])
 def inserisciLezioni():
     # INSERIRE LE LEZIONI NEL DB

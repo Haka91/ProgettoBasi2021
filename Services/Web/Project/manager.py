@@ -12,6 +12,13 @@ from Models.Rooms import Weight_Room,Course_Room
 
 manager = Blueprint('manager',__name__,url_prefix='/manager')
 
+@at_least_manager_required
+@manager.route('/introduzione')
+def introduzione():
+    numTrainers=session.query(User).filter(User.role==2).count()
+    numUsers=session.query(User).filter(User.role==3).count()
+    return render_template('/Manager/introduzione.html',numTrainers=numTrainers,numUsers=numUsers)
+
 # AGGIUNGERE LINK PER OGNI UTENTE PER FARE IN MODO DI MODIFICARE IL SUO STATO DI ATTIVATO O NON ATTIVATO
 @at_least_manager_required
 @manager.route('/gestioneUtenti')
