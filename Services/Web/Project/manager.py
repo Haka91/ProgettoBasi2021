@@ -3,6 +3,7 @@
 from flask import Flask,request
 from flask import Blueprint, render_template
 from flask.helpers import flash, url_for
+from flask_login.utils import login_required
 from werkzeug.utils import redirect
 from DbController import session
 from Models.Users import User,at_least_manager_required
@@ -13,22 +14,28 @@ from Models.Rooms import Weight_Room,Course_Room,Room
 
 manager = Blueprint('manager',__name__,url_prefix='/manager')
 
-@at_least_manager_required
+
 @manager.route('/introduzione')
+@login_required
+@at_least_manager_required
 def introduzione():
     numTrainers=session.query(User).filter(User.role==2).count()
     numUsers=session.query(User).filter(User.role==3).count()
     return render_template('/Manager/introduzione.html',numTrainers=numTrainers,numUsers=numUsers)
 
 # AGGIUNGERE LINK PER OGNI UTENTE PER FARE IN MODO DI MODIFICARE IL SUO STATO DI ATTIVATO O NON ATTIVATO
-@at_least_manager_required
+
 @manager.route('/gestioneUtenti')
+@login_required
+@at_least_manager_required
 def gestioneUtenti():
     users= session.query(User).order_by(User.surname).filter(User.role==1).all()
     return render_template('/Manager/gestioneUtenti.html',utenti=users) # UNA VOLTA PRESENTE LA QUERY PASSARE I DATI AL TEMPLATE
 
-@at_least_manager_required
+
 @manager.route('/gestioneSale',methods=['POST','GET'])
+@login_required
+@at_least_manager_required
 def gestioneSale(): 
 
     if request.method=='POST':
@@ -56,8 +63,9 @@ def gestioneSale():
     return render_template('/Manager/gestioneSale.html',rooms=rooms)
 
 
-@at_least_manager_required
 @manager.route('/gestioneTrainers')
+@login_required
+@at_least_manager_required
 def gestioneTrainers():
 
     trainers= session.query(User).order_by(User.surname).filter(User.role==2).all()
@@ -69,15 +77,19 @@ def gestioneTrainers():
     users= session.query(User).order_by(User.surname).filter(User.role==1).all()
     return render_template('/Manager/gestioneTrainers.html',trainers=trainers,users=users) # UNA VOLTA PRESENTE LA QUERY PASSARE I DATI AL TEMPLATE
 
-@at_least_manager_required
+
 @manager.route('/gestioneOrariPalestra')
+@login_required
+@at_least_manager_required
 def gestioneOrariPalestra():
     # mi serve una query:
     # 1) 7 stringhe, ogni stringa rappresentante gli orari di apertura e chiusura della palestra
     return render_template('/Manager/gestioneOrariPalestra.html')
 
-@at_least_manager_required
+
 @manager.route('/gestionePolicy',methods=['POST','GET'])
+@login_required
+@at_least_manager_required
 def gestionePolicy(): 
     
     if request.method=='POST':
@@ -97,57 +109,73 @@ def gestionePolicy():
     return render_template('/Manager/gestionePolicy.html',policies=policies)
 
 # Function for changing the state of a user (activated <-> deactivate)
-@at_least_manager_required
+
 @manager.route('/attivaDisattivaUser/<int:idUser>')
+@login_required
+@at_least_manager_required
 def attivaDisattivaUser(idUser):
     # DO STUFF
     return redirect(url_for(manager.gestioneUtenti))
 
 # Function to trasform User in Trainer
-@at_least_manager_required
+
 @manager.route('/userToTrainer/<int:idUser>')
+@login_required
+@at_least_manager_required
 def userToTrainer(idUser):
     # DO STUFF
     return redirect(url_for(manager.gestioneTrainer))
 
 # Function to delete a Trainer
-@at_least_manager_required
+
 @manager.route('/eliminaTrainer/<int:idUser>')
+@login_required
+@at_least_manager_required
 def eliminaTrainer(idUser):
     # DO STUFF
     return redirect(url_for(manager.gestioneTrainer))
 
 # Function to delete a room
-@at_least_manager_required
+
 @manager.route('/eliminaSala/<int:idSala>')
+@login_required
+@at_least_manager_required
 def eliminaSala(idSala):
     # DO STUFF
     return redirect(url_for(manager.gestioneSale))
 
 # Function to delete a date
-@at_least_manager_required
+
 @manager.route('/eliminaData/<int:data>')
+@login_required
+@at_least_manager_required
 def eliminaData(data):
     # DO STUFF
     return redirect(url_for(manager.gestioneOrariPalestra))
 
 # Function do delete a Policy
-@at_least_manager_required
+
 @manager.route('/eliminaPolicy/<int:idPolicy>')
+@login_required
+@at_least_manager_required
 def eliminaPolicy(idPolicy):
     # DO STUFF
     return redirect(url_for(manager.gestionePolicy))
 
 # Function to create a new Room
-@at_least_manager_required
+
 @manager.route('/eliminaStanza/<int:idStanza>')
+@login_required
+@at_least_manager_required
 def eliminaStanza(idStanza):
     # DO STUFF
     return redirect(url_for(manager.gestioneCorsi))
 
 # Loads the page for the management of the courses
-@at_least_manager_required
+
 @manager.route('/gestioneCorsi')
+@login_required
+@at_least_manager_required
 def gestioneCorsi():
     stanze=session.query(Room).all()
     istruttori=session.query(User).order_by(User.surname).filter(User.role==2).all()

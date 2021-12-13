@@ -1,3 +1,4 @@
+from os import error
 from sqlalchemy import (Column,ForeignKey,Integer,String)
 from sqlalchemy import create_engine,inspect
 from sqlalchemy import or_
@@ -14,7 +15,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Timed_URL_Serializer
 from config import secret_key
 from werkzeug.utils import redirect
 from functools import wraps
-from flask.helpers import url_for
+from flask.helpers import url_for,flash
 
 from app import bcrypt,login_manager
 
@@ -131,7 +132,17 @@ class User(UserMixin,Base):
             session.rollback()
             return False
 
+    def get_role(self):
+        try:
+            return self.role
+        except:
+            
+            return 0
+
 #metodo richiesto da FLASK-LOGIN 
+
+
+
 @login_manager.user_loader
 def load_user(id_user):
     try:
@@ -166,9 +177,12 @@ def at_least_manager_required(f):
             if current_user.get_role() == 3 :
                 return f(*args, **kwargs)
             else:
-                return redirect(url_for("homepage"))
+                flash("ERROR 404 PAGE NOT FOUND","error")
+
+                return redirect(url_for("general.index"))
         else:
-            return redirect(url_for("general.homepage"))
+            flash("ERROR 404 PAGE NOT FOUND","error")
+            return redirect(url_for("general.index"))
 
     return wrapper
 
@@ -183,9 +197,11 @@ def at_least_trainer_required(f):
             if current_user._role >= 2:
                 return f(*args, **kwargs)
             else:
-                return redirect(url_for("homepage"))
+                flash("ERROR 404 PAGE NOT FOUND","error")
+                return redirect(url_for("general.index"))
         else:
-            return redirect(url_for("homepage"))
+            flash("ERROR 404 PAGE NOT FOUND","error")
+            return redirect(url_for("general.index"))
 
     return wrapper
 
@@ -199,8 +215,10 @@ def at_least_user_required(f):
             if current_user._role >= 1:
                 return f(*args, **kwargs)
             else:
-                return redirect(url_for("general.PageNotFound"))
+                flash("ERROR 404 PAGE NOT FOUND","error") 
+                return redirect(url_for("general.index"))
         else:
-            return redirect(url_for("general.PageNotFound"))
+            flash("ERROR 404 PAGE NOT FOUND","error") 
+            return redirect(url_for("general.index"))
 
     return wrapper

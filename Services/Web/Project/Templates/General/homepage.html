@@ -16,7 +16,15 @@
 
 {% block body %}
 
-
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 <!-- Stampa la lista dei corsi -->
 <h1> Corsi offerti </h1>
 <ul class="collection with-header">
