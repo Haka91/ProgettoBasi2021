@@ -16,13 +16,16 @@ from Models.Users import User,at_least_trainer_required
 
 instructor = Blueprint('instructor',__name__,url_prefix='/instructor')
 
+# Introduction page
 @at_least_trainer_required
 @instructor.route('/introduzione')
 def introduzione():
     corsi=session.query(Course).all() #FILTRARE SOLO PER I CORSI FATTI DALL'ISTRUTTORE 
-    lezioni=session.query(Lesson).all() #FILTRARE SOLO PER LE LEZIONI DEI CORSI CHE FA L'ISTRUTTORE NELLA PROSSIMA SETTIMANA (O NEI PROSSIMI GIORNI)
+    lezioni=session.query(Lesson).all() #FILTRARE SOLO PER LE LEZIONI DEI CORSI CHE FA L'ISTRUTTORE NELLA PROSSIMA SETTIMANA (O NEI PROSSIMI GIORNI) 
+    # Sono necessari idlezione, nomecorso, nomestanza
     return render_template('/Instructor/introduzione.html',lezioni=lezioni,corsi=corsi) 
 
+# Page where the next lessons are listed
 @at_least_trainer_required  
 @instructor.route('/prossimeLezioni')
 def prossimeLezioni():

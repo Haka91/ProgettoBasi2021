@@ -23,19 +23,48 @@
 
 <!-- Stampa la lista delle lezioni da insegnare questa settimana -->
 <h1 align="center"> Lezioni di questa settimana in cui insegno </h1>
-<ul class="collection with-header">
-    {% for Lesson in lezioni %}
-        <li class="collection-item">{{ Lesson.id }} , {{ Lesson.course }} , {{ Lesson.course_room }} , {{ Lesson.reservation_slot }}</li>
-    {% endfor %}
-</ul>
+<br><br>
+<table id="table" class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th style="text-align: center;" scope="col">Id</th>
+            <th style="text-align: center;" scope="col">Corso</th>
+            <th style="text-align: center;" scope="col">Stanza</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for Lesson in lezioni %}
+            <tr>
+                <td style="text-align: center; width: 10%;">{{ Lesson.id }}</td>
+                <td style="text-align: center; width: 10%;">{{ Lesson.course_name }}</td>
+                <td style="text-align: center; width: 10%;">{{ Lesson.room }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 
 <br><br>
 <!-- Stampa la lista dei corsi con il numero di iscritti al corso -->
 <h1 align="center"> Corsi in cui insegno </h1>
-<ul class="collection with-header">
-    {% for Course in corsi %}
-        <li class="collection-item">{{ Course.id }} , {{ Course.name }} , {{ Course.description }}</li>
-    {% endfor %}
-</ul>
+<br><br>
 
+<table id="table" class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th style="text-align: center;" scope="col">Id</th>
+            <th style="text-align: center;" scope="col">Nome</th>
+            <th style="text-align: center;" scope="col">Stanza</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for Course in corsi %}
+            <tr>
+                <td style="text-align: center; width: 10%;">{{ Course.id }}</td>
+                <td style="text-align: center; width: 10%;">{{ Course.name }}</td>
+                <td style="text-align: center; width: 10%;">{{ Course.description }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

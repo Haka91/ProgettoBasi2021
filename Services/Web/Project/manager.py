@@ -134,6 +134,6 @@ def eliminaData(data):
 # Function do delete a Policy
 @at_least_manager_required
 @manager.route('/eliminaPolicy/<int:idPolicy>')
-def eliminaData(idPolicy):
+def eliminaPolicy(idPolicy):
     # DO STUFF
     return redirect(url_for(manager.gestionePolicy))
