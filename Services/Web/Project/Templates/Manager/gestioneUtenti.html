@@ -21,6 +21,9 @@
     <li class="nav-item">
         <a class="nav-link" href="{{url_for('manager.gestionePolicy')}}">Gestione Policy</a>  
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('manager.gestioneCorsi')}}">Gestione Corsi</a>  
+    </li>
     <!--  QUI SERVIREBBE UN TASTO LOGOUT -->
 </ul>
 {% endblock %}
@@ -56,7 +59,15 @@
         {% endfor %}
     </tbody>
 </table>
-
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 
 
 {% endblock %}

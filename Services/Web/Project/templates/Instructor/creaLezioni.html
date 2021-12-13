@@ -53,17 +53,11 @@
                         </select>
                         <label for="timesAWeek">Numero volte a settimana</label><br><br>
                         <!-- Choose date of beginning of the course -->
-                        <h4>Course begin</h4>
-                        <input type="text" id="begin_day" name="begin_day" class="form-control" placeholder="day of begin">
-                        <input type="text" id="begin_month" name="begin_month" class="form-control" placeholder="month of begin">
-                        <input type="text" id="begin_year" name="begin_year" class="form-control" placeholder="year of begin">
-                        <br>
+                        <input type="date" id="dataInizio" name="dataInizio">
+                        <label for="dataInizio">data inizio</label> <br><br>
                         <!-- Choose date of end of the course -->
-                        <h4>Course end</h4>
-                        <input type="text" id="end_day" name="end_day" class="form-control" placeholder="day of end">
-                        <input type="text" id="end_month" name="end_month" class="form-control" placeholder="month of end">
-                        <input type="text" id="end_year" name="end_year" class="form-control" placeholder="year of end">
-                        <br><br>
+                        <input type="date" id="dataFine" name="dataFine">
+                        <label for="dataFine">data fine</label> <br><br>
                         <!-- Lesson 1 -->
                         <!-- Day of the week -->
                         <h3 align="left">Lezione 1</h3> <br>
@@ -78,23 +72,7 @@
                         </select>
                         <label for="one_timesAWeek">Giorno della settimana</label><br>
                         <!-- When it starts -->
-                        <select id="one_starts" name="one_starts">
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                            <option value="14">14</option>
-                            <option value="15">15</option>
-                            <option value="16">16</option>
-                            <option value="17">17</option>
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
-                            <option value="21">21</option>
-                            <option value="22">22</option>
-                        </select>
+                        <input type="number" id="one_starts" name="one_starts" class="form-control" min="1" max="24">
                         <label for="one_starts">Ora Inizio</label><br>
                         <!-- How much does it lasts -->
                         <select id="one_length" name="one_length">
@@ -125,23 +103,7 @@
                         </select>
                         <label for="two_timesAWeek">Giorno della settimana</label><br>
                         <!-- When it starts -->
-                        <select id="two_starts" name="two_starts">
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                            <option value="14">14</option>
-                            <option value="15">15</option>
-                            <option value="16">16</option>
-                            <option value="17">17</option>
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
-                            <option value="21">21</option>
-                            <option value="22">22</option>
-                        </select>
+                        <input type="number" id="two_starts" name="two_starts" class="form-control" min="1" max="24">
                         <label for="two_starts">Ora Inizio</label><br>
                         <!-- How much does it lasts -->
                         <select id="two_length" name="two_length">
@@ -172,23 +134,7 @@
                         </select>
                         <label for="three_timesAWeek">Giorno della settimana</label><br>
                         <!-- When it starts -->
-                        <select id="three_starts" name="three_starts">
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                            <option value="14">14</option>
-                            <option value="15">15</option>
-                            <option value="16">16</option>
-                            <option value="17">17</option>
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
-                            <option value="21">21</option>
-                            <option value="22">22</option>
-                        </select>
+                        <input type="number" id="three_starts" name="three_starts" class="form-control" min="1" max="24">
                         <label for="three_starts">Ora Inizio</label><br>
                         <!-- How much does it lasts -->
                         <select id="three_length" name="three_length">

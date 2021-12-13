@@ -2,6 +2,11 @@
 
 from flask import Flask
 from flask import Blueprint, render_template
+from DbController import session
+from Models.Users import User,at_least_manager_required
+from Models.Policies import Policy
+from Models.Rooms import Weight_Room,Course_Room,Room
+from Models.Reservations import Reservation
 
 
 
@@ -12,7 +17,8 @@ user = Blueprint('user',__name__,url_prefix='/user')
 def introduzione():
     # mi serve una query:
     # 1) lista delle prenotazioni di questa settimana, sia per i corsi sia per la sala pesi ( nome corso (se sala pesi, scrivere sala pesi) , istruttore ,  locale in cui si svolge , data ed ora inizio , data ed ora fine )
-    return render_template('/User/introduzione.html') # UNA VOLTA PRESENTE LA QUERY PASSARE I DATI AL TEMPLATE
+    prenotazioni=session.query(Reservation)
+    return render_template('/User/introduzione.html', prenotazioni=prenotazioni) # UNA VOLTA PRESENTE LA QUERY PASSARE I DATI AL TEMPLATE
 
 
 @user.route('/prenotazioniAttive')

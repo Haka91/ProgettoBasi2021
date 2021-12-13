@@ -137,3 +137,18 @@ def eliminaData(data):
 def eliminaPolicy(idPolicy):
     # DO STUFF
     return redirect(url_for(manager.gestionePolicy))
+
+# Function to create a new Room
+@at_least_manager_required
+@manager.route('/eliminaStanza/<int:idStanza>')
+def eliminaStanza(idStanza):
+    # DO STUFF
+    return redirect(url_for(manager.gestioneCorsi))
+
+# Loads the page for the management of the courses
+@at_least_manager_required
+@manager.route('/gestioneCorsi')
+def gestioneCorsi():
+    stanze=session.query(Room).all()
+    istruttori=session.query(User).order_by(User.surname).filter(User.role==2).all()
+    return render_template('Manager/gestioneCorsi.html', stanze=stanze, istruttori=istruttori)
