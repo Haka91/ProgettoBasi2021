@@ -9,6 +9,8 @@ from DbController import session
 from Models.Users import User,at_least_manager_required
 from Models.Policies import Policy
 from Models.Rooms import Weight_Room,Course_Room,Room
+from Models.Courses import Course
+
 
 
 
@@ -164,10 +166,10 @@ def eliminaPolicy(idPolicy):
 
 # Function to create a new Room
 
-@manager.route('/eliminaStanza/<int:idStanza>')
+@manager.route('/eliminaCorso/<int:idCorso>')
 @login_required
 @at_least_manager_required
-def eliminaStanza(idStanza):
+def eliminaCorso(idCorso):
     # DO STUFF
     return redirect(url_for(manager.gestioneCorsi))
 
@@ -177,6 +179,7 @@ def eliminaStanza(idStanza):
 @login_required
 @at_least_manager_required
 def gestioneCorsi():
+    courses=session.query(Course).all()
     stanze=session.query(Room).all()
     istruttori=session.query(User).order_by(User.surname).filter(User.role==2).all()
-    return render_template('Manager/gestioneCorsi.html', stanze=stanze, istruttori=istruttori)
+    return render_template('Manager/gestioneCorsi.html', stanze=stanze, istruttori=istruttori,corsi=courses)
