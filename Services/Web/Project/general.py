@@ -51,7 +51,7 @@ def loginFunzione():
                 elif user_session.role==2:
                      return render_template('/Instructor/introduzione.html')    
                 elif user_session.role==3:
-                     return render_template('/Manager/gestioneOrariPalestra.html')    
+                     return render_template('/Manager/introduzione.html')    
 
                
             else:               

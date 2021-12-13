@@ -15,6 +15,7 @@ from Models.Courses import Course
 
 
 
+
 manager = Blueprint('manager',__name__,url_prefix='/manager')
 
 

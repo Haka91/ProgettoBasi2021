@@ -10,8 +10,9 @@ from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import with_polymorphic
-from sqlalchemy.sql.expression import select
+from sqlalchemy.sql.expression import null, select, true
 from sqlalchemy.sql.schema import CheckConstraint
+from sqlalchemy.sql.type_api import NULLTYPE
 from DbController import Base,session
 from Models.Reservation_Slots import Reservation_Slot
 
@@ -26,8 +27,8 @@ class Day(Base):
     date = Column(Date,primary_key=True)
     opening=Column(DateTime,nullable=False)
     closing=Column(DateTime,nullable=False)
-    break_time =Column(Time)
-    break_slot =Column(Integer,CheckConstraint('break_slot>=0'),CheckConstraint('break_slot<47'),nullable=False)
+    break_time =Column(Time,nullable=True)
+    break_slot =Column(Integer,CheckConstraint('break_slot>=0'),CheckConstraint('break_slot<47'),nullable=False,default=0)
     policy=Column(Integer,ForeignKey("Policies.id"),nullable=False,default=1)
 
   
@@ -35,7 +36,7 @@ class Day(Base):
     policy_obj=relationship("Policy",back_populates="days_obj")
      
 
-    def __init__(self,date,opening,closing,break_time,break_slot,policy):
+    def __init__(self,date,opening,closing,break_slot,policy=1,break_time=None):
         self.date=date
         self.opening=opening
         self.closing=closing

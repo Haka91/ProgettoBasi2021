@@ -1,3 +1,4 @@
+from datetime import date, datetime
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -43,7 +44,7 @@ def db_start():
 
 def create_db_users():
     conn= engine.connect()
-    from Models import Roles,Users,Rooms,Policies,Courses
+    from Models import Roles,Users,Rooms,Policies,Courses,Days
 
    
     role1=Roles.Role("User")
@@ -74,6 +75,10 @@ def create_db_users():
     yogaCourse.add_obj()
     pilatesCourse=Courses.Course("pilates","ci vanno le milf")
     pilatesCourse.add_obj()
+    today=(date.today())
+    day=Days.Day(today,datetime(today.year,today.month,today.day,8,30),datetime(today.year,today.month,today.day,15,30),break_slot=0)    
+    day.add_obj()
+
 
 
     
