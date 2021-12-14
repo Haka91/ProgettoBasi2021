@@ -1,8 +1,9 @@
-from datetime import date, datetime
+from datetime import date, datetime, time, timedelta
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import MetaData
+from sqlalchemy.sql.sqltypes import DateTime
 from config import DATABASE_CONNECTION_URI
 
 
@@ -77,7 +78,10 @@ def create_db_users():
     pilatesCourse.add_obj()
     today=(date.today())
     day=Days.Day(today,datetime(today.year,today.month,today.day,8,30),datetime(today.year,today.month,today.day,15,30),break_slot=0)    
-    day.add_obj()
+    day.add_obj()    
+    today=today+ timedelta(days=1)
+    day2=Days.Day(today,datetime(today.year,today.month,today.day,8,30),datetime(today.year,today.month,today.day,15,30),break_slot=4,break_time=datetime(today.year,today.month,today.day,10,30))
+    day2.add_obj()
 
 
 

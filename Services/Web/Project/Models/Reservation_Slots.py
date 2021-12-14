@@ -38,7 +38,7 @@ class Reservation_Slot(Base):
 
         try:
             session.add(self)
-            session.commit()
+            #non aggiungo direttamente da qui il reservation slot perchè li aggiungo da Day
             return True
         except Exception as e:
             print(e)
