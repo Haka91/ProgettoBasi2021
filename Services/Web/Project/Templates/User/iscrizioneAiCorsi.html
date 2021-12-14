@@ -21,8 +21,9 @@
     <li class="nav-item">
         <a class="nav-link" href="{{url_for('user.cambiaDatiUtente')}}">Gestione Utente</a>  
     </li>
-    <!--  QUI SERVIREBBE UN TASTO LOGOUT -->
-</ul>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('general.logout')}}">Logout</a>  
+    </li></ul></ul>
 {% endblock %}
 
 
@@ -49,11 +50,9 @@
                     <form action="#" method="post"> 
                         <!-- Choose course in which add lessons -->
                         <select id="course" name="course">
-                            <!--
-                            {% for corso in corsi %}
-                                <option value="{{corso.id}}">{{corso.nome}}</option>
+                            {% for Course in courses %}
+                                <option value="{{Course.id}}">{{Course.name}}</option>
                             {% endfor %}
-                            -->
                         </select>
                         <input class="btn btn-lg btn-primary btn-block" type="submit" value="Iscriviti" name="Iscriviti" />
                     </form>

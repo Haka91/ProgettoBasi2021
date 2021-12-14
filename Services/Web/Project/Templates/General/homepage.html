@@ -25,25 +25,62 @@
     </ul>
   {% endif %}
 {% endwith %}
+
+
 <!-- Stampa la lista dei corsi -->
-<h1> Corsi offerti </h1>
-<ul class="collection with-header">
-    {% for Course in corsi %}
-        <li class="collection-item">{{ Course.name }}  {{ Course.description }}</li>
-    {% endfor %}
-</ul>
+<br><br>
+<h1 align="center">Corsi palestra</h1>
+<br><br>
+
+<table id="table" class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th style="text-align: center;" scope="col">Nome</th>
+            <th style="text-align: center;" scope="col">Descrizione</th>   
+        </tr>
+    </thead>
+    <tbody>
+        {% for Course in corsi %}
+            <tr>
+                <td style="text-align: center; width: 10%;">{{ Course.name }}</td>
+                <td style="text-align: center; width: 10%;">{{ Course.description }}</td>            
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br><br><br>
 
 
-<br> <br>
+<!-- Stampa la lista delle sale -->
+<h1 align="center">Stanze palestra</h1>
+<br><br>
 
-<!-- Stampa la lista delle sale 
-<h1> Sale presenti </h1>
-<ul class="collection with-header">
-    {% for sala in sale %}
-        <li class="collection-item">{{ sala.nome }} , {{ sala.capienza }}</li>
-    {% endfor %}
-</ul>
--->
+<table id="table" class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th style="text-align: center;" scope="col">Nome</th>
+            <th style="text-align: center;" scope="col">Descrizione</th>  
+            <th style="text-align: center;" scope="col">Capacità massima</th> 
+            <th style="text-align: center;" scope="col">Sala pesi?</th>   
+  
+ 
+        </tr>
+    </thead>
+    <tbody>
+        {% for Room in stanze %}
+            <tr>
+                <td style="text-align: center; width: 10%;">{{ Room.name }}</td>
+                <td style="text-align: center; width: 10%;">{{ Room.description }}</td> 
+                <td style="text-align: center; width: 10%;">{{ Room.max_capacity }}</td>
+                <td style="text-align: center; width: 10%;">{{ Room.is_weight }}</td>
+
+           
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br><br><br>
+
 
 
 

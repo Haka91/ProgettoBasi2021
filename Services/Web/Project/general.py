@@ -2,10 +2,13 @@
 
 from flask import Flask,request
 from flask import Blueprint, render_template,flash
+from flask.helpers import url_for
 from flask_login import current_user,login_user, logout_user,login_manager
 from sqlalchemy.sql.expression import true
+from werkzeug.utils import redirect
 from Models.Users import User
 from Models.Courses import Course
+from Models.Rooms import Room
 
 from DbController import session
 
@@ -18,15 +21,9 @@ general = Blueprint('general',__name__)
 
 @general.route('/')
 def index():
-    # mi servono due query:
-    # 1) lista dei corsi (nome corso, nome istruttore, data inizio, data fine)  
-    # 2) lista delle sale (nome sala, capienza)  
-    # ---
-    # Secondo te inseriamo pure gli orari di apertura e chiusura?
-    courses = session.query(Course).all()
-     
-    
-    return render_template('/General/homepage.html',corsi=courses) # UNA VOLTA PRESENTI LE QUERY PASSARE I DATI AL TEMPLATE
+    corsi = session.query(Course).all()
+    stanze = session.query(Room).all()
+    return render_template('/General/homepage.html',corsi=corsi,stanze=stanze) # UNA VOLTA PRESENTI LE QUERY PASSARE I DATI AL TEMPLATE
 
 
 # login page
@@ -47,11 +44,14 @@ def loginFunzione():
                 login_user(user_session,true,force=true)               
                 #flash("login avvenuto con successo","Success")
                 if user_session.role==1:
-                     return render_template('/User/introduzione.html')    
+                     #return render_template('/User/introduzione.html')  
+                     return redirect(url_for('user.introduzione'))  
                 elif user_session.role==2:
-                     return render_template('/Instructor/introduzione.html')    
+                     #return render_template('/Instructor/introduzione.html') 
+                     return redirect(url_for('instructor.introduzione'))   
                 elif user_session.role==3:
-                     return render_template('/Manager/introduzione.html')    
+                     #return render_template('/Manager/introduzione.html')   
+                     return redirect(url_for('manager.introduzione')) 
 
                
             else:               
@@ -60,10 +60,7 @@ def loginFunzione():
         else:           
             flash("Credenziali Errate","error")  
             return render_template('/General/login.html')   
-
-
-        
-    return  render_template('/General/login.html')
+    return
 
 
 # register page
@@ -98,3 +95,10 @@ def registerFunction():
             return render_template('/General/register.html')   
        
     return render_template('/General/register.html')
+
+
+# Logout Function
+@general.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('general.index'))

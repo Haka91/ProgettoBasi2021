@@ -84,8 +84,7 @@ def gestioneTrainers():
 @login_required
 @at_least_manager_required
 def gestioneOrariPalestra():
-    # mi serve una query:
-    # 1) 7 stringhe, ogni stringa rappresentante gli orari di apertura e chiusura della palestra
+    # I NEED 
     policies=session.query(Policy).all()
     return render_template('/Manager/gestioneOrariPalestra.html',policies=policies)
 
@@ -110,8 +109,8 @@ def gestionePolicy():
                 
     return render_template('/Manager/gestionePolicy.html',policies=policies)
 
-# Function for changing the state of a user (activated <-> deactivate)
 
+# Function for changing the state of a user (activated <-> deactivate)
 @manager.route('/attivaDisattivaUser/<int:idUser>')
 @login_required
 @at_least_manager_required
@@ -119,8 +118,8 @@ def attivaDisattivaUser(idUser):
     # DO STUFF
     return redirect(url_for(manager.gestioneUtenti))
 
-# Function to trasform User in Trainer
 
+# Function to trasform User in Trainer
 @manager.route('/userToTrainer/<int:idUser>')
 @login_required
 @at_least_manager_required
@@ -128,8 +127,8 @@ def userToTrainer(idUser):
     # DO STUFF
     return redirect(url_for(manager.gestioneTrainer))
 
-# Function to delete a Trainer
 
+# Function to delete a Trainer
 @manager.route('/eliminaTrainer/<int:idUser>')
 @login_required
 @at_least_manager_required
@@ -137,8 +136,8 @@ def eliminaTrainer(idUser):
     # DO STUFF
     return redirect(url_for(manager.gestioneTrainer))
 
-# Function to delete a room
 
+# Function to delete a room
 @manager.route('/eliminaSala/<int:idSala>')
 @login_required
 @at_least_manager_required
@@ -146,8 +145,8 @@ def eliminaSala(idSala):
     # DO STUFF
     return redirect(url_for(manager.gestioneSale))
 
-# Function to delete a date
 
+# Function to delete a date
 @manager.route('/eliminaData/<int:data>')
 @login_required
 @at_least_manager_required
@@ -155,8 +154,8 @@ def eliminaData(data):
     # DO STUFF
     return redirect(url_for(manager.gestioneOrariPalestra))
 
-# Function do delete a Policy
 
+# Function do delete a Policy
 @manager.route('/eliminaPolicy/<int:idPolicy>')
 @login_required
 @at_least_manager_required
@@ -164,27 +163,40 @@ def eliminaPolicy(idPolicy):
     # DO STUFF
     return redirect(url_for(manager.gestionePolicy))
 
-# Function to create a new Room
 
-
+# Function to delete a course
 @manager.route('/eliminaCorso/<int:idCorso>')
 @login_required
 @at_least_manager_required
 def eliminaCorso(idCorso):
-
-
     # DO STUFF
     return redirect(url_for(manager.gestioneCorsi))
 
-# Loads the page for the management of the courses
 
+# Loads the page for the management of the courses
 @manager.route('/gestioneCorsi')
 @login_required
 @at_least_manager_required
 def gestioneCorsi():
-
     courses=session.query(Course).all()
     stanze=session.query(Room).all()
     istruttori=session.query(User).order_by(User.surname).filter(User.role==2).all()
     return render_template('Manager/gestioneCorsi.html', stanze=stanze, istruttori=istruttori,corsi=courses)
 
+
+# Function to visualize the statistics of a specified trainer
+@manager.route('/infoTrainer/<int:idUser>')
+def infoTrainer(idUser):
+    # DO WE NEED TO ADD OTHER STUFF?
+    numeroCorsiInsegnati = 2 #QUERY NEEDED
+    numeroLezioni = 2 #QUERY NEEDED
+    return render_template('Manager/infoTrainer.html')
+
+
+# Function that creates a course
+@manager.route('/creaCorso', methods=['POST','GET'])
+@login_required
+@at_least_manager_required
+def creaCorso():
+    # DO STUFF
+    return redirect(url_for('manager.gestioneCorsi'))

@@ -24,15 +24,16 @@
     <li class="nav-item">
         <a class="nav-link" href="{{url_for('manager.gestioneCorsi')}}">Gestione Corsi</a>  
     </li>
-    <!--  QUI SERVIREBBE UN TASTO LOGOUT -->
-</ul>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('general.logout')}}">Logout</a>  
+    </li></ul>
 {% endblock %}
 
 
 <!-- Block body -->
 {% block body %}
 <br><br>
-<h1 align="center">Orari palestra</h1>
+<h1 align="center">Corsi palestra</h1>
 <br><br>
 
 <table id="table" class="table">
@@ -77,7 +78,7 @@
 
             <div class="col-lg-12 login-form">
                 <div class="col-lg-12 login-form">
-                    <form action="" method="post">
+                    <form action="{{url_for('manager.creaCorso')}}" method="post">
                         <input type="text" id="nome" name="nome" placeholder="nome corso"><br>
                         <input type="textarea" id="descrizione" name="descrizione" placeholder="scrivi una breve descrizione..."><br>
                         <input class="btn btn-lg btn-primary btn-block" type="submit" value="Inserisci" name="Inserisci" />

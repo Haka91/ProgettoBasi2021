@@ -24,8 +24,9 @@
     <li class="nav-item">
         <a class="nav-link" href="{{url_for('manager.gestioneCorsi')}}">Gestione Corsi</a>  
     </li>
-    <!--  QUI SERVIREBBE UN TASTO LOGOUT -->
-</ul>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('general.logout')}}">Logout</a>  
+    </li></ul></ul>
 {% endblock %}
 
 
@@ -40,6 +41,7 @@
         <tr>
             <th style="text-align: center;" scope="col">Nome</th>
             <th style="text-align: center;" scope="col">Cognome</th>
+            <th style="text-align: center;" scope="col">Info</th>
             <th style="text-align: center;" scope="col">Elimina</th>
         </tr>
     </thead>
@@ -48,6 +50,9 @@
             <tr>
                 <td style="text-align: center; width: 10%;">{{ User.name }}</td>
                 <td style="text-align: center; width: 10%;">{{ User.surname }}</td>
+                <td style="text-align: center; width: 10%;">
+                    <a href="{{url_for('manager.infoTrainer', idUser=User.id)}}">Vedi info</a>
+                </td>
                 <td style="text-align: center; width: 10%;">
                     <a href="{{url_for('manager.eliminaTrainer', idUser=User.id)}}">Elimina</a>
                 </td>

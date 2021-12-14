@@ -21,25 +21,44 @@
     <li class="nav-item">
         <a class="nav-link" href="{{url_for('user.cambiaDatiUtente')}}">Gestione Utente</a>  
     </li>
-    <!--  QUI SERVIREBBE UN TASTO LOGOUT -->
-</ul>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('general.logout')}}">Logout</a>  
+    </li></ul></ul>
 {% endblock %}
 
 
 <!-- Block body -->
 {% block body %}
 <br><br>
-<!-- DEVO CAPIRE COME FARE IN MODO DI POTER PRENOTARE UNA LEZIONE DI UN CORSO A CUI L'UTENTE E' ISCRITTO, PER ORA LI STAMPO -->
-
-<!-- Stampa la lista delle lezioni prenotabili -->
 <h1 align="center"> Lezioni Prenotabili </h1>
-<ul class="collection with-header">
-    <!--
-    {% for lezione in lezioni %}
-        <li class="collection-item">{{ lezione.nomeCorso }} , {{ lezione.istruttore }} , {{ lezione.locale }} , {{ lezione.dataOraInizio }} , {{ lezione.dataOraFine }} </li>
-    {% endfor %}
--->
-</ul>
+<br><br>
+
+<table id="table" class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th style="text-align: center;" scope="col">Slot Orario</th>
+            <th style="text-align: center;" scope="col">Corso</th>
+            <th style="text-align: center;" scope="col">Trainer</th>
+            <th style="text-align: center;" scope="col">Stanza</th>
+            <th style="text-align: center;" scope="col">Azione</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for Lesson in lezioni %}
+            <tr>
+                <td style="text-align: center; width: 10%;">{{ Lesson.reservation_slot }}</td>
+                <td style="text-align: center; width: 10%;">{{ Lesson.course }}</td>
+                <td style="text-align: center; width: 10%;">{{ Lesson.trainer }}</td>
+                <td style="text-align: center; width: 10%;">{{ Lesson.course_room }}</td>
+                <td style="text-align: center; width: 10%;">
+                    <a href="{{url_for('user.faiPrenotazioneLezione', idLesson=Lesson.id)}}">Elimina</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br><br>
+
 
 
 {% endblock %}
