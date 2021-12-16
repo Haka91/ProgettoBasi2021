@@ -20,6 +20,7 @@ user = Blueprint('user',__name__,url_prefix='/user')
 # Route to show the indroduction page.
 # It shows the next reservation of the user
 @user.route('/introduzione')
+@login_required
 def introduzione():
     prenotazioni=session.query(Reservation) # CORRECT THE QUERY
     return render_template('/User/introduzione.html', prenotazioni=prenotazioni)
@@ -27,6 +28,7 @@ def introduzione():
 
 # Active reservations of the user
 @user.route('/prenotazioniAttive')
+@login_required
 def prenotazioniAttive():
     # QUERY NEEDED
     return render_template('/User/prenotazioniAttive.html') 
@@ -35,6 +37,7 @@ def prenotazioniAttive():
 # Page where is possible to see the bookings for the weight rooms and it is possible to book a reservation for
 # one of the weight rooms
 @user.route('/prenotaSalaPesi')
+@login_required
 def prenotaSalaPesi():
     # QUERY NEEDED
     return render_template('/User/prenotaSalaPesi.html') 
@@ -42,6 +45,7 @@ def prenotaSalaPesi():
 
 # Page where to gerister for a course
 @user.route('/iscrizioneAiCorsi')
+@login_required
 def iscrizioneAiCorsi():
     # REGISTER PERSON TO THE COURSE
     courses=session.query(Course)
@@ -50,6 +54,7 @@ def iscrizioneAiCorsi():
 
 # Page to book lessons
 @user.route('/prenotaLezioneCorso')
+@login_required
 def prenotaLezioneCorso():
     lessons=session.query(Lesson)
     return render_template('/User/prenotaLezioneCorso.html',lessons=lessons) 
@@ -57,6 +62,7 @@ def prenotaLezioneCorso():
 
 # Page to change user's data
 @user.route('/cambiaDatiUtente')
+@login_required
 def cambiaDatiUtente():
     # CHANGE USER DATA
     return render_template('/User/cambiaDatiUtente.html') 
@@ -64,6 +70,7 @@ def cambiaDatiUtente():
 
 # Function to book weight room on a specific time slot
 @user.route('/faiPrenotazioneSalaPesi/<int:id>')
+@login_required
 def faiPrenotazioneSalaPesi(id):
     # DO STUFF
     return redirect(url_for(user.prenotaSalaPesi))
@@ -71,6 +78,7 @@ def faiPrenotazioneSalaPesi(id):
 
 # Function to book a lesson
 @user.route('/faiPrenotazioneLezione/<int:idLesson>')
+@login_required
 def faiPrenotazioneLezione(idLesson):
     # BOOK LESSON
     return redirect(url_for('user.prenotaLezioneCorso'))

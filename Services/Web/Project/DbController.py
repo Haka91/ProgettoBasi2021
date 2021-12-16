@@ -58,6 +58,8 @@ def create_db_users():
     adminUser.add_obj()
     trainerUser=Users.User("trainer","trainer","trainer@gmail.com","123456","boh","jesolo","trainer",2)
     trainerUser.add_obj()
+    trainerUser2=Users.User("trainer2","trainer","trainer2@gmail.com","12345666","boh","jesolo","trainer",2)
+    trainerUser2.add_obj()
     costumerUSer=Users.User("costumer","costumer","costumer@gmail.com","1234556","boh","jesolo","costumer",1)
     costumerUSer.add_obj()
     weightRoom=Rooms.Weight_Room("sala pesi","piena di gente alle 7",30)

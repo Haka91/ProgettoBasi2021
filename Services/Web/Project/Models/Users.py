@@ -39,7 +39,8 @@ class User(UserMixin,Base):
     address = Column( String(30), nullable=False)
     city = Column(String(30), nullable=False)
     password = Column( String, nullable=False)    
-    role = Column(Integer,ForeignKey("Roles.id"),nullable=False,default=3)    
+    role = Column(Integer,ForeignKey("Roles.id"),nullable=False,default=3)
+     
     #is_authenticated = Column( Boolean, default=False, nullable=False)
     #is_active = Column( Boolean, default=False, nullable=False)
     #is_anonymous=Column( Boolean, default=False, nullable=False)
@@ -125,13 +126,15 @@ class User(UserMixin,Base):
 
     def activate_or_deactivate_obj(self):
         try:
-            print(self.is_active)
-            print( not self.is_active)
-            self.is_active=not self.is_active
-            
+                      
+            self.is_active=(not self.is_active)
+           
             session.commit()
+            
             return True
-        except:
+        except Exception as e:
+            print(e)
+
             session.rollback()
             return False
 
@@ -197,7 +200,7 @@ def at_least_trainer_required(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
         if not current_user.is_anonymous:
-            if current_user._role >= 2:
+            if current_user.get_role() >= 2:
                 return f(*args, **kwargs)
             else:
                 flash("ERROR 404 PAGE NOT FOUND","error")
@@ -215,7 +218,7 @@ def at_least_user_required(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
         if not current_user.is_anonymous:
-            if current_user._role >= 1:
+            if current_user.get_role() >= 1:
                 return f(*args, **kwargs)
             else:
                 flash("ERROR 404 PAGE NOT FOUND","error") 
