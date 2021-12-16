@@ -123,9 +123,9 @@ class User(UserMixin,Base):
             session.rollback()
             return False
 
-    def activate_or_deactivate_obj(self,bool):
+    def activate_or_deactivate_obj(self):
         try:
-            self.is_active=bool
+            self.is_active=not self.is_active
             session.commit()
             return True
         except:
