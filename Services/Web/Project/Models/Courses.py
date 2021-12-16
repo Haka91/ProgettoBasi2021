@@ -10,6 +10,7 @@ from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship, relationships
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import with_polymorphic
+from sqlalchemy.sql.sqltypes import Boolean
 from DbController import Base,session
 #from Models.Lessons import Lesson
 
@@ -26,11 +27,26 @@ class Course(Base):
     name = Column(String(50))
     description=Column(String(50))
     lessons_obj= relationship("Lesson",back_populates="course_obj")
+    trainer = Column(Integer,ForeignKey("Users.id"),nullable=False)
+    isActive = Column(Boolean,default=True)
+    
+    trainer_obj= relationship("User", back_populates="courses_obj")
    
     
-    def __init__(self,name,description):
+    def __init__(self,name,description,trainer):
+        self.trainer=trainer
         self.name=name,
         self.description=description
+        self.isActive=True
+
+    def activate_or_deactivate_obj(self):
+        try:
+            self.isActive=not self.isActive
+            session.commit()
+            return True
+        except:
+            session.rollback()
+            return False
 
 
   

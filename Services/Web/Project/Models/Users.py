@@ -46,7 +46,7 @@ class User(UserMixin,Base):
 
     role_obj=relationship("Role",back_populates="users_obj")
 
-    lessons_obj=relationship("Lesson",back_populates="trainer_obj")
+    courses_obj=relationship("Course",back_populates="trainer_obj")
     reservations_obj=relationship("Reservation",back_populates="user_obj")
 
 
