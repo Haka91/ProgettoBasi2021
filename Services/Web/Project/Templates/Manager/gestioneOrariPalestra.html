@@ -44,7 +44,7 @@
             <th style="text-align: center;" scope="col">Chiusura</th>
             <th style="text-align: center;" scope="col">Pausa</th>
             <th style="text-align: center;" scope="col">Durata Pausa</th>
-            <th style="text-align: center;" scope="col">Elimina</th>
+            <th style="text-align: center;" scope="col">Policy</th>
         </tr>
     </thead>
     <tbody>
@@ -60,6 +60,7 @@
                 {% endif %}
                
                 <td style="text-align: center; width: 10%;">{{ Day.break_slot }}</td>
+                <td style="text-align: center; width: 10%;">{{ Day.policy_obj.name }}</td>
 
              
             </tr>
@@ -162,6 +163,7 @@
                         </select>
                         <label for="minuto_inizioPausaPranzo">ora inzio pausa pranzo</label><br><br>
                         <select id="durataPausaPranzo" name="durataPausaPranzo">
+                            <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>

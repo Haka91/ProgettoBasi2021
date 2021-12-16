@@ -81,16 +81,50 @@ def gestioneTrainers():
     return render_template('/Manager/gestioneTrainers.html',trainers=trainers,users=users) # UNA VOLTA PRESENTE LA QUERY PASSARE I DATI AL TEMPLATE
 
 
-@manager.route('/gestioneOrariPalestra')
+@manager.route('/gestioneOrariPalestra',methods=['POST','GET'])
 @login_required
 @at_least_manager_required
 def gestioneOrariPalestra():
-    # I NEED
-    # 
-    #
+    from Models.Days import Day
+    from datetime import date, datetime, time, timedelta
+    if request.method=='POST':
+        policy=request.form.get("policy")
+        try :
+            startingDateString=request.form.get('dataInizio')
+            startingDate=datetime.strptime(startingDateString,'%Y-%m-%d')
+            endingDateString=request.form.get('dataFine')
+            endingDate=datetime.strptime(endingDateString,'%Y-%m-%d')
+            
+        except:
+            flash("selezionare una data")
+            days=session.query(Day).order_by(Day.date).all()    
+            policies=session.query(Policy).all()
+            return render_template('/Manager/gestioneOrariPalestra.html',policies=policies,days=days)
+        if(startingDate<datetime.today()):
+            days=session.query(Day).order_by(Day.date).all()    
+            policies=session.query(Policy).all()
+            flash("non puoi creare giorni posteriori ad oggi")
+            return render_template('/Manager/gestioneOrariPalestra.html',policies=policies,days=days)
+        openingTimeH=int(request.form['ora_apertura'])
+        openingTimeM=int(request.form['minuto_apertura'])
+        breakTimeH=int(request.form['ora_inizioPausaPranzo'])
+        breakTimeM=int(request.form['minuto_inizioPausaPranzo'])
+        breakTimeDuration=int(request.form.get('durataPausaPranzo'))
+        closingTimeH=int(request.form['ora_chiusura'])
+        closingTimeM=int(request.form['minuto_chiusura'])    
+        while startingDate <=endingDate:
+            if(breakTimeDuration>0 and breakTimeH and breakTimeM):
+                day=Day(startingDate,datetime(startingDate.year,startingDate.month,startingDate.day,openingTimeH,openingTimeM),datetime(startingDate.year,startingDate.month,startingDate.day,closingTimeH,closingTimeM),policy=policy,break_slot=breakTimeDuration,break_time=datetime(startingDate.year,startingDate.month,startingDate.day,breakTimeH,breakTimeM))     
+            else:    
+                day=Day(startingDate,datetime(startingDate.year,startingDate.month,startingDate.day,openingTimeH,openingTimeM),datetime(startingDate.year,startingDate.month,startingDate.day,closingTimeH,closingTimeM),policy=policy,break_slot=0) 
+            
+            day.add_obj()                
+           
+               
 
-    days=session.query(Day).all() 
-    print(days)
+            startingDate=startingDate + timedelta(days=1) 
+
+    days=session.query(Day).order_by(Day.date).all()    
     policies=session.query(Policy).all()
     return render_template('/Manager/gestioneOrariPalestra.html',policies=policies,days=days)
 

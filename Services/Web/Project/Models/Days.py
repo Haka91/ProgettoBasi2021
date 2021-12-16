@@ -11,12 +11,12 @@ from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import with_polymorphic
-from sqlalchemy.sql.expression import null, select, true
+from sqlalchemy.sql.expression import false, null, select, true
 from sqlalchemy.sql.schema import CheckConstraint
 from sqlalchemy.sql.type_api import NULLTYPE
 from DbController import Base,session
 from Models.Reservation_Slots import Reservation_Slot
-
+from flask.helpers import flash
 
 
 
@@ -48,7 +48,11 @@ class Day(Base):
     def add_obj(self):
         from Models.Reservation_Slots import Reservation_Slot
         try:
-            session.add(self)
+            if(self.opening>=self.closing):
+                flash("Orario di chiusura precedente a apertura")
+                return false
+                      
+            session.add(self)            
             guard=true
             startTime=self.opening
             #creo per ogni giorno i relativi timeslot
@@ -58,21 +62,25 @@ class Day(Base):
                     #se ci sono errori cancello il commit della sessione
                     guard=tempReservation.add_obj()
                     startTime=startTime + timedelta(minutes=30)
-                elif((self.break_time + timedelta(minutes=self.break_slot*30))<self.closing):
+                elif((self.break_time + timedelta(minutes=(self.break_slot*30)))<self.closing):
+                      #controllo che la pausa non sia più lunga della chiusura,nel caso cancello tutto
                      while(startTime<=self.closing and guard):                        
-                         #controllo che la pausa non sia più lunga della chiusura,nel caso cancello tutto
+                       
                         if(startTime<self.break_time or startTime>(self.break_time +timedelta(minutes=(self.break_slot*30)))):
                                 tempReservation=Reservation_Slot(startTime,self.date)
                                 guard=tempReservation.add_obj()
-                          
+
+                         
                         startTime=startTime + timedelta(minutes=30)
                 else:
+                    flash("break più lungo dell'apertura della palestra")
+                    session.rollback()
                     return False                
             
             session.commit()
             return True
         except Exception as e:
-            print(e)
+            flash(e)
             session.rollback()
             return False
 
