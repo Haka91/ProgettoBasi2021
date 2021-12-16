@@ -20,6 +20,17 @@
 
 <!-- Block body -->
 {% block body %}
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
 <br><br>
 <!-- Form to add new lessons to an existing course, available only if the course is teached by the instructor -->
 <br> <br>
@@ -160,13 +171,5 @@
         </div>
     </div>
 </div>
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
+
 {% endblock %}

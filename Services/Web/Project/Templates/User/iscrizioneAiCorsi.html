@@ -30,6 +30,16 @@
 <!-- Block body -->
 {% block body %}
 
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
 <!-- Iscrizione ad un corso da parte dell'utente -->
 <br> <br>
 <div class="container">

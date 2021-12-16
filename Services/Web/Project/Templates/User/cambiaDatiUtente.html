@@ -30,6 +30,16 @@
 <!-- Block body -->
 {% block body %}
 
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
 <!-- UNA VOLTA CHE SI HANNO I DATI DA PASSARE AL TEMPLATE POPOLARE LE INPUT CON I DATI SALVATI SUL DB E PERMETTERE ALL'UTENTE DI MODIFICARLI RISCRIVENDO SUI CAMPI E POI CLICCANDO FATTO -->
 
 <!-- Stampa attributi utente -->

@@ -32,6 +32,18 @@
 
 <!-- Block body -->
 {% block body %}
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+
 <br><br>
 <!-- Stampa la lista delle sale corsi -->
 <h1 align="center"> Lista Sale Corsi </h1>
@@ -121,14 +133,5 @@
         </div>
     </div>
 </div>
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
 
 {% endblock %}

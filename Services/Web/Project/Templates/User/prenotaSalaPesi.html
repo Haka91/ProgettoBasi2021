@@ -29,6 +29,18 @@
 
 <!-- Block body -->
 {% block body %}
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+
 <br><br>
 <!-- DEVO CAPIRE COME FARE IN MODO DI POTER PRENOTARE UN DETERMINATO SLOT ORARIO, PER ORA LI STAMPO -->
 
