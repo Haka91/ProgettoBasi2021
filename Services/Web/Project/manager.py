@@ -11,6 +11,7 @@ from Models.Users import User,at_least_manager_required
 from Models.Policies import Policy
 from Models.Rooms import Weight_Room,Course_Room,Room
 from Models.Courses import Course
+from Models.Days import Day
 
 
 
@@ -84,9 +85,14 @@ def gestioneTrainers():
 @login_required
 @at_least_manager_required
 def gestioneOrariPalestra():
-    # I NEED 
+    # I NEED
+    # 
+    #
+
+    days=session.query(Day).all() 
+    print(days)
     policies=session.query(Policy).all()
-    return render_template('/Manager/gestioneOrariPalestra.html',policies=policies)
+    return render_template('/Manager/gestioneOrariPalestra.html',policies=policies,days=days)
 
 @manager.route('/gestionePolicy',methods=['POST','GET'])
 @login_required
@@ -178,10 +184,8 @@ def eliminaCorso(idCorso):
 @login_required
 @at_least_manager_required
 def gestioneCorsi():
-    courses=session.query(Course).all()
-    stanze=session.query(Room).all()
-    istruttori=session.query(User).order_by(User.surname).filter(User.role==2).all()
-    return render_template('Manager/gestioneCorsi.html', stanze=stanze, istruttori=istruttori,corsi=courses)
+    courses=session.query(Course).all()   
+    return render_template('Manager/gestioneCorsi.html',corsi=courses)
 
 
 # Function to visualize the statistics of a specified trainer
@@ -194,9 +198,23 @@ def infoTrainer(idUser):
 
 
 # Function that creates a course
-@manager.route('/creaCorso', methods=['POST','GET'])
+@manager.route('/creaCorso', methods=['POST'])
 @login_required
 @at_least_manager_required
 def creaCorso():
-    # DO STUFF
-    return redirect(url_for('manager.gestioneCorsi'))
+    if request.method=='POST':
+        name=request.form["nome"].lower()
+        description=request.form["descrizione"].lower()
+      
+        if(name and description):
+            courseToAdd=Course(name,description)
+            if not (courseToAdd.add_obj()): 
+                flash("Impossibile aggiungere corso")
+
+          
+        else:
+                flash("Errore nei campi","error")
+    courses=session.query(Course).all()   
+                
+    
+    return redirect(url_for('manager.gestioneCorsi',corsi=courses))

@@ -13,5 +13,5 @@ secret_key=os.environ['SECRET_KEY']
 #host ='localhost'
 #database ='GymDB' 
 #port = '5432'
-
+#secret-key='Not_The_Best_password'
 DATABASE_CONNECTION_URI = f'postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}'
