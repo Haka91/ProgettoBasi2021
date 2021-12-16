@@ -14,37 +14,35 @@
         <a class="nav-link" href="{{url_for('general.loginPage')}}">Login</a>
     </li>
 </ul>
-{% endif %}
+{% else %} <!-- Header if the user seeing the page logged in as a User -->
+    {% if user.role == 1 %}
+    <ul class="navbar-nav navbar-light">
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('user.introduzione')}}">Introduzione</a> 
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('user.prenotazioniAttive')}}">Prenotazioni Attive</a>  
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('user.prenotaSalaPesi')}}">Prenota Sala Pesi</a>  
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('user.iscrizioneAiCorsi')}}">Iscrizione ai Corsi</a>  
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('user.prenotaLezioneCorso')}}">Prenota Lezione Corso</a>  
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('user.cambiaDatiUtente')}}">Gestione Utente</a>  
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('general.logout')}}">Logout</a>  
+        </li>
+    </ul>
+    {% endif %}
 
-<!-- Header if the user seeing the page logged in as a User -->
-{% if userRole == 1 %}
-<ul class="navbar-nav navbar-light">
-    <li class="nav-item">
-        <a class="nav-link" href="{{url_for('user.introduzione')}}">Introduzione</a> 
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{url_for('user.prenotazioniAttive')}}">Prenotazioni Attive</a>  
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{url_for('user.prenotaSalaPesi')}}">Prenota Sala Pesi</a>  
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{url_for('user.iscrizioneAiCorsi')}}">Iscrizione ai Corsi</a>  
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{url_for('user.prenotaLezioneCorso')}}">Prenota Lezione Corso</a>  
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{url_for('user.cambiaDatiUtente')}}">Gestione Utente</a>  
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{url_for('general.logout')}}">Logout</a>  
-    </li>
-</ul>
-{% endif %}
-
-<!-- Header if the user seeing the page logged in as a Trainer -->
-{% if userRole == 2 %}
+    <!-- Header if the user seeing the page logged in as a Trainer -->
+{% if user.role == 2 %}
 <ul class="navbar-nav navbar-light">
     <li class="nav-item">
         <a class="nav-link" href="{{url_for('instructor.introduzione')}}">Introduzione</a> 
@@ -62,7 +60,7 @@
 {% endif %}
 
 <!-- Header if the user seeing the page logged in as a Manager -->
-{% if userRole == 3 %}
+{% if user.role == 3 %}
 <ul class="navbar-nav navbar-light">
     <li class="nav-item">
         <a class="nav-link" href="{{url_for('manager.introduzione')}}">Introduzione</a>  
@@ -90,6 +88,14 @@
     </li>
 </ul>
 {% endif %}
+
+
+
+{% endif %}
+
+
+
+
 
 
 

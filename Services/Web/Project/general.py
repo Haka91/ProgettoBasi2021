@@ -21,12 +21,11 @@ general = Blueprint('general',__name__)
 
 @general.route('/')
 def index():
-    user=current_user #to see if the user is logged in
-    userRole=current_user.get_role() # to retrieve the type of logged user
+    user=current_user #to see if the user is logged in    
     corsi = session.query(Course).all()
     salaPesi = session.query(Weight_Room).all()
     salaCorsi = session.query(Course_Room).all() 
-    return render_template('/General/homepage.html',user=user,userRole=userRole,corsi=corsi,salaPesi=salaPesi,salaCorsi=salaCorsi) # UNA VOLTA PRESENTI LE QUERY PASSARE I DATI AL TEMPLATE
+    return render_template('/General/homepage.html',user=user,corsi=corsi,salaPesi=salaPesi,salaCorsi=salaCorsi) # UNA VOLTA PRESENTI LE QUERY PASSARE I DATI AL TEMPLATE
 
 
 # login page
