@@ -89,17 +89,19 @@
 <table id="table" class="table" {{tableVisible}}>
     <thead class="thead-dark">
         <tr>
-            <th style="text-align: center;" scope="col">Inizio slot</th>
+            <th style="text-align: center;" scope="col">Data</th>   
+            <th style="text-align: center;" scope="col">Slot Prenotabile</th>
             <th style="text-align: center;" scope="col">Prenota</th>   
         </tr>
     </thead>
     <tbody>
         {% for Reservation_Slot in slot %}
             <tr>
-                <td style="text-align: center; width: 10%;">{{ Reservation_Slot.slot_time }}</td>
                 <td style="text-align: center; width: 10%;">{{ Reservation_Slot.day }}</td>  
+                <td style="text-align: center; width: 10%;">{{ Reservation_Slot.slot_time }}</td>
+                
                 <td style="text-align: center; width: 10%;">
-                    <a href="{{url_for('instructor.reserveSlot',idSlot=Reservation_slot.id,idCorso=corso,idRoom=dove)}}">Prenota</a>
+                    <a href="{{url_for('instructor.reserveSlot',idSlot=Reservation_Slot.id,idCorso=corso,idRoom=dove)}}">Prenota</a>
                 </td>           
             </tr>
         {% endfor %}

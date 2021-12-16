@@ -25,11 +25,12 @@ class Course(Base):
 
     id= Column("id",Integer, primary_key=True)
     name = Column(String(50))
-    description=Column(String(50))
-    lessons_obj= relationship("Lesson",back_populates="course_obj")
+    description=Column(String(50))    
     trainer = Column(Integer,ForeignKey("Users.id"),nullable=False)
     isActive = Column(Boolean,default=True)
-    
+
+
+    lessons_obj= relationship("Lesson",back_populates="course_obj")
     trainer_obj= relationship("User", back_populates="courses_obj")
    
     

@@ -51,9 +51,9 @@
         {% for Lesson in lezioni %}
             <tr>
                 <td style="text-align: center; width: 10%;">{{ Lesson.id }}</td>
-                <td style="text-align: center; width: 10%;">{{ Lesson.course_name }}</td>
-                <td style="text-align: center; width: 10%;">{{ Lesson.room_name }}</td>
-                <td style="text-align: center; width: 10%;">{{ Lesson.reservation_slot }}</td>
+                <td style="text-align: center; width: 10%;">{{ Lesson.course_obj.name }}</td>
+                <td style="text-align: center; width: 10%;">{{ Lesson.course_room_obj.name }}</td>
+                <td style="text-align: center; width: 10%;">{{ Lesson.reservation_slot_obj.slot_time }}</td>
             </tr>
         {% endfor %}
     </tbody>
