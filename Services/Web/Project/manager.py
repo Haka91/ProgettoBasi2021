@@ -214,13 +214,14 @@ def eliminaCorso(idCorso):
     return redirect(url_for(manager.gestioneCorsi))
 
 
-# Loads the page for the management of the courses
+# Page for managing the courses offered
 @manager.route('/gestioneCorsi')
 @login_required
 @at_least_manager_required
 def gestioneCorsi():
     courses=session.query(Course).all()   
-    return render_template('Manager/gestioneCorsi.html',corsi=courses)
+    trainers= session.query(User).order_by(User.surname).filter(User.role==2).all()
+    return render_template('Manager/gestioneCorsi.html',corsi=courses,trainers=trainers)
 
 
 # Function to visualize the statistics of a specified trainer
@@ -253,3 +254,15 @@ def creaCorso():
                 
     
     return redirect(url_for('manager.gestioneCorsi',corsi=courses))
+
+
+# Function to activate / deactivate a specifico course
+@manager.route('attivaDisattivaCorso/<int:idCorso>')
+@login_required
+@at_least_manager_required
+def attivaDisattivaCorso(idCorso):
+    corso = session.query(Course).get(idCorso)
+    # HERE NEEDS TO HAPPEN THE ACTIVATION / DEACTIVATION OF THE COURSE
+    # IMPLEMENTION NEEDED
+    #corso.activate_or_deactivate_obj()
+    return redirect(url_for('manager.gestioneCorsi'))

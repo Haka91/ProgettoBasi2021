@@ -44,7 +44,7 @@
             <th style="text-align: center;" scope="col">Nome</th>
             <th style="text-align: center;" scope="col">Cognome</th>
             <th style="text-align: center;" scope="col">Attivo?</th>
-            <th style="text-align: center;" scope="col">Azione</th>
+            <th style="text-align: center;" scope="col">Attiva / Disattiva</th>
         </tr>
     </thead>
     <tbody>
@@ -54,7 +54,7 @@
                 <td style="text-align: center; width: 10%;">{{ User.surname }}</td>
                 <td style="text-align: center; width: 10%;">{{ User.is_active }}</td>
                 <td style="text-align: center; width: 10%;">
-                <a href="{{url_for('manager.attivaDisattivaUser', idUser=User.id)}}">Activate / Deactivate</a>
+                <a href="{{url_for('manager.attivaDisattivaUser', idUser=User.id)}}">Attiva / Disattiva</a>
                 </td>
             </tr>
         {% endfor %}
