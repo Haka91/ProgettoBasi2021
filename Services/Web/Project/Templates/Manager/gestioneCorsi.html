@@ -100,7 +100,7 @@
                         <input type="textarea" id="descrizione" name="descrizione" placeholder="scrivi una breve descrizione..."><br>
                         <select id="selectTrainer" name="selectTrainer">
                             {% for User in trainers %}
-                                <option value="{{User.id}}">{{User.id}} , {{User.name}}</option>
+                            <option value="{{User.id}}">{{User.id}} , {{User.name}}</option>
                             {% endfor %}
                         </select>
                         <label for="selectTrainer">seleziona trainer</label>
