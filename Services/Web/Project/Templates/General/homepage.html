@@ -14,7 +14,9 @@
         <a class="nav-link" href="{{url_for('general.loginPage')}}">Login</a>
     </li>
 </ul>
-{% else %} <!-- Header if the user seeing the page logged in as a User -->
+<!-- If the user is logged in -->
+{% else %} 
+    <!-- Header if the user seeing the page logged in as a User -->
     {% if user.role == 1 %}
     <ul class="navbar-nav navbar-light">
         <li class="nav-item">
@@ -42,62 +44,54 @@
     {% endif %}
 
     <!-- Header if the user seeing the page logged in as a Trainer -->
-{% if user.role == 2 %}
-<ul class="navbar-nav navbar-light">
-    <li class="nav-item">
-        <a class="nav-link" href="{{url_for('instructor.introduzione')}}">Introduzione</a> 
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{url_for('instructor.prossimeLezioni')}}">Prossime Lezioni</a>  
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{url_for('instructor.creaLezioni')}}">Crea Lezioni</a>  
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{url_for('general.logout')}}">Logout</a>  
-    </li>
-</ul>
-{% endif %}
+    {% if user.role == 2 %}
+    <ul class="navbar-nav navbar-light">
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('instructor.introduzione')}}">Introduzione</a> 
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('instructor.prossimeLezioni')}}">Prossime Lezioni</a>  
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('instructor.creaLezioni')}}">Crea Lezioni</a>  
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('general.logout')}}">Logout</a>  
+        </li>
+    </ul>
+    {% endif %}
 
-<!-- Header if the user seeing the page logged in as a Manager -->
-{% if user.role == 3 %}
-<ul class="navbar-nav navbar-light">
-    <li class="nav-item">
-        <a class="nav-link" href="{{url_for('manager.introduzione')}}">Introduzione</a>  
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{url_for('manager.gestioneUtenti')}}">Gestione Utente</a>  
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{url_for('manager.gestioneTrainers')}}">Gestione Trainer</a>  
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{url_for('manager.gestioneSale')}}">Gestione Sale</a>  
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{url_for('manager.gestioneOrariPalestra')}}">Gestione Orari Palestra</a>  
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{url_for('manager.gestionePolicy')}}">Gestione Policy</a>  
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{url_for('manager.gestioneCorsi')}}">Gestione Corsi</a>  
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{url_for('general.logout')}}">Logout</a>  
-    </li>
-</ul>
-{% endif %}
-
-
+    <!-- Header if the user seeing the page logged in as a Manager -->
+    {% if user.role == 3 %}
+    <ul class="navbar-nav navbar-light">
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('manager.introduzione')}}">Introduzione</a>  
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('manager.gestioneUtenti')}}">Gestione Utente</a>  
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('manager.gestioneTrainers')}}">Gestione Trainer</a>  
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('manager.gestioneSale')}}">Gestione Sale</a>  
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('manager.gestioneOrariPalestra')}}">Gestione Orari Palestra</a>  
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('manager.gestionePolicy')}}">Gestione Policy</a>  
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('manager.gestioneCorsi')}}">Gestione Corsi</a>  
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('general.logout')}}">Logout</a>  
+        </li>
+    </ul>
+    {% endif %}
 
 {% endif %}
-
-
-
-
-
-
 
 {% endblock %}
 

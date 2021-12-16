@@ -32,10 +32,8 @@
   {% endif %}
 {% endwith %}
 
-<br><br>
 <!-- Form to add new lessons to an existing course, available only if the course is teached by the instructor -->
-<br> <br>
-<div class="container">
+<div class="container" {{formVisible}} ><br><br>
     <div class="row">
         <div class="col-lg-3 col-md-2"></div>
         <div class="col-lg-6 col-md-8 login-box">
@@ -57,114 +55,26 @@
                                 <option value="{{Course.id}}">{{Course.id}}, {{Course.name}}</option>
                             {% endfor %}
                         </select>
-                        <label for="course">Corso</label><br>
-                        <!-- Choose how many lessons do in a week -->
-                        <select id="timesAWeek" name="timesAWeek">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                        </select>
-                        <label for="timesAWeek">Numero volte a settimana</label><br><br>
+                        <label for="course">nome corso</label><br><br>
                         <!-- Choose date of beginning of the course -->
-                        <input type="date" id="dataInizio" name="dataInizio">
-                        <label for="dataInizio">data inizio</label> <br><br>
-                        <!-- Choose date of end of the course -->
-                        <input type="date" id="dataFine" name="dataFine">
-                        <label for="dataFine">data fine</label> <br><br>
-                        <!-- Lesson 1 -->
-                        <!-- Day of the week -->
-                        <h3 align="left">Lezione 1</h3> <br>
-                        <select id="one_timesAWeek" name="one_timesAWeek">
-                            <option value="1">Lunedì</option>
-                            <option value="2">Martedì</option>
-                            <option value="3">Mercoledì</option>
-                            <option value="4">Giovedì</option>
-                            <option value="5">Venerdì</option>
-                            <option value="6">Sabato</option>
-                            <option value="7">Domenica</option>
-                        </select>
-                        <label for="one_timesAWeek">Giorno della settimana</label><br>
-                        <!-- When it starts -->
-                        <input type="number" id="one_starts" name="one_starts" class="form-control" min="1" max="24">
-                        <label for="one_starts">Ora Inizio</label><br>
-                        <!-- How much does it lasts -->
-                        <select id="one_length" name="one_length">
-                            <option value="0.5">0.5 hr</option>
-                            <option value="1">1 hr</option>
-                            <option value="1.5">1.5 hr</option>
-                        </select>
-                        <label for="one_length">Durata</label><br>
-                        <!-- Where it's done -->
-                        <select id="one_where" name="one_where">
-                            {% for Room in rooms %}
+                        <input type="date" id="datalezione" name="datalezione">
+                        <label for="datalezione">data lezione</label> <br><br>
+                        <!-- Choose room -->
+                        <select id="chooseroom" name="chooseroom">
+                            {% for Room in stanze %}
                                 <option value="{{Room.id}}">{{Room.name}}</option>
                             {% endfor %}
                         </select>
-                        <label for="one_where">Dove</label><br><br>
-
-                        <!-- Lesson 2 -->
-                        <!-- Day of the week -->
-                        <h3 align="left">Lezione 2</h3> <br>
-                        <select id="two_timesAWeek" name="two_timesAWeek">
-                            <option value="1">Lunedì</option>
-                            <option value="2">Martedì</option>
-                            <option value="3">Mercoledì</option>
-                            <option value="4">Giovedì</option>
-                            <option value="5">Venerdì</option>
-                            <option value="6">Sabato</option>
-                            <option value="7">Domenica</option>
+                        <label for="chooseroom">Dove</label><br><br>
+                        <!-- Slots required -->
+                        <select id="slots" name="slots">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
                         </select>
-                        <label for="two_timesAWeek">Giorno della settimana</label><br>
-                        <!-- When it starts -->
-                        <input type="number" id="two_starts" name="two_starts" class="form-control" min="1" max="24">
-                        <label for="two_starts">Ora Inizio</label><br>
-                        <!-- How much does it lasts -->
-                        <select id="two_length" name="two_length">
-                            <option value="0.5">0.5 hr</option>
-                            <option value="1">1 hr</option>
-                            <option value="1.5">1.5 hr</option>
-                        </select>
-                        <label for="two_length">Durata</label><br>
-                        <!-- Where it's done -->
-                        <select id="two_where" name="two_where">
-                            {% for Room in rooms %}
-                                <option value="{{Room.id}}">{{Room.name}}</option>
-                            {% endfor %}
-                        </select>
-                        <label for="two_where">Dove</label><br><br>
-
-                        <!-- Lesson 3 -->
-                        <!-- Day of the week -->
-                        <h3 align="left">Lezione 3</h3> <br>
-                        <select id="three_timesAWeek" name="three_timesAWeek">
-                            <option value="1">Lunedì</option>
-                            <option value="2">Martedì</option>
-                            <option value="3">Mercoledì</option>
-                            <option value="4">Giovedì</option>
-                            <option value="5">Venerdì</option>
-                            <option value="6">Sabato</option>
-                            <option value="7">Domenica</option>
-                        </select>
-                        <label for="three_timesAWeek">Giorno della settimana</label><br>
-                        <!-- When it starts -->
-                        <input type="number" id="three_starts" name="three_starts" class="form-control" min="1" max="24">
-                        <label for="three_starts">Ora Inizio</label><br>
-                        <!-- How much does it lasts -->
-                        <select id="three_length" name="three_length">
-                            <option value="0.5">0.5 hr</option>
-                            <option value="1">1 hr</option>
-                            <option value="1.5">1.5 hr</option>
-                        </select>
-                        <label for="three_starts">Durata</label><br>
-                        <!-- Where it's done -->
-                        <select id="three_where" name="three_where">
-                            {% for Room in rooms %}
-                                <option value="{{Room.id}}">{{Room.name}}</option>
-                            {% endfor %}
-                        </select>
-                        <label for="three_where">Dove</label><br><br>
-
-                        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Crea Lezioni" name="Crea Lezioni" />
+                        <label for="slots">slots required</label><br>
+                        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Cerca" name="Cerca" />
                     </form>
                 </div>
             </div>
@@ -172,5 +82,29 @@
         </div>
     </div>
 </div>
+
+<!-- Table for select  -->
+<br><br>
+<h2 align="center" {{tableVisible}} > {{titleTable}} </h2><br><br>
+<table id="table" class="table" {{tableVisible}}>
+    <thead class="thead-dark">
+        <tr>
+            <th style="text-align: center;" scope="col">Inizio slot</th>
+            <th style="text-align: center;" scope="col">Prenota</th>   
+        </tr>
+    </thead>
+    <tbody>
+        {% for Reservation_Slot in slot %}
+            <tr>
+                <td style="text-align: center; width: 10%;">{{ Reservation_Slot.slot_time }}</td>
+                <td style="text-align: center; width: 10%;">{{ Reservation_Slot.day }}</td>  
+                <td style="text-align: center; width: 10%;">
+                    <a href="{{url_for('instructor.reserveSlot',idSlot=Reservation_slot.id,idCorso=corso,idRoom=dove)}}">Prenota</a>
+                </td>           
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br><br><br>
 
 {% endblock %}
