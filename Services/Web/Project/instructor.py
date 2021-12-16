@@ -26,8 +26,16 @@ instructor = Blueprint('instructor',__name__,url_prefix='/instructor')
 @at_least_trainer_required
 def introduzione():
     corsi=session.query(Course).filter_by(trainer=current_user.id).all() 
-    lezioni=session.query(Lesson).all() #FILTRARE SOLO PER LE LEZIONI DEI CORSI CHE FA L'ISTRUTTORE NELLA PROSSIMA SETTIMANA (O NEI PROSSIMI GIORNI) 
-    return render_template('/Instructor/introduzione.html',lezioni=lezioni,corsi=corsi) 
+    #FILTRARE SOLO PER LE LEZIONI DEI CORSI CHE FA L'ISTRUTTORE NELLA PROSSIMA SETTIMANA (O NEI PROSSIMI GIORNI)
+    courses=current_user.courses_obj    
+    lessonlist=list()
+    for course in courses:             
+        for lesson in course.lessons_obj:
+            #prendo le lezioni delle prossime 2 settimane
+            if(lesson.reservation_slot_obj.day>=(datetime.today().date())and lesson.reservation_slot_obj.day<=((datetime.today()+timedelta(days=7)).date())):          
+             lessonlist.append(lesson)
+    lessontuple=tuple(lessonlist)  
+    return render_template('/Instructor/introduzione.html',lezioni=lessontuple,corsi=corsi) 
 
 
 # Page where the next lessons are listed
@@ -35,14 +43,13 @@ def introduzione():
 @login_required
 @at_least_trainer_required
 def prossimeLezioni():
-    #lezioni=session.query(Lesson).filter().all() #FILTRARE SOLO PER LE LEZIONI CHE L'ISTRUTTORE FARA' DA OGGI IN POI
-    courses=current_user.courses_obj
-    print(courses)
+  
+    courses=current_user.courses_obj    
     lessonlist=list()
     for course in courses:             
         for lesson in course.lessons_obj:
-            #prendo le lezioni della settimana
-            if(lesson.reservation_slot_obj.day>=(datetime.today().date())and lesson.reservation_slot_obj.day<=((datetime.today()+timedelta(days=7)).date())):          
+            #prendo le lezioni delle prossime 2 settimane
+            if(lesson.reservation_slot_obj.day>=(datetime.today().date())and lesson.reservation_slot_obj.day<=((datetime.today()+timedelta(days=14)).date())):          
              lessonlist.append(lesson)
     lessontuple=tuple(lessonlist)
     return render_template('/Instructor/prossimeLezioni.html',lezioni=lessontuple) 
@@ -56,10 +63,11 @@ def creaLezioni():
     tableVisible=''' hidden="hidden" ''' #now the table is NOT visible
     formVisible='''  ''' # now the form is visible
    
-    stanze=session.query(Course_Room).all()
+
   
  
     #FILTRARE SOLO I CORSI INSEGNATI DALL'ISTRUTTORE
+    stanze=session.query(Course_Room).all()
     courses=current_user.courses_obj
 
     #ROBA DI PROVA DA EDITARE
@@ -89,21 +97,30 @@ def inserisciLezioni():
    
     try :
         corso = request.form["course"]
-        dataString=request.form.get('date')
-        dove = int(request.form["chooseroom"])
-        slot = int(request.form["slots"])
+        dataString=request.form.get('datalezione')
+        dove = int(request.form["chooseroom"])      
+        print(dataString)
         data=datetime.strptime(dataString,'%Y-%m-%d')
         
-    except:
+    except :        
         flash("errore nei campi")
-        return render_template('/Instructor/creaLezioni.html',tableVisible=''' hidden="hidden" ''' ,formVisible='''  ''')      
+        stanze=session.query(Course_Room).all()
+        courses=current_user.courses_obj
+        return render_template('/Instructor/creaLezioni.html',tableVisible=''' hidden="hidden" ''' ,formVisible='''  ''',corsi=courses,stanze=stanze)      
 
  
  
     titleTable = "Slot prenotabili"
+    #prendo gli slot della giornata,sono costretto a prenderli senza tutti i filtri per come funziona sqlORM
     slots=session.query(Reservation_Slot).filter(Reservation_Slot.day == data).all()
+    slotlist=list(slots)
+    for slot in slots:
+        for lesson in slot.lessons_obj:
+            if lesson.course_room==dove:
+                    slotlist.remove(slot)
+    slotTuple=tuple(slotlist)
     #titleTable ="Slot prenotabili per il corso: "+corso+", data: "+data+", dove: "+dove+", slot: "+slot+"."
-    return render_template('/Instructor/creaLezioni.html',tableVisible=tableVisible,formVisible=formVisible,titleTable=titleTable,corso=corso,dove=dove,slot=slots)
+    return render_template('/Instructor/creaLezioni.html',tableVisible=tableVisible,formVisible=formVisible,titleTable=titleTable,corso=corso,dove=dove,slot=slotTuple)
  
 
 

@@ -34,22 +34,24 @@
 <br><br>
 
 <!-- Stampa la lista delle lezioni da insegnare questa settimana -->
-<h1 align="center"> Lezioni di questa settimana in cui insegno </h1>
+<h1 align="center"> Lezioni di questa settimana </h1>
 <br><br>
 <table id="table" class="table">
     <thead class="thead-dark">
         <tr>
-            <th style="text-align: center;" scope="col">Id</th>
+            <th style="text-align: center;" scope="col">Giorno</th>
             <th style="text-align: center;" scope="col">Corso</th>
             <th style="text-align: center;" scope="col">Stanza</th>
+            <th style="text-align: center;" scope="col">Slot</th>
         </tr>
     </thead>
     <tbody>
         {% for Lesson in lezioni %}
             <tr>
-                <td style="text-align: center; width: 10%;">{{ Lesson.id }}</td>
-                <td style="text-align: center; width: 10%;">{{ Lesson.course_name }}</td>
-                <td style="text-align: center; width: 10%;">{{ Lesson.room }}</td>
+                <td style="text-align: center; width: 10%;">{{ Lesson.reservation_slot_obj.day }}</td>
+                <td style="text-align: center; width: 10%;">{{ Lesson.course_obj.name }}</td>
+                <td style="text-align: center; width: 10%;">{{ Lesson.course_room_obj.name }}</td>
+                <td style="text-align: center; width: 10%;">{{ Lesson.reservation_slot_obj.slot_time }}</td>
             </tr>
         {% endfor %}
     </tbody>
