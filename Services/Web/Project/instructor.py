@@ -1,15 +1,19 @@
 # Blueprint per la sezione user
 
 from flask import Flask, request
+from datetime import datetime
 from flask import Blueprint, render_template, redirect, url_for
 from flask_login.utils import login_required
 from flask.helpers import url_for
+from sqlalchemy.orm import joinedload
+from sqlalchemy.sql.expression import true
 from DbController import session
 from flask_login import current_user
 from Models.Courses import Course
 from Models.Lessons import Lesson
 from Models.Rooms import Room, Course_Room
 from Models.Users import User,at_least_trainer_required
+from Models.Reservation_Slots import Reservation_Slot
 
 
 
@@ -40,10 +44,22 @@ def prossimeLezioni():
 @login_required
 @at_least_trainer_required
 def creaLezioni():
+    from sqlalchemy import (String,DateTime,Date,Time)
     tableVisible=''' hidden="hidden" ''' #now the table is NOT visible
     formVisible='''  ''' # now the form is visible
     corsi=session.query(Course).all()
     stanze=session.query(Course_Room).all()
+  
+ 
+    corsi=session.query(Course).all() #FILTRARE SOLO I CORSI INSEGNATI DALL'ISTRUTTORE
+    rooms=session.query(Room).all()  
+    lessonsSameDaySameRoom=session.query(Lesson).options(joinedload(Lesson.reservation_slot_obj)).filter( Lesson.reservation_slot_obj is not None   and Lesson.course_room==1).all()
+    reservationslots=session.query(Reservation_Slot).filter(Reservation_Slot.day== (datetime.today())).all()
+    print(reservationslots)
+    listOfSlotOccupied=list()
+    for lesson in lessonsSameDaySameRoom:
+        listOfSlotOccupied.append(lesson.reservation_slot_obj)
+    
     return render_template('/Instructor/creaLezioni.html',tableVisible=tableVisible,formVisible=formVisible,corsi=corsi,stanze=stanze)
 
 

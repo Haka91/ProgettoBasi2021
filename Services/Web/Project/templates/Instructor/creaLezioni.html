@@ -52,7 +52,7 @@
                         <!-- Choose course in which add lessons -->
                         <select id="course" name="course">
                             {% for Course in corsi %}
-                                <option value="{{Course.id}}">{{Course.id}}, {{Course.name}}</option>
+                                <option value="{{Course.id}}">{{Course.name}}</option>
                             {% endfor %}
                         </select>
                         <label for="course">nome corso</label><br><br>
