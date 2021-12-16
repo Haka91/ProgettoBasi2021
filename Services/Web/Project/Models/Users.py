@@ -125,7 +125,10 @@ class User(UserMixin,Base):
 
     def activate_or_deactivate_obj(self):
         try:
+            print(self.is_active)
+            print( not self.is_active)
             self.is_active=not self.is_active
+            
             session.commit()
             return True
         except:

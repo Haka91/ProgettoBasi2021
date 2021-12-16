@@ -241,9 +241,11 @@ def creaCorso():
     if request.method=='POST':
         name=request.form["nome"].lower()
         description=request.form["descrizione"].lower()
+        trainer=int(request.form.get("selectTrainer"))
+        print(trainer)
       
-        if(name and description):
-            courseToAdd=Course(name,description)
+        if(name and description and trainer):
+            courseToAdd=Course(name,description,trainer)
             if not (courseToAdd.add_obj()): 
                 flash("Impossibile aggiungere corso")
 
