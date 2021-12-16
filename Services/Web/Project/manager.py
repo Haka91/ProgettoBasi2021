@@ -28,14 +28,13 @@ def introduzione():
     numUsers=session.query(User).filter(User.role==3).count()
     return render_template('/Manager/introduzione.html',numTrainers=numTrainers,numUsers=numUsers)
 
-# AGGIUNGERE LINK PER OGNI UTENTE PER FARE IN MODO DI MODIFICARE IL SUO STATO DI ATTIVATO O NON ATTIVATO
 
 @manager.route('/gestioneUtenti')
 @login_required
 @at_least_manager_required
 def gestioneUtenti():
     users= session.query(User).order_by(User.surname).filter(User.role==1).all()
-    return render_template('/Manager/gestioneUtenti.html',utenti=users) # UNA VOLTA PRESENTE LA QUERY PASSARE I DATI AL TEMPLATE
+    return render_template('/Manager/gestioneUtenti.html',utenti=users)
 
 
 @manager.route('/gestioneSale',methods=['POST','GET'])
@@ -155,8 +154,10 @@ def gestionePolicy():
 @login_required
 @at_least_manager_required
 def attivaDisattivaUser(idUser):
-    # DO STUFF
-    return redirect(url_for(manager.gestioneUtenti))
+    utente = session.query(User).get(idUser)
+    utente.activate_or_deactivate_obj()
+    print(utente.name, utente.is_active)
+    return redirect(url_for('manager.gestioneUtenti'))
 
 
 # Function to trasform User in Trainer
@@ -165,7 +166,7 @@ def attivaDisattivaUser(idUser):
 @at_least_manager_required
 def userToTrainer(idUser):
     # DO STUFF
-    return redirect(url_for(manager.gestioneTrainer))
+    return redirect(url_for('manager.gestioneTrainer'))
 
 
 # Function to delete a Trainer

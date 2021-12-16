@@ -5,10 +5,10 @@
 {% block navbar %}
 <ul class="navbar-nav" >
     <li class="nav-item">
-        <a class="nav-link" href="{{url_for('general.loginPage')}}">Login</a>  
+        <a class="nav-link" href="{{url_for('general.registerPage')}}">Registrati</a> 
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{url_for('general.registerPage')}}">Registrati</a> 
+        <a class="nav-link" href="{{url_for('general.loginPage')}}">Login</a>
     </li>
 </ul>
 {% endblock %}
@@ -51,8 +51,8 @@
 <br><br><br>
 
 
-<!-- Stampa la lista delle sale -->
-<h1 align="center">Stanze palestra</h1>
+<!-- Stampa la lista delle sale pesi -->
+<h1 align="center">Sale pesi</h1>
 <br><br>
 
 <table id="table" class="table">
@@ -60,27 +60,45 @@
         <tr>
             <th style="text-align: center;" scope="col">Nome</th>
             <th style="text-align: center;" scope="col">Descrizione</th>  
-            <th style="text-align: center;" scope="col">Capacità massima</th> 
-            <th style="text-align: center;" scope="col">Sala pesi?</th>   
-  
- 
+            <th style="text-align: center;" scope="col">Capacità massima</th>  
         </tr>
     </thead>
     <tbody>
-        {% for Room in stanze %}
+        {% for Room in salaPesi %}
             <tr>
                 <td style="text-align: center; width: 10%;">{{ Room.name }}</td>
                 <td style="text-align: center; width: 10%;">{{ Room.description }}</td> 
-                <td style="text-align: center; width: 10%;">{{ Room.max_capacity }}</td>
-                <td style="text-align: center; width: 10%;">{{ Room.is_weight }}</td>
-
-           
+                <td style="text-align: center; width: 10%;">{{ Room.max_capacity }}</td>           
             </tr>
         {% endfor %}
     </tbody>
 </table>
 <br><br><br>
 
+
+<!-- Stampa la lista delle sale corsi -->
+<h1 align="center">Sale corsi</h1>
+<br><br>
+
+<table id="table" class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th style="text-align: center;" scope="col">Nome</th>
+            <th style="text-align: center;" scope="col">Descrizione</th>  
+            <th style="text-align: center;" scope="col">Capacità massima</th>  
+        </tr>
+    </thead>
+    <tbody>
+        {% for Room in salaCorsi %}
+            <tr>
+                <td style="text-align: center; width: 10%;">{{ Room.name }}</td>
+                <td style="text-align: center; width: 10%;">{{ Room.description }}</td> 
+                <td style="text-align: center; width: 10%;">{{ Room.max_capacity }}</td>           
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br><br><br>
 
 
 

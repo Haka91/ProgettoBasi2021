@@ -8,7 +8,7 @@ from sqlalchemy.sql.expression import true
 from werkzeug.utils import redirect
 from Models.Users import User
 from Models.Courses import Course
-from Models.Rooms import Room
+from Models.Rooms import Room, Weight_Room, Course_Room
 
 from DbController import session
 
@@ -22,8 +22,9 @@ general = Blueprint('general',__name__)
 @general.route('/')
 def index():
     corsi = session.query(Course).all()
-    stanze = session.query(Room).all()
-    return render_template('/General/homepage.html',corsi=corsi,stanze=stanze) # UNA VOLTA PRESENTI LE QUERY PASSARE I DATI AL TEMPLATE
+    salaPesi = session.query(Weight_Room).all()
+    salaCorsi = session.query(Course_Room).all() 
+    return render_template('/General/homepage.html',corsi=corsi,salaPesi=salaPesi,salaCorsi=salaCorsi) # UNA VOLTA PRESENTI LE QUERY PASSARE I DATI AL TEMPLATE
 
 
 # login page
