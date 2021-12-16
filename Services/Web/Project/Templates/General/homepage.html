@@ -3,6 +3,9 @@
 
 <!-- Links in the navbar -->
 {% block navbar %}
+
+<!-- Header if the user seeing the page isn't logged in -->
+{% if user.is_anonymous %}
 <ul class="navbar-nav" >
     <li class="nav-item">
         <a class="nav-link" href="{{url_for('general.registerPage')}}">Registrati</a> 
@@ -11,6 +14,85 @@
         <a class="nav-link" href="{{url_for('general.loginPage')}}">Login</a>
     </li>
 </ul>
+{% endif %}
+
+<!-- Header if the user seeing the page logged in as a User -->
+{% if userRole == 1 %}
+<ul class="navbar-nav navbar-light">
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('user.introduzione')}}">Introduzione</a> 
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('user.prenotazioniAttive')}}">Prenotazioni Attive</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('user.prenotaSalaPesi')}}">Prenota Sala Pesi</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('user.iscrizioneAiCorsi')}}">Iscrizione ai Corsi</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('user.prenotaLezioneCorso')}}">Prenota Lezione Corso</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('user.cambiaDatiUtente')}}">Gestione Utente</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('general.logout')}}">Logout</a>  
+    </li>
+</ul>
+{% endif %}
+
+<!-- Header if the user seeing the page logged in as a Trainer -->
+{% if userRole == 2 %}
+<ul class="navbar-nav navbar-light">
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('instructor.introduzione')}}">Introduzione</a> 
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('instructor.prossimeLezioni')}}">Prossime Lezioni</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('instructor.creaLezioni')}}">Crea Lezioni</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('general.logout')}}">Logout</a>  
+    </li>
+</ul>
+{% endif %}
+
+<!-- Header if the user seeing the page logged in as a Manager -->
+{% if userRole == 3 %}
+<ul class="navbar-nav navbar-light">
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('manager.introduzione')}}">Introduzione</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('manager.gestioneUtenti')}}">Gestione Utente</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('manager.gestioneTrainers')}}">Gestione Trainer</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('manager.gestioneSale')}}">Gestione Sale</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('manager.gestioneOrariPalestra')}}">Gestione Orari Palestra</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('manager.gestionePolicy')}}">Gestione Policy</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('manager.gestioneCorsi')}}">Gestione Corsi</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('general.logout')}}">Logout</a>  
+    </li>
+</ul>
+{% endif %}
+
+
+
 {% endblock %}
 
 
