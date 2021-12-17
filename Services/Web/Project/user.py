@@ -219,3 +219,12 @@ def modificaPasswordUtente():
 def faiPrenotazioneLezione(idLesson):
     # BOOK LESSON
     return redirect(url_for('user.prenotaLezioneCorso'))
+
+
+# Page to see the name, trainer name and description of a specific course
+@user.route('/infoCorso/<int:idCorso>,<string:nomeCorso>,<string:nomeTrainer>,<string:descrizione>')
+@login_required
+def infoCorso(idCorso,nomeCorso,nomeTrainer,descrizione):
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
+    return render_template('/User/infoCorso.html',userName=userName,nomeCorso=nomeCorso,nomeTrainer=nomeTrainer,descrizione=descrizione)
