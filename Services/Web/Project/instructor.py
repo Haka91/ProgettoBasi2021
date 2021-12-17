@@ -25,6 +25,8 @@ instructor = Blueprint('instructor',__name__,url_prefix='/instructor')
 @login_required
 @at_least_trainer_required
 def introduzione():
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
     corsi=session.query(Course).filter_by(trainer=current_user.id).all() 
     #FILTRARE SOLO PER LE LEZIONI DEI CORSI CHE FA L'ISTRUTTORE NELLA PROSSIMA SETTIMANA (O NEI PROSSIMI GIORNI)
     courses=current_user.courses_obj    
@@ -35,7 +37,7 @@ def introduzione():
             if(lesson.reservation_slot_obj.day>=(datetime.today().date())and lesson.reservation_slot_obj.day<=((datetime.today()+timedelta(days=7)).date())):          
              lessonlist.append(lesson)
     lessontuple=tuple(lessonlist)  
-    return render_template('/Instructor/introduzione.html',lezioni=lessontuple,corsi=corsi) 
+    return render_template('/Instructor/introduzione.html',userName=userName,lezioni=lessontuple,corsi=corsi) 
 
 
 # Page where the next lessons are listed
@@ -43,7 +45,8 @@ def introduzione():
 @login_required
 @at_least_trainer_required
 def prossimeLezioni():
-  
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
     courses=current_user.courses_obj    
     lessonlist=list()
     for course in courses:             
@@ -52,7 +55,7 @@ def prossimeLezioni():
             if(lesson.reservation_slot_obj.day>=(datetime.today().date())and lesson.reservation_slot_obj.day<=((datetime.today()+timedelta(days=14)).date())):          
              lessonlist.append(lesson)
     lessontuple=tuple(lessonlist)
-    return render_template('/Instructor/prossimeLezioni.html',lezioni=lessontuple) 
+    return render_template('/Instructor/prossimeLezioni.html',userName=userName,lezioni=lessontuple) 
 
 
 # Page to create new lessons of an existing course
@@ -62,8 +65,8 @@ def prossimeLezioni():
 def creaLezioni():    
     tableVisible=''' hidden="hidden" ''' #now the table is NOT visible
     formVisible='''  ''' # now the form is visible
-   
-
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
   
  
     #FILTRARE SOLO I CORSI INSEGNATI DALL'ISTRUTTORE
@@ -82,7 +85,7 @@ def creaLezioni():
 
     #PROVE MIE
     
-    return render_template('/Instructor/creaLezioni.html',tableVisible=tableVisible,formVisible=formVisible,corsi=courses,stanze=stanze)
+    return render_template('/Instructor/creaLezioni.html',userName=userName,tableVisible=tableVisible,formVisible=formVisible,corsi=courses,stanze=stanze)
 
 
 # Function called once the "Cerca" button is called. After that it finds the slots available in the room, date and duration required
@@ -106,13 +109,17 @@ def inserisciLezioni():
         flash("errore nei campi")
         stanze=session.query(Course_Room).all()
         courses=current_user.courses_obj
-        return render_template('/Instructor/creaLezioni.html',tableVisible=''' hidden="hidden" ''' ,formVisible='''  ''',corsi=courses,stanze=stanze)      
+        # string to show in the navbar of the page
+        userName = "Ciao "+current_user.name+" ! "
+        return render_template('/Instructor/creaLezioni.html',userName=userName,tableVisible=''' hidden="hidden" ''' ,formVisible='''  ''',corsi=courses,stanze=stanze)      
 
     if(data<=datetime.today()):
         flash("non puoi creare lezioni antecedenti alla data odierna")
         stanze=session.query(Course_Room).all()
         courses=current_user.courses_obj
-        return render_template('/Instructor/creaLezioni.html',tableVisible=''' hidden="hidden" ''' ,formVisible='''  ''',corsi=courses,stanze=stanze)  
+        # string to show in the navbar of the page
+        userName = "Ciao "+current_user.name+" ! "
+        return render_template('/Instructor/creaLezioni.html',userName=userName,tableVisible=''' hidden="hidden" ''' ,formVisible='''  ''',corsi=courses,stanze=stanze)  
 
  
     titleTable = "Slot prenotabili"
@@ -125,7 +132,9 @@ def inserisciLezioni():
                     slotlist.remove(slot)
     slotTuple=tuple(slotlist)
     #titleTable ="Slot prenotabili per il corso: "+corso+", data: "+data+", dove: "+dove+", slot: "+slot+"."
-    return render_template('/Instructor/creaLezioni.html',tableVisible=tableVisible,formVisible=formVisible,titleTable=titleTable,corso=corso,dove=dove,slot=slotTuple)
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
+    return render_template('/Instructor/creaLezioni.html',userName=userName,tableVisible=tableVisible,formVisible=formVisible,titleTable=titleTable,corso=corso,dove=dove,slot=slotTuple)
  
 
 

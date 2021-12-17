@@ -23,16 +23,20 @@ user = Blueprint('user',__name__,url_prefix='/user')
 @user.route('/introduzione')
 @login_required
 def introduzione():
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
     prenotazioni=session.query(Reservation) # CORRECT THE QUERY
-    return render_template('/User/introduzione.html', prenotazioni=prenotazioni)
+    return render_template('/User/introduzione.html',userName=userName, prenotazioni=prenotazioni)
 
 
 # Active reservations of the user
 @user.route('/prenotazioniAttive')
 @login_required
 def prenotazioniAttive():
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
     # QUERY NEEDED
-    return render_template('/User/prenotazioniAttive.html') 
+    return render_template('/User/prenotazioniAttive.html',userName=userName) 
 
 
 # Page where is possible to see the bookings for the weight rooms and it is possible to book a reservation for
@@ -40,10 +44,12 @@ def prenotazioniAttive():
 @user.route('/prenotaSalaPesi')
 @login_required
 def prenotaSalaPesi():
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
     stanze = session.query(Weight_Room).all()
     tableVisible=''' hidden="hidden" ''' #now the table is NOT visible
     formVisible='''  ''' # now the form is visible
-    return render_template('/User/prenotaSalaPesi.html',stanze=stanze,tableVisible=tableVisible,formVisible=formVisible) 
+    return render_template('/User/prenotaSalaPesi.html',userName=userName,stanze=stanze,tableVisible=tableVisible,formVisible=formVisible) 
 
 
 # Function to research available slots on the prenotaSalaPesi page
@@ -51,6 +57,8 @@ def prenotaSalaPesi():
 @user.route('/filtraSlotSalaPesi', methods = ['POST', 'GET'])
 @login_required
 def filtraSlotSalaPesi():
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
     tableVisible='''  ''' #now the table will be visible
     formVisible=''' hidden="hidden" ''' # now the form is NOT visible
 
@@ -60,10 +68,10 @@ def filtraSlotSalaPesi():
 
     except:
         flash("errore nei campi")
-        return render_template('/User/filtraSlotSalaPesi.html',tableVisible=''' hidden="hidden" ''' ,formVisible='''  ''')
+        return render_template('/User/filtraSlotSalaPesi.html',userName=userName,tableVisible=''' hidden="hidden" ''' ,formVisible='''  ''')
 
     # weightRooms = QUERY FOR SLOTS NEEDED
-    return render_template('/User/prenotaSalaPesi.html',dataString=dataString,dove=dove,tableVisible=tableVisible,formVisible=formVisible)
+    return render_template('/User/prenotaSalaPesi.html',userName=userName,dataString=dataString,dove=dove,tableVisible=tableVisible,formVisible=formVisible)
 
 
 # Function to book weight room on a specific time slot
@@ -79,15 +87,19 @@ def faiPrenotazioneSalaPesi(idRoom,idSlot):
 @user.route('/iscrizioneAiCorsi')
 @login_required
 def iscrizioneAiCorsi():
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
     # REGISTER PERSON TO THE COURSE
     courses=session.query(Course)
-    return render_template('/User/iscrizioneAiCorsi.html',courses=courses)
+    return render_template('/User/iscrizioneAiCorsi.html',userName=userName,courses=courses)
 
 
 # Page to change user's data
 @user.route('/cambiaDatiUtente')
 @login_required
 def cambiaDatiUtente():
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
     # retireve the current user
     nome = current_user.name
     cognome = current_user.surname
@@ -95,7 +107,7 @@ def cambiaDatiUtente():
     telefono = current_user.cellular
     indirizzo = current_user.address
     citta = current_user.city
-    return render_template('/User/cambiaDatiUtente.html',nome = nome,cognome=cognome,email=email,telefono=telefono,indirizzo=indirizzo,citta=citta)
+    return render_template('/User/cambiaDatiUtente.html',userName=userName,nome = nome,cognome=cognome,email=email,telefono=telefono,indirizzo=indirizzo,citta=citta)
 
 
 @user.route('/modificaDatiUtente', methods = ['POST', 'GET']) 

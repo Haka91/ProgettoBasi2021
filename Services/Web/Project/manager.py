@@ -12,6 +12,7 @@ from Models.Policies import Policy
 from Models.Rooms import Weight_Room,Course_Room,Room
 from Models.Courses import Course
 from Models.Days import Day
+from flask_login import current_user
 
 
 
@@ -19,28 +20,34 @@ from Models.Days import Day
 
 manager = Blueprint('manager',__name__,url_prefix='/manager')
 
-
+# Introduction page
 @manager.route('/introduzione')
 @login_required
 @at_least_manager_required
 def introduzione():
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
     numTrainers=session.query(User).filter(User.role==2).count()
     numUsers=session.query(User).filter(User.role==3).count()
-    return render_template('/Manager/introduzione.html',numTrainers=numTrainers,numUsers=numUsers)
+    return render_template('/Manager/introduzione.html',userName=userName,numTrainers=numTrainers,numUsers=numUsers)
 
 
 @manager.route('/gestioneUtenti')
 @login_required
 @at_least_manager_required
 def gestioneUtenti():
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
     users= session.query(User).order_by(User.surname).filter(User.role==1).all()
-    return render_template('/Manager/gestioneUtenti.html',utenti=users)
+    return render_template('/Manager/gestioneUtenti.html',userName=userName,utenti=users)
 
 
 @manager.route('/gestioneSale',methods=['POST','GET'])
 @login_required
 @at_least_manager_required
 def gestioneSale(): 
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
 
     if request.method=='POST':
         name=request.form["nome"].lower()
@@ -62,13 +69,15 @@ def gestioneSale():
     
     weightRooms=session.query(Weight_Room).all()
     courseRooms=session.query(Course_Room).all()      
-    return render_template('/Manager/gestioneSale.html',weightRooms=weightRooms,courseRooms=courseRooms)
+    return render_template('/Manager/gestioneSale.html',userName=userName,weightRooms=weightRooms,courseRooms=courseRooms)
 
 
 @manager.route('/gestioneTrainers')
 @login_required
 @at_least_manager_required
 def gestioneTrainers():
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
 
     trainers= session.query(User).order_by(User.surname).filter(User.role==2).all()
     # 1) lista di tutti gli utenti ( ruolo , nome, cognome , attivato/nonAttivato )    
@@ -77,7 +86,7 @@ def gestioneTrainers():
     # 1) lista di tutti i trainers ( nome , cognome , attivatoNonAttivato , allenaCorsi? (true oppure false) )
     # 2) lista di tutti gli utenti che non sono trainers oppure che non è il gestore ( nome, cognome , attivato/nonAttivato )
     users= session.query(User).order_by(User.surname).filter(User.role==1).all()
-    return render_template('/Manager/gestioneTrainers.html',trainers=trainers,users=users) # UNA VOLTA PRESENTE LA QUERY PASSARE I DATI AL TEMPLATE
+    return render_template('/Manager/gestioneTrainers.html',userName=userName,trainers=trainers,users=users) # UNA VOLTA PRESENTE LA QUERY PASSARE I DATI AL TEMPLATE
 
 
 @manager.route('/gestioneOrariPalestra',methods=['POST','GET'])
@@ -86,6 +95,8 @@ def gestioneTrainers():
 def gestioneOrariPalestra():
     from Models.Days import Day
     from datetime import date, datetime, time, timedelta
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
     if request.method=='POST':
         policy=request.form.get("policy")
         try :
@@ -98,12 +109,12 @@ def gestioneOrariPalestra():
             flash("selezionare una data")
             days=session.query(Day).order_by(Day.date).all()    
             policies=session.query(Policy).all()
-            return render_template('/Manager/gestioneOrariPalestra.html',policies=policies,days=days)
+            return render_template('/Manager/gestioneOrariPalestra.html',userName=userName,policies=policies,days=days)
         if(startingDate<datetime.today()):
             days=session.query(Day).order_by(Day.date).all()    
             policies=session.query(Policy).all()
             flash("non puoi creare giorni posteriori ad oggi")
-            return render_template('/Manager/gestioneOrariPalestra.html',policies=policies,days=days)
+            return render_template('/Manager/gestioneOrariPalestra.html',userName=userName,policies=policies,days=days)
         openingTimeH=int(request.form['ora_apertura'])
         openingTimeM=int(request.form['minuto_apertura'])
         breakTimeH=int(request.form['ora_inizioPausaPranzo'])
@@ -125,12 +136,14 @@ def gestioneOrariPalestra():
 
     days=session.query(Day).order_by(Day.date).all()    
     policies=session.query(Policy).all()
-    return render_template('/Manager/gestioneOrariPalestra.html',policies=policies,days=days)
+    return render_template('/Manager/gestioneOrariPalestra.html',userName=userName,policies=policies,days=days)
 
 @manager.route('/gestionePolicy',methods=['POST','GET'])
 @login_required
 @at_least_manager_required
 def gestionePolicy(): 
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
     
     if request.method=='POST':
         name=request.form["name"].lower()
@@ -146,7 +159,7 @@ def gestionePolicy():
                 flash("Errore nei campi","error")
     policies= session.query(Policy).all()
                 
-    return render_template('/Manager/gestionePolicy.html',policies=policies)
+    return render_template('/Manager/gestionePolicy.html',userName=userName,policies=policies)
 
 
 # Function for changing the state of a user (activated <-> deactivate)
@@ -219,18 +232,22 @@ def eliminaCorso(idCorso):
 @login_required
 @at_least_manager_required
 def gestioneCorsi():
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
     courses=session.query(Course).all()   
     trainers= session.query(User).order_by(User.surname).filter(User.role==2).all()
-    return render_template('Manager/gestioneCorsi.html',corsi=courses,trainers=trainers)
+    return render_template('Manager/gestioneCorsi.html',userName=userName,corsi=courses,trainers=trainers)
 
 
 # Function to visualize the statistics of a specified trainer
 @manager.route('/infoTrainer/<int:idUser>')
 def infoTrainer(idUser):
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
     # DO WE NEED TO ADD OTHER STUFF?
     numeroCorsiInsegnati = 2 #QUERY NEEDED
     numeroLezioni = 2 #QUERY NEEDED
-    return render_template('Manager/infoTrainer.html')
+    return render_template('Manager/infoTrainer.html',userName=userName)
 
 
 # Function that creates a course

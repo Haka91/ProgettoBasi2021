@@ -20,7 +20,14 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{url_for('general.logout')}}">Logout</a>  
-    </li></ul></ul>
+    </li>
+</ul>
+<!-- Name of the user logged in -->
+<ul class="navbar-nav ml-auto">
+    <li class="nav_item">
+        <a class="nav-link">{{userName}}</a>
+    </li>
+</ul>
 {% endblock %}
 
 
