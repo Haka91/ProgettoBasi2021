@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import date, datetime, timedelta
 from sqlalchemy import Column
 from sqlalchemy import create_engine
 from sqlalchemy import ForeignKey
@@ -11,7 +11,6 @@ from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import with_polymorphic
-from sqlalchemy.sql.expression import false, null, select, true
 from sqlalchemy.sql.schema import CheckConstraint
 from sqlalchemy.sql.type_api import NULLTYPE
 from DbController import Base,session
@@ -24,8 +23,8 @@ from flask.helpers import flash
 class Day(Base):
 
     __tablename__='Days'    
-
-    date = Column(Date,primary_key=True)
+    id=Column(Integer,primary_key=True)
+    date = Column(Date,nullable=False,unique=True)
     opening=Column(DateTime,nullable=False)
     closing=Column(DateTime,nullable=False)
     break_time =Column(DateTime,nullable=True)
@@ -50,10 +49,10 @@ class Day(Base):
         try:
             if(self.opening>=self.closing):
                 flash("Orario di chiusura precedente a apertura")
-                return false
+                return False
                       
             session.add(self)            
-            guard=true
+            guard=True
             startTime=self.opening
             #creo per ogni giorno i relativi timeslot
             while(startTime<=self.closing and guard):
@@ -80,29 +79,36 @@ class Day(Base):
             session.commit()
             return True
         except Exception as e:
-            flash(e)
+            
+            if " duplicate key value violates unique constraint" in e.__str__():
+                flash("Uno o piu' giorno già esistenti nel DB")
+            else:
+                flash(e)
             session.rollback()
             return False
 
     def delete_obj(self):
-       
-        try:
-            session.delete(self)
-            session.commit()
-            return True
-        except:
-            session.rollback()
-            return False
+        if(self.is_deletable):
 
-    def update_obj(self, date ,opening,closing,break_time,break_slot):
-        try:            
-            self.opening = opening         
-            self.closing =closing
-            self.break_time=break_time
-            self.break_slot=break_slot  
-            session.commit()
+            try:
+                session.delete(self)
+                session.commit()
+                return True
+            except Exception as e:
+                flash(e)
+                session.rollback()
+                return False
+        else:
+            flash("non puoi cancellare questo giorno")
+
+
+    def is_deletable(self):
+
+        if(self.date<(date.today()-timedelta(days=30))):
             return True
-        except:
-            session.rollback()
-            return False
+        else:            
+            for reservationSlot in self.reservation_slots_obj:
+                if (len(reservationSlot.lessons_obj)>0 or len(reservationSlot.weight_reservations_obj)>0):
+                    return False
+            return True
 

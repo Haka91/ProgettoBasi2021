@@ -3,15 +3,7 @@
 <!-- Links in the navbar -->
 {% block navbar %}
 
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
+
 
 <ul class="navbar-nav navbar-light">
     <li class="nav-item">
@@ -43,6 +35,15 @@
 
 <!-- Block body -->
 {% block body %}
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 <br><br>
 <h1 align="center"> Policy Esistente </h1>
 <br><br>
@@ -64,9 +65,14 @@
                 <td style="text-align: center; width: 10%;">{{ Policy.name }}</td>
                 <td style="text-align: center; width: 10%;">{{ Policy.room_precentage }}</td>
                 <td style="text-align: center; width: 10%;">{{ Policy.max_user_reserv }}</td>
+                {% if Policy.is_deletable() %}
                 <td style="text-align: center; width: 10%;">
                     <a href="{{url_for('manager.eliminaPolicy', idPolicy=Policy.id)}}">Elimina</a>
                 </td>
+                {% else %}
+                <td style="text-align: center; width: 10%;">falso</td>
+                {% endif %}
+     
             </tr>
         {% endfor %}
     </tbody>

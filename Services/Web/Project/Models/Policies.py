@@ -1,5 +1,6 @@
 from sqlalchemy import Column
 from sqlalchemy import create_engine
+from datetime import date, datetime, timedelta
 from sqlalchemy import ForeignKey
 from sqlalchemy import inspect
 from sqlalchemy import Integer
@@ -12,6 +13,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy.sql.schema import CheckConstraint
 from DbController import Base,session
+from flask.helpers import flash
 
 
 
@@ -21,7 +23,7 @@ class Policy(Base):
    
 
     id = Column("id",Integer, primary_key=True)
-    name = Column(String(50))
+    name = Column(String(50),unique=True)
     room_percent=Column(Integer,CheckConstraint('room_percent<101'),CheckConstraint('room_percent>0'),nullable=False,default=100)
     max_user_reserv=Column(Integer,CheckConstraint('max_user_reserv>0'),CheckConstraint('max_user_reserv<49'),nullable=False,default=48)
 
@@ -41,7 +43,12 @@ class Policy(Base):
             session.commit()
             return True
         except Exception as e:
-            print(e)
+            if " duplicate key value violates unique constraint" in e.__str__():
+                flash("Policy già esistente nel DB")
+                session.rollback()
+                return False
+            else:
+                flash("impossibile aggiungere policy,hai controllato i campi?")   
             session.rollback()
             return False
 
@@ -51,18 +58,24 @@ class Policy(Base):
             session.delete(self)
             session.commit()
             return True
-        except:
+        except Exception as e:
+            flash(e)   
+            print(e) 
             session.rollback()
             return False
 
+    
+    def is_deletable(self):
 
-    def update_obj(self, name ,room_percent,max_user_reserv):
-        try:
-            self.name=name
-            self.room_percent = room_percent        
-            self.max_user_reserv =max_user_reserv      
-            session.commit()
+        if(len(self.days_obj)==0):
             return True
-        except:
-            session.rollback()
-            return False
+        else:
+            for day in self.days_obj:
+                #se la policy ha giorni puù vecchi di 30 gg allora posso cancellarla
+                if(day.date>(date.today()-timedelta(days=30))):            
+                    for reservationSlot in day.reservation_slots_obj:
+                        if (len(reservationSlot.lessons_obj)>0 or len(reservationSlot.weight_reservations_obj)>0):
+                            return False
+            return True
+
+            

@@ -1,3 +1,4 @@
+from flask.helpers import flash
 from sqlalchemy import Column
 from sqlalchemy import create_engine
 from sqlalchemy import ForeignKey
@@ -11,6 +12,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy.sql.expression import false, true
+from sqlalchemy.schema import UniqueConstraint
 #from Models.Courses import Course
 #from Models.Reservations import Course_Reservations
 #from Models.Users import User
@@ -36,6 +38,10 @@ class Lesson(Base):
     reservation_slot_obj=relationship("Reservation_Slot",back_populates="lessons_obj")
     course_reservations_obj=relationship("Course_Reservation",back_populates="lesson_obj")
     
+    #con questo vincolo rendiamo impossibile la prenotazione di un corso nella stessa stanza di un altro nel caso
+    #2 trainer aprissero in contemporanea la pagina per prenotare le lezioni
+    __table_args__ = (UniqueConstraint('reservation_slot', 'course_room', name='singlelessoninaroom'),
+                     )
     
     def __init__(self,reservation_slot,course,course_room):
         self.reservation_slot=reservation_slot
@@ -51,7 +57,7 @@ class Lesson(Base):
             session.commit()
             return True
         except Exception as e:
-            print(e)
+            flash(e)
             session.rollback()
             return False
 
@@ -65,14 +71,4 @@ class Lesson(Base):
             session.rollback()
             return False
 
-    def update_obj(self, reservation_slot_occupied ,start_time,course,trainer):
-        try:
-            self.reservation_slot_occupied=reservation_slot_occupied
-            self.start_time = start_time         
-            self.course =course
-            self.trainer=trainer           
-            session.commit()
-            return True
-        except:
-            session.rollback()
-            return False
+   

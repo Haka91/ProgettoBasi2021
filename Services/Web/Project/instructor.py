@@ -108,7 +108,12 @@ def inserisciLezioni():
         courses=current_user.courses_obj
         return render_template('/Instructor/creaLezioni.html',tableVisible=''' hidden="hidden" ''' ,formVisible='''  ''',corsi=courses,stanze=stanze)      
 
- 
+    if(data<=datetime.today()):
+        flash("non puoi creare lezioni antecedenti alla data odierna")
+        stanze=session.query(Course_Room).all()
+        courses=current_user.courses_obj
+        return render_template('/Instructor/creaLezioni.html',tableVisible=''' hidden="hidden" ''' ,formVisible='''  ''',corsi=courses,stanze=stanze)  
+
  
     titleTable = "Slot prenotabili"
     #prendo gli slot della giornata,sono costretto a prenderli senza tutti i filtri per come funziona sqlORM

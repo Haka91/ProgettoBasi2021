@@ -22,6 +22,7 @@ class Reservation_Slot(Base):
 
     id = Column("id",Integer,primary_key=True)
     slot_time =Column(Time,nullable=False)
+    #non fa riferimento alla Pk di days,ma ad una colonna unique,questo ci evita un passaggio in più nelle query orm per il controllo della data
     day = Column(Date,ForeignKey("Days.date"),nullable=False)
 
     lessons_obj=relationship("Lesson",back_populates="reservation_slot_obj")
@@ -55,13 +56,5 @@ class Reservation_Slot(Base):
             session.rollback()
             return False
 
-    def update_obj(self, slot_time,day):
-        try:
-            self.slot_time=slot_time 
-            self.day=day       
-            session.commit()
-            return True
-        except:
-            session.rollback()
-            return False
+
   
