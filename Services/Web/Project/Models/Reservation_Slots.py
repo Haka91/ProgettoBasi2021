@@ -42,7 +42,8 @@ class Reservation_Slot(Base):
                 totalPrenotation+=1
         return maxPrenotations>=totalPrenotation
     
-    #ritorna il numero di slot ancora liberi
+
+    #ritorna il numero di slot occupati
     def prenotationOnSlotforRoom(self,idRoom):
         totalPrenotation=0
         for weightreservation in self.weight_reservations_obj:
