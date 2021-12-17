@@ -72,4 +72,8 @@ class Lesson(Base):
             session.rollback()
             return False
 
+    def is_deletable(self):
+        #se ci sono prenotazioni a questa lezione non posso cancellarla
+        return len(self.course_reservations_obj)==0
+        
    
