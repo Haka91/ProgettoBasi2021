@@ -60,7 +60,7 @@
             <th style="text-align: center;" scope="col">Nome</th>
             <th style="text-align: center;" scope="col">Cognome</th>
             <th style="text-align: center;" scope="col">Info</th>
-            <th style="text-align: center;" scope="col">Elimina</th>
+            <th style="text-align: center;" scope="col">Trainer to user</th>
         </tr>
     </thead>
     <tbody>
@@ -72,7 +72,7 @@
                     <a href="{{url_for('manager.infoTrainer', idUser=User.id)}}">Vedi info</a>
                 </td>
                 <td style="text-align: center; width: 10%;">
-                    <a href="{{url_for('manager.eliminaTrainer', idUser=User.id)}}">Elimina</a>
+                    <a href="{{url_for('manager.trainerToUser', idUser=User.id)}}">Trainer to user</a>
                 </td>
             </tr>
         {% endfor %}

@@ -178,10 +178,10 @@ def userToTrainer(idUser):
 
 
 # Function to delete a Trainer
-@manager.route('/eliminaTrainer/<int:idUser>')
+@manager.route('/trainerToUser/<int:idUser>')
 @login_required
 @at_least_manager_required
-def eliminaTrainer(idUser):
+def trainerToUser(idUser):
     # DO STUFF
     return redirect(url_for(manager.gestioneTrainer))
 
