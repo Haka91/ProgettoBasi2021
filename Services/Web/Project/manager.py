@@ -164,15 +164,15 @@ def gestionePolicy():
     return render_template('/Manager/gestionePolicy.html',userName=userName,policies=policies)
 
 
-# Function for changing the state of a user (activated <-> deactivate)
-@manager.route('/attivaDisattivaUser/<int:idUser>')
+# Function for contact tracing
+@manager.route('/contattiUtente/<int:idUser>,<string:nome>')
 @login_required
 @at_least_manager_required
-def attivaDisattivaUser(idUser):
-    utente = session.query(User).get(idUser)
-    utente.activate_or_deactivate_obj()
-    print(utente.name, utente.is_active)
-    return redirect(url_for('manager.gestioneUtenti'))
+def contattiUtente(idUser,nome):
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
+    users = session.query(User).order_by(User.surname).all()  # CORRECT QUERY!!!
+    return render_template('/Manager/contattiUtente.html',userName=userName,users=users,nome=nome)
 
 
 # Function to change role of  User in Trainer
