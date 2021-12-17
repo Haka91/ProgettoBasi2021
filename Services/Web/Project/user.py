@@ -99,6 +99,10 @@ def filtraSlotSalaPesi():
         print(policy.name,policy.room_percent,policy.max_user_reserv)
     except Exception as e:        
         flash("nessuno slot prenotazione disponibile in questa giornata")
+        slots=session.query(Reservation_Slot).filter(Reservation_Slot.day == data).all()
+        slotlist=list(slots)
+        slotTuple=tuple(slotlist)    
+        return render_template('/User/prenotaSalaPesi.html',dataString=dataString,dove=roomID,tableVisible=tableVisible,formVisible=formVisible,weightRoomsSlot=slotTuple)
 
     #prendo gli slot della giornata,sono costretto a prenderli senza tutti i filtri per come funziona sqlORM
     slots=session.query(Reservation_Slot).filter(Reservation_Slot.day == data).all()
