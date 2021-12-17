@@ -109,13 +109,20 @@ def gestioneOrariPalestra():
             policies=session.query(Policy).all()
             flash("non puoi creare giorni posteriori ad oggi")
             return render_template('/Manager/gestioneOrariPalestra.html',userName=userName,policies=policies,days=days)
-        openingTimeH=int(request.form['ora_apertura'])
-        openingTimeM=int(request.form['minuto_apertura'])
-        breakTimeH=int(request.form['ora_inizioPausaPranzo'])
-        breakTimeM=int(request.form['minuto_inizioPausaPranzo'])
-        breakTimeDuration=int(request.form.get('durataPausaPranzo'))
-        closingTimeH=int(request.form['ora_chiusura'])
-        closingTimeM=int(request.form['minuto_chiusura'])    
+        try :
+            openingTimeH=int(request.form['ora_apertura'])
+            openingTimeM=int(request.form['minuto_apertura'])
+            breakTimeH=int(request.form['ora_inizioPausaPranzo'])
+            breakTimeM=int(request.form['minuto_inizioPausaPranzo'])
+            breakTimeDuration=int(request.form.get('durataPausaPranzo'))
+            closingTimeH=int(request.form['ora_chiusura'])
+            closingTimeM=int(request.form['minuto_chiusura']) 
+        except:
+            flash("errore nei campi")
+            days=session.query(Day).order_by(Day.date).all()    
+            policies=session.query(Policy).all()
+            return render_template('/Manager/gestioneOrariPalestra.html',userName=userName,policies=policies,days=days)
+
         while startingDate <=endingDate:
             if(breakTimeDuration>0 and breakTimeH and breakTimeM):
                 day=Day(startingDate,datetime(startingDate.year,startingDate.month,startingDate.day,openingTimeH,openingTimeM),datetime(startingDate.year,startingDate.month,startingDate.day,closingTimeH,closingTimeM),policy=policy,break_slot=breakTimeDuration,break_time=datetime(startingDate.year,startingDate.month,startingDate.day,breakTimeH,breakTimeM))     
