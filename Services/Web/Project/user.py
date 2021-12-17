@@ -65,6 +65,7 @@ def filtraSlotSalaPesi():
     userName = "Ciao "+current_user.name+" ! "
     tableVisible='''  ''' #now the table will be visible
     formVisible=''' hidden="hidden" ''' # now the form is NOT visible
+    prenotazioniRimaste = 1 # HERE A QUERY IN NEEDED TO RETRIEVE THE NUMBER OF BOOKINGS LEFT!!!
 
     try :
         
@@ -134,7 +135,7 @@ def filtraSlotSalaPesi():
         flash("seleziona tutti i campi prima di effettuare la ricerca")
     slotTuple=tuple(slotlist)
     
-    return render_template('/User/prenotaSalaPesi.html',roomID=roomID,userName=userName,dataString=dataString,dove=roomID,tableVisible=tableVisible,formVisible=formVisible,weightRoomsSlot=slotTuple)
+    return render_template('/User/prenotaSalaPesi.html',prenotazioniRimaste=prenotazioniRimaste,roomID=roomID,userName=userName,dataString=dataString,dove=roomID,tableVisible=tableVisible,formVisible=formVisible,weightRoomsSlot=slotTuple)
 
 
 
@@ -270,3 +271,9 @@ def faiPrenotazioneLezione(idLezione):
     return redirect(url_for('user.iscrizioneAiCorsi'))
 
 
+# Function to delete a booking
+@user.route('/eliminaPrenotazione/<int:idPrenotazione>')
+@login_required
+def eliminaPrenotazione(idPrenotazione):
+    # DO STUFF
+    return redirect(url_for('user.prenotazioniAttive'))

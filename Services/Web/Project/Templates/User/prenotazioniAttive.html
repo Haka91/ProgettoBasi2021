@@ -76,6 +76,10 @@
                 <td style="text-align: center; width: 10%;">{{ Reservation.lesson_obj.reservation_slot_obj.slot_time }}</td>
                 <td style="text-align: center; width: 10%;">{{ Reservation.lesson_obj.course_room_obj.name }}</td>
                 {% endif %}
+
+                <td style="text-align: center; width: 10%;">
+                    <a href="{{url_for('user.eliminaPrenotazione', idPrenotazione=Reservation.id)}}">elimina</a>
+                </td> 
  
             </tr>
         {% endfor %}
