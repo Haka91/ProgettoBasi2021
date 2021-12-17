@@ -78,13 +78,7 @@ def gestioneSale():
 def gestioneTrainers():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
-
     trainers= session.query(User).order_by(User.surname).filter(User.role==2).all()
-    # 1) lista di tutti gli utenti ( ruolo , nome, cognome , attivato/nonAttivato )    
-   
-    # mi serve una query:
-    # 1) lista di tutti i trainers ( nome , cognome , attivatoNonAttivato , allenaCorsi? (true oppure false) )
-    # 2) lista di tutti gli utenti che non sono trainers oppure che non è il gestore ( nome, cognome , attivato/nonAttivato )
     users= session.query(User).order_by(User.surname).filter(User.role==1).all()
     return render_template('/Manager/gestioneTrainers.html',userName=userName,trainers=trainers,users=users) # UNA VOLTA PRESENTE LA QUERY PASSARE I DATI AL TEMPLATE
 
@@ -137,6 +131,7 @@ def gestioneOrariPalestra():
     days=session.query(Day).order_by(Day.date).all()    
     policies=session.query(Policy).all()
     return render_template('/Manager/gestioneOrariPalestra.html',userName=userName,policies=policies,days=days)
+
 
 @manager.route('/gestionePolicy',methods=['POST','GET'])
 @login_required

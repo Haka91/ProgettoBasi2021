@@ -159,3 +159,12 @@ def reserveSlot(idSlot,idCorso,idRoom):
     tempLesson=Lesson(idSlot,idCorso,idRoom)
     tempLesson.add_obj()
     return redirect(url_for('instructor.creaLezioni'))
+
+
+# Function to delete a lesson
+@instructor.route('/eliminaLezione/<int:idLezione>')
+@login_required
+@at_least_trainer_required
+def eliminaLezione(idLezione):
+    # DELETE LESSON
+    return redirect(url_for('instructor.prossimeLezioni'))
