@@ -1,4 +1,5 @@
 from sqlalchemy import Column
+from datetime import date, datetime, timedelta
 from sqlalchemy import create_engine
 from sqlalchemy import ForeignKey
 from sqlalchemy import inspect
@@ -69,7 +70,16 @@ class Weight_Room(Room):
 
 
     def is_deletable(self):
-        return True
+        deletable=True
+        if(len(self.weight_reservations_obj)==0):
+            return deletable
+        else:
+            #se le prenotazioni sono più vecchie di 30 giorni posso cancellarle
+            for weightReserations in self.weight_reservations_obj:
+               if( weightReserations.reservation_slot_obj.day >(date.today()- timedelta(days=30))):
+                   deletable=False
+        return deletable
+
     __mapper_args__ = {
      
         'polymorphic_identity':True
@@ -109,7 +119,18 @@ class Course_Room(Room):
             except:
                session.rollback()
                return False
-    
+
+    def is_deletable(self):
+        deletable=True
+        if(len(self.lessons_obj)==0):
+            return deletable
+        else:
+            #se le lezioni sono più vecchie di 30 giorni posso cancellarle
+            for lesson in self.lessons_obj:
+               if( lesson.reservation_slot_obj.day >(date.today()- timedelta(days=30))):
+                   deletable=False
+        return deletable
+
     __mapper_args__ = {
        
         'polymorphic_identity':False

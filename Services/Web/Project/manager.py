@@ -202,7 +202,17 @@ def trainerToUser(idUser):
 @login_required
 @at_least_manager_required
 def eliminaSala(idSala):
-    # DO STUFF
+    room=session.query(Room).get(idSala)
+    #dato che è uso la joinetable inheritance su Rooms devo controllare cosa sono
+    if(room.is_weight):
+        weightRoom=session.query(Weight_Room).get(idSala)
+        if  weightRoom.is_deletable():
+            weightRoom.delete_obj()
+    else:
+        courseRoom=session.query(Course_Room).get(idSala)
+        if courseRoom.is_deletable():
+            courseRoom.delete_obj()
+
     return redirect(url_for('manager.gestioneSale'))
 
 

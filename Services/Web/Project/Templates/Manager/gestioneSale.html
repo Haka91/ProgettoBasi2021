@@ -71,9 +71,13 @@
                 <td style="text-align: center; width: 10%;">{{ Room.name }}</td>
                 <td style="text-align: center; width: 10%;">{{ Room.description }}</td>
                 <td style="text-align: center; width: 10%;">{{ Room.max_capacity }}</td>
+                {% if  Room.is_deletable() %}
                 <td style="text-align: center; width: 10%;">
                     <a href="{{url_for('manager.eliminaSala', idSala=Room.id)}}">Elimina</a>
                 </td>
+                {% else %}
+                
+                {% endif %}
             </tr>
         {% endfor %}
     </tbody>
@@ -100,9 +104,14 @@
                 <td style="text-align: center; width: 10%;">{{ Room.name }}</td>
                 <td style="text-align: center; width: 10%;">{{ Room.description }}</td>
                 <td style="text-align: center; width: 10%;">{{ Room.max_capacity }}</td>
+                {% if Room.is_deletable() %}
                 <td style="text-align: center; width: 10%;">
                     <a href="{{url_for('manager.eliminaSala', idSala=Room.id)}}">Elimina</a>
                 </td>
+                {% else %}
+                
+                {% endif %}
+               
             </tr>
         {% endfor %}
     </tbody>
