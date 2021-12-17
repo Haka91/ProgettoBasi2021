@@ -38,7 +38,7 @@ def introduzione():
 def gestioneUtenti():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
-    users= session.query(User).order_by(User.surname).filter(User.role==1).all()
+    users= session.query(User).order_by(User.surname).all()
     return render_template('/Manager/gestioneUtenti.html',userName=userName,utenti=users)
 
 
@@ -216,13 +216,6 @@ def eliminaSala(idSala):
     return redirect(url_for('manager.gestioneSale'))
 
 
-# Function to delete a date
-@manager.route('/eliminaData/<int:data>')
-@login_required
-@at_least_manager_required
-def eliminaData(data):
-    # DO STUFF
-    return redirect(url_for('manager.gestioneOrariPalestra'))
 
 
 # Function do delete a Policy
