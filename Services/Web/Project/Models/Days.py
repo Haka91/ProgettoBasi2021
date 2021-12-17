@@ -11,6 +11,7 @@ from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import with_polymorphic
+from sqlalchemy.orm.util import CascadeOptions
 from sqlalchemy.sql.schema import CheckConstraint
 from sqlalchemy.sql.type_api import NULLTYPE
 from DbController import Base,session
@@ -32,7 +33,7 @@ class Day(Base):
     policy=Column(Integer,ForeignKey("Policies.id"),nullable=False,default=1)
 
   
-    reservation_slots_obj=relationship("Reservation_Slot",back_populates="day_obj")
+    reservation_slots_obj=relationship("Reservation_Slot",back_populates="day_obj", cascade="all, delete")
     policy_obj=relationship("Policy",back_populates="days_obj")
      
 

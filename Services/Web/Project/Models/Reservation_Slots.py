@@ -25,8 +25,8 @@ class Reservation_Slot(Base):
     #non fa riferimento alla Pk di days,ma ad una colonna unique,questo ci evita un passaggio in più nelle query orm per il controllo della data
     day = Column(Date,ForeignKey("Days.date"),nullable=False)
 
-    lessons_obj=relationship("Lesson",back_populates="reservation_slot_obj")
-    weight_reservations_obj=relationship("Weight_Room_Reservation",back_populates="reservation_slot_obj")
+    lessons_obj=relationship("Lesson",back_populates="reservation_slot_obj", cascade="all, delete")
+    weight_reservations_obj=relationship("Weight_Room_Reservation",back_populates="reservation_slot_obj", cascade="all, delete")
     day_obj=relationship("Day", back_populates="reservation_slots_obj")
 
 

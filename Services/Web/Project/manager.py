@@ -183,7 +183,7 @@ def userToTrainer(idUser):
 @at_least_manager_required
 def trainerToUser(idUser):
     # DO STUFF
-    return redirect(url_for(manager.gestioneTrainer))
+    return redirect(url_for('manager.gestioneTrainer'))
 
 
 # Function to delete a room
@@ -192,7 +192,7 @@ def trainerToUser(idUser):
 @at_least_manager_required
 def eliminaSala(idSala):
     # DO STUFF
-    return redirect(url_for(manager.gestioneSale))
+    return redirect(url_for('manager.gestioneSale'))
 
 
 # Function to delete a date
@@ -201,7 +201,7 @@ def eliminaSala(idSala):
 @at_least_manager_required
 def eliminaData(data):
     # DO STUFF
-    return redirect(url_for(manager.gestioneOrariPalestra))
+    return redirect(url_for('manager.gestioneOrariPalestra'))
 
 
 # Function do delete a Policy
@@ -209,8 +209,13 @@ def eliminaData(data):
 @login_required
 @at_least_manager_required
 def eliminaPolicy(idPolicy):
-    # DO STUFF
-    return redirect(url_for(manager.gestionePolicy))
+    policy=session.query(Policy).get(idPolicy)
+    print(idPolicy)
+    print(policy)
+    if( policy.is_deletable()):
+        policy.delete_obj()
+    
+    return redirect(url_for('manager.gestionePolicy'))
 
 
 # Function to delete a course
@@ -219,7 +224,7 @@ def eliminaPolicy(idPolicy):
 @at_least_manager_required
 def eliminaCorso(idCorso):
     # DO STUFF
-    return redirect(url_for(manager.gestioneCorsi))
+    return redirect(url_for('manager.gestioneCorsi'))
 
 
 # Page for managing the courses offered
@@ -275,7 +280,7 @@ def creaCorso():
 @login_required
 @at_least_manager_required
 def attivaDisattivaCorso(idCorso):
-    corso = session.query(Course).get(idCorso)
+    corso = session.query(Course).get(idCorso).first()
     # HERE NEEDS TO HAPPEN THE ACTIVATION / DEACTIVATION OF THE COURSE
     # IMPLEMENTION NEEDED
     #corso.activate_or_deactivate_obj()

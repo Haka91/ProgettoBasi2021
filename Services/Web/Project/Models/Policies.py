@@ -27,7 +27,7 @@ class Policy(Base):
     room_percent=Column(Integer,CheckConstraint('room_percent<101'),CheckConstraint('room_percent>0'),nullable=False,default=100)
     max_user_reserv=Column(Integer,CheckConstraint('max_user_reserv>0'),CheckConstraint('max_user_reserv<49'),nullable=False,default=48)
 
-    days_obj=relationship("Day",back_populates="policy_obj")
+    days_obj=relationship("Day",back_populates="policy_obj", cascade="all, delete")
   
    
     def __init__(self,name,room_percent,max_user_reserv):

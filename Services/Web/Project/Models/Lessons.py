@@ -36,7 +36,7 @@ class Lesson(Base):
     course_obj =  relationship("Course",back_populates="lessons_obj")
    
     reservation_slot_obj=relationship("Reservation_Slot",back_populates="lessons_obj")
-    course_reservations_obj=relationship("Course_Reservation",back_populates="lesson_obj")
+    course_reservations_obj=relationship("Course_Reservation",back_populates="lesson_obj", cascade="all, delete")
     
     #con questo vincolo rendiamo impossibile la prenotazione di un corso nella stessa stanza di un altro nel caso
     #2 trainer aprissero in contemporanea la pagina per prenotare le lezioni
@@ -75,5 +75,5 @@ class Lesson(Base):
     def is_deletable(self):
         #se ci sono prenotazioni a questa lezione non posso cancellarla
         return len(self.course_reservations_obj)==0
-        
+
    
