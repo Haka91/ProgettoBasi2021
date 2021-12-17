@@ -18,6 +18,7 @@ from flask_login import current_user
 from datetime import date, datetime, timedelta
 from Models.Days import Day
 from Models.Reservations import Weight_Room_Reservation
+from Models.Reservations import Course_Reservation
 
 
 user = Blueprint('user',__name__,url_prefix='/user')
@@ -256,16 +257,23 @@ def filtraLezioniCorsi():
         idCorso = request.form.get('corsi')
         corso = session.query(Course).get(idCorso)
         lessonsTuple=corso.lessons_obj
-        print("qui esplode 1")
+        
         for lesson in lessonsTuple:
-            print("qui esplode 2")
-            if lesson.lessonSlotFree():
-                print("qui esplode 3")
-                #controlla perchè si rompe tutto
+           
+            if lesson.lessonSlotFree():                         
+                #controllo che la prenotazione non sia più vecchia di oggi e che l'user non ne abbia già fatta una
+                alreadyRegistered=False
                 
-                print("dai che va",lesson.reservation_slot_obj.day>date.today())
-                if lesson.reservation_slot_obj.day>date.today():
-                    lessons.append(lesson)
+                if lesson.reservation_slot_obj.day>date.today(): 
+                    for courseReservation in  lesson.course_reservations_obj:
+                        print("cR=",courseReservation.user)
+                        print("cU=",current_user.id)
+                        if(courseReservation.user == current_user.id):
+                               alreadyRegistered=True
+                    print("already registered=",alreadyRegistered)           
+                    if not alreadyRegistered:
+                            lessons.append(lesson)
+                
             else:
                  lessons.append(lesson)
             
@@ -284,8 +292,12 @@ def filtraLezioniCorsi():
 def faiPrenotazioneLezione(idLezione):
     lesson=session.query(Lesson).get(idLezione)
     if(lesson.lessonSlotFree()):
-        if(not lesson.add_obj()):
+        courseReservation=Course_Reservation(idLezione,current_user.id)
+        if not courseReservation.add_obj():
             flash("impossibile iscriversi alla lezione")
+       
+    else:
+        flash("impossibile iscriversi alla lezione")
     return redirect(url_for('user.iscrizioneAiCorsi'))
 
 
@@ -293,5 +305,7 @@ def faiPrenotazioneLezione(idLezione):
 @user.route('/eliminaPrenotazione/<int:idPrenotazione>')
 @login_required
 def eliminaPrenotazione(idPrenotazione):
-    # DO STUFF
+    reservation=session.query(Reservation).get(idPrenotazione)
+    if(not reservation.delete_obj()):
+        flash("prenotazione cancellata")
     return redirect(url_for('user.prenotazioniAttive'))

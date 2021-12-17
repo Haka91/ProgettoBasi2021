@@ -53,20 +53,27 @@
             <th style="text-align: center;" scope="col">Stanza</th>
             <th style="text-align: center;" scope="col">Slot</th>
             <th style="text-align: center;" scope="col">Elimina lezione</th>
+            <th style="text-align: center;" scope="col">Iscritti Attuali</th>
             <th style="text-align: center;" scope="col">Lista iscritti</th>
 
         </tr>
     </thead>
-    <tbody>
+    <tbody>   
         {% for Lesson in lezioni %}
             <tr>
                 <td style="text-align: center; width: 10%;">{{ Lesson.reservation_slot_obj.day }}</td>
                 <td style="text-align: center; width: 10%;">{{ Lesson.course_obj.name }}</td>
                 <td style="text-align: center; width: 10%;">{{ Lesson.course_room_obj.name }}</td>
                 <td style="text-align: center; width: 10%;">{{ Lesson.reservation_slot_obj.slot_time }}</td>
-                <td style="text-align: center; width: 10%;">
+                {% if Lesson.is_deletable() %}
+                <td style="text-align: center; width: 10%;">                
                     <a href="{{url_for('instructor.eliminaLezione', idLezione=Lesson.id)}}">Elimina lezione</a>
                 </td>
+                {% else %}
+                <th style="text-align: center;" scope="col">False</th>
+                {% endif %}
+
+                <td style="text-align: center; width: 10%;">{{ Lesson.reservations() }}</td>
                 <td style="text-align: center; width: 10%;">
                     <a href="{{url_for('instructor.listaIscrittiLezione', idLezione=Lesson.id, nomeCorso=Lesson.course_obj.name)}}">lista iscritti</a>
                 </td>

@@ -47,7 +47,9 @@ def introduzione():
 def listaIscrittiLezione(idLezione,nomeCorso):
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
-    utentiIscritti = session.query(User).all() # RETRIEVE LIST OF USERS 
+    lesson=session.query(Lesson).get(idLezione)
+    #recupero la lista dalla funzione
+    utentiIscritti = lesson.reservationsUsers()
     return render_template('/Instructor/listaIscrittiLezione.html',userName=userName,nomeCorso=nomeCorso,utentiIscritti=utentiIscritti)
 
 
@@ -165,5 +167,11 @@ def reserveSlot(idSlot,idCorso,idRoom):
 @login_required
 @at_least_trainer_required
 def eliminaLezione(idLezione):
-    # DELETE LESSON
+    lesson=session.query(Lesson).get(idLezione)
+    if(lesson.is_deletable()):
+        if( not lesson.delete_obj()):
+            flash("impossibile eliminare Lezione")      
+
+    else:
+        flash("impossibile eliminare Lezione")    
     return redirect(url_for('instructor.prossimeLezioni'))
