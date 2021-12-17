@@ -142,13 +142,16 @@ def modificaPasswordUtente():
         oldPassword = request.form.get('password')
         newPassword = request.form.get('newPassword')
         newPassword2 = request.form.get('newPassword2')
-        if  current_user.password == oldPassword  and  newPassword == newPassword2:
-            current_user.password = newPassword
+        if(newPassword == newPassword2):
+            if  (current_user.update_password(oldPassword,newPassword)) :
+                current_user.password = newPassword
+            else:
+                #non torniamo troppe informazioni,potremmo renderci vulnerabili ad attacchi
+                flash('Errore nel cambio password')
         else:
-            flash('Errore nel cambio password')
-        
+            flash('Nuova password e conferma nuova password diverse')
     except:
-        flash('Errore nel cambio password')
+        flash('Errore nel cambio password controlla i campi')
 
     flash('Password cambiata correttamente')
     return redirect(url_for('user.cambiaDatiUtente'))
