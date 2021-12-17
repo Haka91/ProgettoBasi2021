@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy.sql.expression import false
 from DbController import Base,session
+from Models.Lessons import Lesson
 
 
 
@@ -42,6 +43,7 @@ class Reservation_Slot(Base):
                 totalPrenotation+=1
         return maxPrenotations>totalPrenotation
     
+
 
     #ritorna il numero di slot occupati
     def prenotationOnSlotforRoom(self,idRoom):

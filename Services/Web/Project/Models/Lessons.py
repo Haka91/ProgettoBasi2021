@@ -72,12 +72,20 @@ class Lesson(Base):
             session.rollback()
             return False
 
+    #se ci sono prenotazioni in questa lezione non posso cancellarla
     def is_deletable(self):
-        #se ci sono prenotazioni in questa lezione non posso cancellarla
+       
         return len(self.course_reservations_obj)==0
 
+    #ritorno il numero di prenotazioni
     def reservations(self):
         return len(self.course_reservations_obj)
+
+    #controllo se lo slot è libero
+    def lessonSlotFree(self):        
+       
+        return self.course_obj.maxcostumers>len(self.course_reservations_obj)
+        
 
     def reservationsUsers(self):
         listOfUsers=list()

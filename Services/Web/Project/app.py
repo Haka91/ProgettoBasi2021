@@ -15,8 +15,10 @@ from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 app.secret_key=secret_key
-#we add this to fix some unwanted behaviour with rememberme and setduration
-app.permanent_session_lifetime =timedelta(minutes=15)
+#aggiungiamo un limite alla sessione per alcuni comportamenti incorretti di rememberme di flaskLogin
+app.permanent_session_lifetime =timedelta(minutes=30)
+#we initialize Bcrypt
+bcrypt = Bcrypt(app)
 #app.config["PERMANENT_SESSION_LIFETIME"]= timedelta(seconds=5)
 #we initialize the flask-login
 from flask_login import LoginManager,current_user
@@ -29,8 +31,7 @@ login_manager.session_protection = "strong"
 
 
 from DbController import db_start,create_db_users
-#we initialize Bcrypt
-bcrypt = Bcrypt(app)
+
 
 
 
