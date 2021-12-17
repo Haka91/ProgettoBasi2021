@@ -83,8 +83,9 @@ def registerFunction():
         email=request.form["email"].lower()
         cellular=request.form["telefono"].lower()
         password=request.form["password"].lower()
-        if(name and surname and address and city and email and cellular and password):
-
+        password2=request.form["password2"].lower()
+        if(name and surname and address and city and email and cellular and password and password2):
+            # INSERT CHECK OF PASSWORD AND PASSWORD2
             temp_user=User(name,surname,email,cellular,address,city,password,1)
             if(temp_user.add_obj()):
                 print("user registrato")

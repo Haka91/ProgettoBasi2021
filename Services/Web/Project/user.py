@@ -62,7 +62,7 @@ def filtraSlotSalaPesi():
         flash("errore nei campi")
         return render_template('/User/filtraSlotSalaPesi.html',tableVisible=''' hidden="hidden" ''' ,formVisible='''  ''')
 
-    # QUERY FOR SLOTS NEEDED
+    # weightRooms = QUERY FOR SLOTS NEEDED
     return render_template('/User/prenotaSalaPesi.html',dataString=dataString,dove=dove,tableVisible=tableVisible,formVisible=formVisible)
 
 
