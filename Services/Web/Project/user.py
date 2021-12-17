@@ -15,7 +15,7 @@ from Models.Lessons import Lesson
 from Models.Courses import Course
 from DbController import session
 from flask_login import current_user
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from Models.Days import Day
 from Models.Reservations import Weight_Room_Reservation
 
@@ -250,23 +250,41 @@ def filtraLezioniCorsi():
     userName = "Ciao "+current_user.name+" ! "
     tableVisible='''  ''' #now the table will be visible
     formVisible=''' hidden="hidden" ''' # now the form is NOT visible
-
+    lessons=list()
     try:
         idCorso = request.form.get('corsi')
-        lessons = session.query(Lesson).filter(Lesson.course==idCorso)
-
-    except:
-       flash("Errore")  # DO YOU WANT TO SPECIFY BETTER ???  
+        corso = session.query(Course).get(idCorso)
+        lessonsTuple=corso.lessons_obj
+        print("qui esplode 1")
+        for lesson in lessonsTuple:
+            print("qui esplode 2")
+            if lesson.lessonSlotFree():
+                print("qui esplode 3")
+                #controlla perchè si rompe tutto
+                
+                print("dai che va",lesson.reservation_slot_obj.day>date.today())
+                if lesson.reservation_slot_obj.day>date.today():
+                    lessons.append(lesson)
+            else:
+                 lessons.append(lesson)
+            
+       
+    except Exception as e:
+       print(e)
+       flash("impossibile recuperare lista Lezioni")  
        redirect(url_for('user.iscrizioneAiCorsi'))
-
-    return render_template('/User/iscrizioneAiCorsi.html',tableVisible=tableVisible,formVisible=formVisible,userName=userName,lessons=lessons)
+    lessonResult=tuple(lessons)
+    return render_template('/User/iscrizioneAiCorsi.html',tableVisible=tableVisible,formVisible=formVisible,userName=userName,lessons=lessonResult)
 
 
 # Function to book a lesson
 @user.route('/faiPrenotazioneLezione/<int:idLezione>')
 @login_required
 def faiPrenotazioneLezione(idLezione):
-    # BOOK LESSON
+    lesson=session.query(Lesson).get(idLezione)
+    if(lesson.lessonSlotFree()):
+        if(not lesson.add_obj()):
+            flash("impossibile iscriversi alla lezione")
     return redirect(url_for('user.iscrizioneAiCorsi'))
 
 
