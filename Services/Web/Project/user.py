@@ -17,6 +17,7 @@ from DbController import session
 from flask_login import current_user
 from datetime import datetime, timedelta
 from Models.Days import Day
+from Models.Reservations import Weight_Room_Reservation
 
 
 user = Blueprint('user',__name__,url_prefix='/user')
@@ -38,8 +39,8 @@ def introduzione():
 def prenotazioniAttive():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
-    # QUERY NEEDED
-    return render_template('/User/prenotazioniAttive.html',userName=userName) 
+    print(len(current_user.reservations_obj))
+    return render_template('/User/prenotazioniAttive.html',userName=userName,prenotazioni=current_user.reservations_obj) 
 
 
 # Page where is possible to see the bookings for the weight rooms and it is possible to book a reservation for
@@ -95,8 +96,7 @@ def filtraSlotSalaPesi():
     try:    
         dayWithPolicy=session.query(Day).filter(Day.date==data).first()
         room=session.query(Weight_Room).filter(Weight_Room.id==roomID).first()
-        policy=dayWithPolicy.policy_obj
-        print(policy.name,policy.room_percent,policy.max_user_reserv)
+        policy=dayWithPolicy.policy_obj        
     except Exception as e:        
         flash("nessuno slot prenotazione disponibile in questa giornata")
         slots=session.query(Reservation_Slot).filter(Reservation_Slot.day == data).all()
@@ -107,25 +107,33 @@ def filtraSlotSalaPesi():
     #prendo gli slot della giornata,sono costretto a prenderli senza tutti i filtri per come funziona sqlORM
     slots=session.query(Reservation_Slot).filter(Reservation_Slot.day == data).all()
     slotlist=list(slots)
-    #controllo aggiuntivo se percaso jinja non ha preso correttamente i campi
-    if(room and dayWithPolicy and policy):
+    #controllo aggiuntivo se percaso jinja non ha preso correttamente i campi    
+    if(room is not None and dayWithPolicy is not None  and policy is not None):
         prenotationRemaining=policy.max_user_reserv
+        
+        
         for slot in slots:
-            if not slot.slotFull(int(room.max_capacity*(policy.room_percent/100)),roomID) :
+          
+            if  slot.slotFree(int(room.max_capacity*(policy.room_percent/100)),roomID) :
                 for weightReservation in slot.weight_reservations_obj:
                     #controllo se ho uno slot qualsiasi già prenotato nella giornata
+                    print(weightReservation.user,current_user.id)
                     if (weightReservation.user==current_user.id):
                         prenotationRemaining=prenotationRemaining-1
                         slotlist.remove(slot)
                     
-                else:
-                    slotlist.remove(slot)
+                    else:
+                        slotlist.remove(slot)
+            
         if(len(slotlist)==0):
             flash("nessuno slot prenotazione disponibile in questa giornata")
+        if(prenotationRemaining<=0):
+            slotlist=list()
+            flash("prenotazioni massime raggiunte")
     else:
         flash("seleziona tutti i campi prima di effettuare la ricerca")
     slotTuple=tuple(slotlist)
-    # weightRooms = QUERY FOR SLOTS NEEDED
+    
     return render_template('/User/prenotaSalaPesi.html',roomID=roomID,userName=userName,dataString=dataString,dove=roomID,tableVisible=tableVisible,formVisible=formVisible,weightRoomsSlot=slotTuple)
 
 
@@ -134,7 +142,18 @@ def filtraSlotSalaPesi():
 @user.route('/faiPrenotazioneSalaPesi/<int:idRoom>,<int:idSlot>')
 @login_required
 def faiPrenotazioneSalaPesi(idRoom,idSlot):
-    # BOOK SLOT
+
+    #ricontrollo che sia ancora libero lo slot    
+    slot=session.query(Reservation_Slot).get(idSlot)
+    policy=slot.day_obj.policy_obj
+    room=session.query(Weight_Room).filter(Weight_Room.id==idRoom).first()
+       
+    if(slot.slotFree(int(room.max_capacity*(policy.room_percent/100)),idRoom)):
+       reservation= Weight_Room_Reservation(idRoom,idSlot,current_user.id)       
+       if(not reservation.add_obj() ):
+          flash("impossibile inserire prenotazione")
+    else:
+         flash("slot orario pieno")    
     return redirect(url_for('user.prenotaSalaPesi'))
 
 
