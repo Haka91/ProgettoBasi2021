@@ -82,7 +82,9 @@
                 <td style="text-align: center; width: 10%;">{{ Day.break_slot }}</td>
                 <td style="text-align: center; width: 10%;">{{ Day.policy_obj.name }}</td>
                 {% if Day.is_deletable() %}
-                <td style="text-align: center; width: 10%;">INSERISCI LINK PER DELETE </td>
+                <td style="text-align: center; width: 10%;">
+                    <a href="{{url_for('manager.eliminazioneOrariPalestra', idDay=Day.id)}}">Elimina</a>
+                </td>
                 {% else %}
                 <td style="text-align: center; width: 10%;">falso</td>
                 {% endif %}

@@ -280,3 +280,12 @@ def attivaDisattivaCorso(idCorso):
     # IMPLEMENTION NEEDED
     #corso.activate_or_deactivate_obj()
     return redirect(url_for('manager.gestioneCorsi'))
+
+
+# Function to delete a selected time table for a specified range of days
+@manager.route('/eliminazioneOrariPalestra/<int:idDay>')
+@login_required
+@at_least_manager_required
+def eliminazioneOrariPalestra(idDay):
+    # DELETE DAY
+    return redirect(url_for('manager.gestioneOrariPalestra'))
