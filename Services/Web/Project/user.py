@@ -12,7 +12,8 @@ from Models.Rooms import Weight_Room,Course_Room,Room
 from Models.Reservations import Reservation
 from Models.Lessons import Lesson
 from Models.Courses import Course
-
+from DbController import session
+from flask_login import current_user
 
 
 user = Blueprint('user',__name__,url_prefix='/user')
@@ -37,7 +38,7 @@ def prenotazioniAttive():
 # Page where is possible to see the bookings for the weight rooms and it is possible to book a reservation for
 # one of the weight rooms
 @user.route('/prenotaSalaPesi')
-#@login_required
+@login_required
 def prenotaSalaPesi():
     stanze = session.query(Weight_Room).all()
     tableVisible=''' hidden="hidden" ''' #now the table is NOT visible
@@ -48,27 +49,28 @@ def prenotaSalaPesi():
 # Function to research available slots on the prenotaSalaPesi page
 # It shows the slots available in the selected day and room
 @user.route('/filtraSlotSalaPesi', methods = ['POST', 'GET'])
-#@login_required
+@login_required
 def filtraSlotSalaPesi():
     tableVisible='''  ''' #now the table will be visible
     formVisible=''' hidden="hidden" ''' # now the form is NOT visible
 
     try:
         dataString=request.form.get('date')
-        dove = int(request.form["chooseroom"])
+        dove = request.form.get('chooseroom')
 
     except:
         flash("errore nei campi")
         return render_template('/User/filtraSlotSalaPesi.html',tableVisible=''' hidden="hidden" ''' ,formVisible='''  ''')
 
-    return render_template('/User/prenotaSalaPesi.html',dataString=dataString,dove=dove)
+    # QUERY FOR SLOTS NEEDED
+    return render_template('/User/prenotaSalaPesi.html',dataString=dataString,dove=dove,tableVisible=tableVisible,formVisible=formVisible)
 
 
 # Function to book weight room on a specific time slot
-@user.route('/faiPrenotazioneSalaPesi/<int:idRoom>')
+@user.route('/faiPrenotazioneSalaPesi/<int:idRoom>,<int:idSlot>')
 @login_required
-def faiPrenotazioneSalaPesi(id):
-    # DO STUFF
+def faiPrenotazioneSalaPesi(idRoom,idSlot):
+    # BOOK SLOT
     return redirect(url_for(user.prenotaSalaPesi))
 
 
@@ -82,20 +84,62 @@ def iscrizioneAiCorsi():
     return render_template('/User/iscrizioneAiCorsi.html',courses=courses)
 
 
-# Page to book lessons
-@user.route('/prenotaLezioneCorso')
-@login_required
-def prenotaLezioneCorso():
-    lessons=session.query(Lesson)
-    return render_template('/User/prenotaLezioneCorso.html',lessons=lessons) 
-
-
 # Page to change user's data
 @user.route('/cambiaDatiUtente')
 @login_required
 def cambiaDatiUtente():
-    # CHANGE USER DATA
-    return render_template('/User/cambiaDatiUtente.html') 
+    # retireve the current user
+    nome = current_user.name
+    cognome = current_user.surname
+    email = current_user.email
+    telefono = current_user.cellular
+    indirizzo = current_user.address
+    citta = current_user.city
+    return render_template('/User/cambiaDatiUtente.html',nome = nome,cognome=cognome,email=email,telefono=telefono,indirizzo=indirizzo,citta=citta)
+
+
+@user.route('/modificaDatiUtente', methods = ['POST', 'GET']) 
+@login_required
+def modificaDatiUtente():
+    
+    try:
+        current_user.name = request.form.get('nome')    
+        current_user.surname = request.form.get('cognome')
+        current_user.email = request.form.get('email')
+        current_user.cellular = request.form.get('telefono')
+        current_user.address = request.form.get('indirizzo')
+        current_user.city = request.form.get('citta')
+    
+    except:
+        flash("errore nei campi")
+        return redirect(url_for('user.cambiaDatiUtente'))
+
+    flash("modifica dati utente avvenuta con successo!")
+    return redirect(url_for('user.cambiaDatiUtente'))
+
+
+# Function to modify user password
+@user.route('/modificaPasswordUtente', methods = ['POST', 'GET'])
+@login_required
+def modificaPasswordUtente():
+    oldPassword = ""
+    newPassword = ""
+    newPassword2 = ""
+
+    try:
+        oldPassword = request.form.get('password')
+        newPassword = request.form.get('newPassword')
+        newPassword2 = request.form.get('newPassword2')
+        if  current_user.password == oldPassword  and  newPassword == newPassword2:
+            current_user.password = newPassword
+        else:
+            flash('Errore nel cambio password')
+        
+    except:
+        flash('Errore nel cambio password')
+
+    flash('Password cambiata correttamente')
+    return redirect(url_for('user.cambiaDatiUtente'))
 
 
 # Function to book a lesson

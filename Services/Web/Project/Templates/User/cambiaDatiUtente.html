@@ -16,9 +16,6 @@
         <a class="nav-link" href="{{url_for('user.iscrizioneAiCorsi')}}">Iscrizione ai Corsi</a>  
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{url_for('user.prenotaLezioneCorso')}}">Prenota Lezione Corso</a>  
-    </li>
-    <li class="nav-item">
         <a class="nav-link" href="{{url_for('user.cambiaDatiUtente')}}">Gestione Utente</a>  
     </li>
     <li class="nav-item">
@@ -41,7 +38,6 @@
   {% endif %}
 {% endwith %}
 
-<!-- UNA VOLTA CHE SI HANNO I DATI DA PASSARE AL TEMPLATE POPOLARE LE INPUT CON I DATI SALVATI SUL DB E PERMETTERE ALL'UTENTE DI MODIFICARLI RISCRIVENDO SUI CAMPI E POI CLICCANDO FATTO -->
 
 <!-- Stampa attributi utente -->
 <br> <br>
@@ -60,13 +56,45 @@
 
             <div class="col-lg-12 login-form">
                 <div class="col-lg-12 login-form">
-                    <form action="#" method="post">
-                        <input type="text" id="nome" name="nome" class="form-control" placeholder="nome">
-                        <input type="text" id="cognome" name="cognome" class="form-control" placeholder="cognome">
-                        <input type="text" id="email" name="email" class="form-control" placeholder="Email">
-                        <input type="text" id="telefono" name="telefono" class="form-control" placeholder="Numero di telefono">
-                        <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+                    <form action="{{url_for('user.modificaDatiUtente')}}" method="post">
+                        <input type="text" id="nome" name="nome" class="form-control" placeholder="nome" value="{{nome}}">
+                        <input type="text" id="cognome" name="cognome" class="form-control" placeholder="cognome" value="{{congome}}">
+                        <input type="text" id="email" name="email" class="form-control" placeholder="email" value="{{email}}">
+                        <input type="text" id="telefono" name="telefono" class="form-control" placeholder="telefono" value="{{telefono}}">
+                        <input type="text" id="indirizzo" name="indirizzo" class="form-control" placeholder="indirizzo" value="{{indirizzo}}">
+                        <input type="text" id="citta" name="citta" class="form-control" placeholder="città" value="{{citta}}">
                         <input class="btn btn-lg btn-primary btn-block" type="submit" value="Fatto" name="Fatto" />
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-2"></div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Form for changing user password -->
+<br> <br><br>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-2"></div>
+        <div class="col-lg-6 col-md-8 login-box">
+            <div class="col-lg-12 login-key">
+                <i class="fa fa-key" aria-hidden="true"></i>
+            </div>
+            <h1 align="center">
+                Dati dell'Utente
+            </h1>
+
+            <br> <br>
+
+            <div class="col-lg-12 login-form">
+                <div class="col-lg-12 login-form">
+                    <form action="{{url_for('user.modificaPasswordUtente')}}" method="post">
+                        <input type="text" id="password" name="password" class="form-control" placeholder="">
+                        <input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="inserisci nuova password">
+                        <input type="password" id="newPassword2" name="newPassword2" class="form-control" placeholder="re-inserisci nuova password">
+                        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Cambia password" name="Cambia password" />
                     </form>
                 </div>
             </div>

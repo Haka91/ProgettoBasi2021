@@ -16,9 +16,6 @@
         <a class="nav-link" href="{{url_for('user.iscrizioneAiCorsi')}}">Iscrizione ai Corsi</a>  
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{url_for('user.prenotaLezioneCorso')}}">Prenota Lezione Corso</a>  
-    </li>
-    <li class="nav-item">
         <a class="nav-link" href="{{url_for('user.cambiaDatiUtente')}}">Gestione Utente</a>  
     </li>
     <li class="nav-item">
@@ -59,9 +56,9 @@
                     <form action="{{url_for('user.filtraSlotSalaPesi')}}" method="post">
                         <input type="date" id="data" name="data" class="form-control">
                         <label for="data">data</label><br>
-                        <select id="chooseroom">
+                        <select id="chooseroom" name="chooseroom">
                             {% for Room in stanze %}
-                                <option id="{{Room.id}}">{{Room.name}}</option>
+                                <option value="{{Room.id}}">{{Room.name}}</option>
                             {% endfor %}
                         </select>
                         <input class="btn btn-lg btn-primary btn-block" type="submit" value="Inserisci" name="Inserisci" />
@@ -76,6 +73,7 @@
 
 <!-- Table for select  -->
 <br><br>
+<h2 align="center" {{tableVisible}} > Slot Prenotabili </h2><br><br>
 <table id="table" class="table" {{tableVisible}}>
     <thead class="thead-dark">
         <tr>
