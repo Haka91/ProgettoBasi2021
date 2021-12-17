@@ -234,20 +234,20 @@ def filtraLezioniCorsi():
 
     try:
         idCorso = request.form.get('corsi')
-        lessons = session.query(Lesson).filter(Lesson.course==idCorso).all()
+        lessons = session.query(Lesson).filter(Lesson.course==idCorso)
 
     except:
-       flash("Errore")  # DO YOU WANT TO BETTER SPECIFY ???  
+       flash("Errore")  # DO YOU WANT TO SPECIFY BETTER ???  
        redirect(url_for('user.iscrizioneAiCorsi'))
 
-    return render_template('/User/iscrizioneAiCorsi.html',tableVisible=tableVisible,formVisible=formVisible,userName=userName,idCorso=idCorso,lessons=lessons)
+    return render_template('/User/iscrizioneAiCorsi.html',tableVisible=tableVisible,formVisible=formVisible,userName=userName,lessons=lessons)
 
 
 # Function to book a lesson
-@user.route('/faiPrenotazioneLezione/<int:idLesson>')
+@user.route('/faiPrenotazioneLezione/<int:idLezione>')
 @login_required
-def faiPrenotazioneLezione(idLesson):
+def faiPrenotazioneLezione(idLezione):
     # BOOK LESSON
-    return redirect(url_for('user.prenotaLezioneCorso'))
+    return redirect(url_for('user.iscrizioneAiCorsi'))
 
 

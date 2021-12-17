@@ -92,8 +92,8 @@
     <tbody>
         {% for Lesson in lessons %}
             <tr>
-                <td style="text-align: center; width: 10%;">{{ Lesson.reservation_slot }}</td>
-                <td style="text-align: center; width: 10%;">MA COME FACCIO A RECUPERARE IL GIORNO?!?</td>     
+                <td style="text-align: center; width: 10%;">{{ Lesson.reservation_slot_obj.slot_time }}</td>
+                <td style="text-align: center; width: 10%;">{{ Lesson.reservation_slot_obj.day }}</td>     
                 <td style="text-align: center; width: 10%;">
                     <a href="{{url_for('user.faiPrenotazioneLezione', idLezione=Lesson.id)}}">iscriviti</a>
                 </td>      
