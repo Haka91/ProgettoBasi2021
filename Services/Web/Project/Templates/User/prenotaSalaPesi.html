@@ -42,32 +42,24 @@
 
 
 <br><br>
-<!-- DEVO CAPIRE COME FARE IN MODO DI POTER PRENOTARE UN DETERMINATO SLOT ORARIO, PER ORA LI STAMPO -->
-
 <!-- Stampa la lista degli slot di palestra attivi -->
-<h1 align="center"> Prenotati per la Sala Pesi </h1>
-<p align="center"> Ogni slot ha la durata di 30 minuti </p>
-
 <!-- Form per creare una nuova sala -->
-<div class="container">
+<div class="container" {{formVisible}}>
     <div class="row">
         <div class="col-lg-3 col-md-2"></div>
         <div class="col-lg-6 col-md-8 login-box">
             <div class="col-lg-12 login-key">
                 <i class="fa fa-key" aria-hidden="true"></i>
             </div>
-            <h1 align="center">
-                Prenota sala pesi
-            </h1>
-
+            <h1 align="center" > Prenotati per la Sala Pesi </h1>
+            <p align="center" > Ogni slot ha la durata di 30 minuti </p>
             <br> <br>
-
             <div class="col-lg-12 login-form">
                 <div class="col-lg-12 login-form">
-                    <form action="#" method="post">
+                    <form action="{{url_for('user.filtraSlotSalaPesi')}}" method="post">
                         <input type="date" id="data" name="data" class="form-control">
                         <label for="data">data</label><br>
-                        <select id="listaStanze">
+                        <select id="chooseroom">
                             {% for Room in stanze %}
                                 <option id="{{Room.id}}">{{Room.name}}</option>
                             {% endfor %}
@@ -82,9 +74,9 @@
 </div>
 
 
-
+<!-- Table for select  -->
 <br><br>
-<table id="table" class="table">
+<table id="table" class="table" {{tableVisible}}>
     <thead class="thead-dark">
         <tr>
             <th style="text-align: center;" scope="col">Ora</th>
@@ -98,41 +90,12 @@
                 <td style="text-align: center; width: 10%;">{{ Room.slot_time }}</td>
                 <td style="text-align: center; width: 10%;">{{ Room.free }}</td>
                 <td style="text-align: center; width: 10%;">
-                    <a href="{{url_for('user.faiPrenotazioneSalaPesi', id=Room.id)}}">prenota</a>
+                    <a href="{{url_for('user.faiPrenotazioneSalaPesi', idRoom=Room.id,)}}">prenota</a>
                 </td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
 <br><br>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
 
 {% endblock %}
