@@ -58,11 +58,17 @@
                 <div class="col-lg-12 login-form">
                     <form action="{{url_for('user.modificaDatiUtente')}}" method="post">
                         <input type="text" id="nome" name="nome" class="form-control" placeholder="nome" value="{{nome}}">
+                        <label for="nome">nome</label><br><br>
                         <input type="text" id="cognome" name="cognome" class="form-control" placeholder="cognome" value="{{congome}}">
+                        <label for="cognome">cognome</label><br><br>
                         <input type="text" id="email" name="email" class="form-control" placeholder="email" value="{{email}}">
+                        <label for="email">email</label><br><br>
                         <input type="text" id="telefono" name="telefono" class="form-control" placeholder="telefono" value="{{telefono}}">
+                        <label for="telefono">telefono</label><br><br>
                         <input type="text" id="indirizzo" name="indirizzo" class="form-control" placeholder="indirizzo" value="{{indirizzo}}">
+                        <label for="indirizzo">indirizzo</label><br><br>
                         <input type="text" id="citta" name="citta" class="form-control" placeholder="città" value="{{citta}}">
+                        <label for="citta">città</label><br><br>
                         <input class="btn btn-lg btn-primary btn-block" type="submit" value="Fatto" name="Fatto" />
                     </form>
                 </div>
@@ -92,8 +98,11 @@
                 <div class="col-lg-12 login-form">
                     <form action="{{url_for('user.modificaPasswordUtente')}}" method="post">
                         <input type="text" id="password" name="password" class="form-control" placeholder="">
-                        <input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="inserisci nuova password">
-                        <input type="password" id="newPassword2" name="newPassword2" class="form-control" placeholder="re-inserisci nuova password">
+                        <label for="password">password corrente</label><br><br>
+                        <input type="password" id="newPassword" name="newPassword" class="form-control">
+                        <label for="newPassword">nuova password</label><br><br>
+                        <input type="password" id="newPassword2" name="newPassword2" class="form-control">
+                        <label for="newPassword2">re.-inserisci nuova password</label><br><br>
                         <input class="btn btn-lg btn-primary btn-block" type="submit" value="Cambia password" name="Cambia password" />
                     </form>
                 </div>
