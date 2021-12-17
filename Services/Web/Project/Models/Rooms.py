@@ -39,7 +39,7 @@ class Weight_Room(Room):
          
     id = Column(Integer,ForeignKey(Room.id),primary_key=True)
 
-    weight_reservations_obj=relationship("Weight_Room_Reservation" ,back_populates="weight_room_obj")
+    weight_reservations_obj=relationship("Weight_Room_Reservation" ,back_populates="weight_room_obj",cascade="all, delete")
 
     def __init__(self,name,description,max_capacity):
         self.name=name
@@ -66,6 +66,10 @@ class Weight_Room(Room):
             except:
                session.rollback()
                return False
+
+
+    def is_deletable(self):
+        return True
     __mapper_args__ = {
      
         'polymorphic_identity':True
@@ -77,7 +81,7 @@ class Course_Room(Room):
         
     id = Column(Integer,ForeignKey(Room.id),primary_key=True)  
 
-    lessons_obj=relationship("Lesson",back_populates="course_room_obj")
+    lessons_obj=relationship("Lesson",back_populates="course_room_obj",cascade="all, delete")
  
 
     def __init__(self,name,description,max_capacity):
@@ -105,6 +109,7 @@ class Course_Room(Room):
             except:
                session.rollback()
                return False
+    
     __mapper_args__ = {
        
         'polymorphic_identity':False

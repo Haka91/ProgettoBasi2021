@@ -94,10 +94,9 @@
             <tr>
                 <td style="text-align: center; width: 10%;">{{ Reservation_slot.slot_time }}</td>  
                 <td style="text-align: center; width: 10%;">{{ Reservation_slot.prenotationOnSlotforRoom(roomID) }}</td>  
-                          <!-- LINK CON IDSLOT ED IDSTANZA -->
                 <td style="text-align: center; width: 10%;">
                     <a href="{{url_for('user.faiPrenotazioneSalaPesi',idRoom=roomID,idSlot=Reservation_slot.id)}}">prenota</a>
-                </td>
+                </td>                         
             </tr>
         {% endfor %}
     </tbody>

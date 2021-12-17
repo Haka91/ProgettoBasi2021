@@ -61,6 +61,7 @@ class User(UserMixin,Base):
         self.city=city
         self.password=bcrypt.generate_password_hash(password).decode("utf-8")
         self.role=role
+        
 
     def checkpsw(self, password):
         return bcrypt.check_password_hash(self.password, password)
@@ -121,6 +122,7 @@ class User(UserMixin,Base):
             session.commit()
             return True
         except:
+            print("error")
             session.rollback()
             return False
 
@@ -157,20 +159,6 @@ def load_user(id_user):
         None
 
 
-#token creation
-def get_secret_token(self, expires_sec=4800):
-    sz = Timed_URL_Serializer(secret_key, expires_sec)
-    token = sz.dumps({"_id_user": self._user_id}).decode("utf-8")
-    return token
-
-@staticmethod
-def check_token_validity(token):
-    sz = Timed_URL_Serializer(secret_key)
-    try:
-        _id_user = sz.loads(token)["_id_user"]
-    except:
-        return None
-    return session.query(User).get(_id_user) 
 
 
 
