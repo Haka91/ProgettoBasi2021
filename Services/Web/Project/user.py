@@ -86,7 +86,7 @@ def filtraSlotSalaPesi():
         stanze=session.query(Course_Room).all()
         tableVisible=''' hidden="hidden" ''' #now the table is NOT visible
         formVisible='''  ''' # now the form is visible
-        return render_template('/User/prenotaSalaPesi.html',roomID=roomID,userName=userName,stanze=stanze,tableVisible=tableVisible,formVisible=formVisible)      
+        return render_template('/User/prenotaSalaPesi.html',userName=userName,stanze=stanze,tableVisible=tableVisible,formVisible=formVisible)      
 
  
     titleTable = "Slot prenotabili"
@@ -126,7 +126,7 @@ def filtraSlotSalaPesi():
         flash("seleziona tutti i campi prima di effettuare la ricerca")
     slotTuple=tuple(slotlist)
     # weightRooms = QUERY FOR SLOTS NEEDED
-    return render_template('/User/prenotaSalaPesi.html',dataString=dataString,dove=roomID,tableVisible=tableVisible,formVisible=formVisible,weightRoomsSlot=slotTuple)
+    return render_template('/User/prenotaSalaPesi.html',roomID=roomID,userName=userName,dataString=dataString,dove=roomID,tableVisible=tableVisible,formVisible=formVisible,weightRoomsSlot=slotTuple)
 
 
 
@@ -135,7 +135,7 @@ def filtraSlotSalaPesi():
 @login_required
 def faiPrenotazioneSalaPesi(idRoom,idSlot):
     # BOOK SLOT
-    return redirect(url_for(user.prenotaSalaPesi))
+    return redirect(url_for('user.prenotaSalaPesi'))
 
 
 
