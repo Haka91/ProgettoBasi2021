@@ -145,9 +145,10 @@ def faiPrenotazioneSalaPesi(idRoom,idSlot):
 def iscrizioneAiCorsi():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
-    # REGISTER PERSON TO THE COURSE
     courses=session.query(Course)
-    return render_template('/User/iscrizioneAiCorsi.html',userName=userName,courses=courses)
+    tableVisible=''' hidden="hidden" ''' #now the table will be hidden
+    formVisible='''  ''' # now the form is visible
+    return render_template('/User/iscrizioneAiCorsi.html',userName=userName,courses=courses,tableVisible=tableVisible,formVisible=formVisible)
 
 
 # Page to change user's data
@@ -213,6 +214,35 @@ def modificaPasswordUtente():
     return redirect(url_for('user.cambiaDatiUtente'))
 
 
+# Page to see the name, trainer name and description of a specific course
+@user.route('/infoCorso/<int:idCorso>,<string:nomeCorso>,<string:nomeTrainer>,<string:descrizione>')
+@login_required
+def infoCorso(idCorso,nomeCorso,nomeTrainer,descrizione):
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
+    return render_template('/User/infoCorso.html',userName=userName,nomeCorso=nomeCorso,nomeTrainer=nomeTrainer,descrizione=descrizione)
+
+
+# Function that filters the lessons based on the selection of a course on the iscrizioneAiCorsi.html page
+@user.route('/filtraLezioniCorsi', methods = ['POST', 'GET'])
+@login_required
+def filtraLezioniCorsi():
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
+    tableVisible='''  ''' #now the table will be visible
+    formVisible=''' hidden="hidden" ''' # now the form is NOT visible
+
+    try:
+        idCorso = request.form.get('corsi')
+        lessons = session.query(Lesson).filter(Lesson.course==idCorso).all()
+
+    except:
+       flash("Errore")  # DO YOU WANT TO BETTER SPECIFY ???  
+       redirect(url_for('user.iscrizioneAiCorsi'))
+
+    return render_template('/User/iscrizioneAiCorsi.html',tableVisible=tableVisible,formVisible=formVisible,userName=userName,idCorso=idCorso,lessons=lessons)
+
+
 # Function to book a lesson
 @user.route('/faiPrenotazioneLezione/<int:idLesson>')
 @login_required
@@ -221,10 +251,3 @@ def faiPrenotazioneLezione(idLesson):
     return redirect(url_for('user.prenotaLezioneCorso'))
 
 
-# Page to see the name, trainer name and description of a specific course
-@user.route('/infoCorso/<int:idCorso>,<string:nomeCorso>,<string:nomeTrainer>,<string:descrizione>')
-@login_required
-def infoCorso(idCorso,nomeCorso,nomeTrainer,descrizione):
-    # string to show in the navbar of the page
-    userName = "Ciao "+current_user.name+" ! "
-    return render_template('/User/infoCorso.html',userName=userName,nomeCorso=nomeCorso,nomeTrainer=nomeTrainer,descrizione=descrizione)

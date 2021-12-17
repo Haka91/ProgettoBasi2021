@@ -44,30 +44,58 @@
   {% endif %}
 {% endwith %}
 
+
+<br><br>
+<!-- Form needed to filter the lessons, based on the selection of a course -->
+<div class="container" {{formVisible}}>
+    <div class="row">
+        <div class="col-lg-3 col-md-2"></div>
+        <div class="col-lg-6 col-md-8 login-box">
+            <div class="col-lg-12 login-key">
+                <i class="fa fa-key" aria-hidden="true"></i>
+            </div>
+            <h1 align="center" > Seleziona un corso </h1>
+            <br> <br>
+            <div class="col-lg-12 login-form">
+                <div class="col-lg-12 login-form">
+                    <form action="{{url_for('user.filtraLezioniCorsi')}}" method="post">
+                        <select id="corsi" name="corsi">
+                            {% for Course in courses %}
+                                <option value="{{Course.id}}">{{Course.name}}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="corsi">Seleziona corso</label><br>
+                        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Cerca Lezioni" name="Cerca Lezioni" />
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-2"></div>
+        </div>
+    </div>
+</div>
+
+
+
 <!-- Iscrizione ad un corso da parte dell'utente -->
 <br><br>
-<h1 align="center">Corsi palestra</h1>
+<h1 align="center" {{tableVisible}}>Lezioni {{courseName}}</h1>
 <br><br>
 
-<table id="table" class="table">
+<table id="table" class="table" {{tableVisible}}>
     <thead class="thead-dark">
         <tr>
-            <th style="text-align: center;" scope="col">Nome</th>
-            <th style="text-align: center;" scope="col">Trainer</th>
-            <th style="text-align: center;" scope="col">Info</th>
+            <th style="text-align: center;" scope="col">Slot</th>
+            <th style="text-align: center;" scope="col">Giorno</th>
             <th style="text-align: center;" scope="col">Iscriviti</th>  
         </tr>
     </thead>
     <tbody>
-        {% for Course in courses %}
+        {% for Lesson in lessons %}
             <tr>
-                <td style="text-align: center; width: 10%;">{{ Course.name }}</td>
-                <td style="text-align: center; width: 10%;">{{ Course.trainer_obj.surname }}</td>     
+                <td style="text-align: center; width: 10%;">{{ Lesson.reservation_slot }}</td>
+                <td style="text-align: center; width: 10%;">MA COME FACCIO A RECUPERARE IL GIORNO?!?</td>     
                 <td style="text-align: center; width: 10%;">
-                    <a href="{{url_for('user.infoCorso', idCorso=Course.id, nomeCorso=Course.name, nomeTrainer=Course.trainer_obj.surname, descrizione=Course.description)}}">info</a>
-                </td> 
-                <td style="text-align: center; width: 10%;">
-                    <a href="{{url_for('user.iscrizioneAiCorsi', idCorso=Course.id)}}">lista iscritti</a>
+                    <a href="{{url_for('user.faiPrenotazioneLezione', idLezione=Lesson.id)}}">iscriviti</a>
                 </td>      
             </tr>
         {% endfor %}
