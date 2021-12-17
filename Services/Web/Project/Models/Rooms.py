@@ -66,6 +66,10 @@ class Weight_Room(Room):
             except:
                session.rollback()
                return False
+
+
+    def is_deletable(self):
+        return True
     __mapper_args__ = {
      
         'polymorphic_identity':True
@@ -105,6 +109,7 @@ class Course_Room(Room):
             except:
                session.rollback()
                return False
+    
     __mapper_args__ = {
        
         'polymorphic_identity':False
