@@ -50,7 +50,7 @@ class Reservation_Slot(Base):
                 totalPrenotation+=1
         return totalPrenotation
 
-    def prenotationOnSlotforRoom(self):    
+    def prenotationOnSlot(self):    
         return len(self.weight_reservations_obj)
         
     def add_obj(self):
