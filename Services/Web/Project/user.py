@@ -79,14 +79,14 @@ def filtraSlotSalaPesi():
         stanze = session.query(Weight_Room).all()
         tableVisible=''' hidden="hidden" ''' #now the table is NOT visible
         formVisible='''  ''' # now the form is visible
-        return render_template('/User/prenotaSalaPesi.html',stanze=stanze,tableVisible=tableVisible,formVisible=formVisible)      
+        return render_template('/User/prenotaSalaPesi.html',userName=userName,stanze=stanze,tableVisible=tableVisible,formVisible=formVisible)      
 
     if(data<=datetime.today() or data>=(datetime.today() +timedelta(days=14) )):
         flash("non puoi cercare prenotazioni antecedenti alla data odierna o successive ai prossimi 14 giorni")
         stanze=session.query(Course_Room).all()
         tableVisible=''' hidden="hidden" ''' #now the table is NOT visible
         formVisible='''  ''' # now the form is visible
-        return render_template('/User/prenotaSalaPesi.html',stanze=stanze,tableVisible=tableVisible,formVisible=formVisible)      
+        return render_template('/User/prenotaSalaPesi.html',roomID=roomID,userName=userName,stanze=stanze,tableVisible=tableVisible,formVisible=formVisible)      
 
  
     titleTable = "Slot prenotabili"
