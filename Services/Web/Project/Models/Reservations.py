@@ -13,6 +13,7 @@ from sqlalchemy.orm import with_polymorphic
 from sqlalchemy.sql.expression import false, select, true
 from sqlalchemy.sql.sqltypes import Boolean
 from DbController import Base,session
+from sqlalchemy.schema import UniqueConstraint
 #from Lessons import Lesson
 #from Rooms import Weight_Room
 #from Users import User
@@ -28,12 +29,12 @@ class Reservation(Base):
     id = Column("id",Integer, primary_key=True)     
     is_weight=Column(Boolean)
     user = Column(Integer,ForeignKey("Users.id"),nullable=False)
-   
+    
 
     user_obj=relationship("User",back_populates="reservations_obj")
+
     __mapper_args__={
-      'polymorphic_on':is_weight,
-     
+      'polymorphic_on':is_weight,     
     }
 
 
@@ -43,18 +44,21 @@ class Weight_Room_Reservation(Reservation):
         __tablename__='Weight_Room_Reservations'  
           
         id = Column(Integer,ForeignKey(Reservation.id),primary_key=True)
+        
         weight_room = Column(Integer,ForeignKey("Weight_Rooms.id"),nullable=False)
         reservation_slot=Column(Integer,ForeignKey("Reservation_slots.id"),nullable=false)
 
         reservation_slot_obj=relationship("Reservation_Slot",back_populates="weight_reservations_obj")
         weight_room_obj=relationship("Weight_Room",back_populates="weight_reservations_obj")    
 
+        
 
         def __init__(self,weight_room,reservation_slot,user):
             self.reservation_slot=reservation_slot
             self.weight_room=weight_room
             self.user=user
  
+
 
         def add_obj(self):
 

@@ -34,7 +34,25 @@ class Reservation_Slot(Base):
         self.slot_time=slot_time
         self.day=day
 
+    #lo uso per capire se uno slot è libero per le prenotazioni della sala pesi specifica
+    def slotFull(self,maxPrenotations,idRoom):
+        totalPrenotation=0
+        for weightreservation in self.weight_reservations_obj:
+            if weightreservation.weight_room==idRoom:
+                totalPrenotation+=1
+        return maxPrenotations>=totalPrenotation
+    
+    #ritorna il numero di slot ancora liberi
+    def prenotationOnSlotforRoom(self,idRoom):
+        totalPrenotation=0
+        for weightreservation in self.weight_reservations_obj:
+            if weightreservation.weight_room==idRoom:
+                totalPrenotation+=1
+        return totalPrenotation
 
+    def prenotationOnSlotforRoom(self):    
+        return len(self.weight_reservations_obj)
+        
     def add_obj(self):
 
         try:

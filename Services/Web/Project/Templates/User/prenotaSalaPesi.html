@@ -85,18 +85,16 @@
     <thead class="thead-dark">
         <tr>
             <th style="text-align: center;" scope="col">Ora</th>
-            <th style="text-align: center;" scope="col">Capacità Rimanente</th>
+            <th style="text-align: center;" scope="col">Prenotazioni Attive</th>
             <th style="text-align: center;" scope="col">Prenota</th>
         </tr>
     </thead>
     <tbody>
-        {% for Room in weightRooms %}
+        {% for Reservation_slot in weightRoomsSlot %}
             <tr>
-                <td style="text-align: center; width: 10%;">{{ Room.slot_time }}</td>
-                <td style="text-align: center; width: 10%;">{{ Room.free }}</td>
-                <td style="text-align: center; width: 10%;">
-                    <a href="{{url_for('user.faiPrenotazioneSalaPesi', idRoom=Room.id,)}}">prenota</a>
-                </td>
+                <td style="text-align: center; width: 10%;">{{ Reservation_slot.slot_time }}</td>   
+                          
+                
             </tr>
         {% endfor %}
     </tbody>

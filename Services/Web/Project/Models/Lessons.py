@@ -61,6 +61,7 @@ class Lesson(Base):
             session.rollback()
             return False
 
+    
     def delete_obj(self):
        
         try:

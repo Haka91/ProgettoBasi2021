@@ -10,10 +10,13 @@ from Models.Users import User,at_least_user_required
 from Models.Policies import Policy
 from Models.Rooms import Weight_Room,Course_Room,Room
 from Models.Reservations import Reservation
+from Models.Reservation_Slots import Reservation_Slot
 from Models.Lessons import Lesson
 from Models.Courses import Course
 from DbController import session
 from flask_login import current_user
+from datetime import datetime, timedelta
+from Models.Days import Day
 
 
 user = Blueprint('user',__name__,url_prefix='/user')
@@ -62,16 +65,65 @@ def filtraSlotSalaPesi():
     tableVisible='''  ''' #now the table will be visible
     formVisible=''' hidden="hidden" ''' # now the form is NOT visible
 
-    try:
-        dataString=request.form.get('date')
-        dove = request.form.get('chooseroom')
-
-    except:
+    try :
+        
+        dataString=request.form.get('data')
+        roomID = int(request.form["chooseroom"])      
+        print(dataString)
+        data=datetime.strptime(dataString,'%Y-%m-%d')
+        
+    except :        
         flash("errore nei campi")
-        return render_template('/User/filtraSlotSalaPesi.html',userName=userName,tableVisible=''' hidden="hidden" ''' ,formVisible='''  ''')
 
+
+        stanze = session.query(Weight_Room).all()
+        tableVisible=''' hidden="hidden" ''' #now the table is NOT visible
+        formVisible='''  ''' # now the form is visible
+        return render_template('/User/prenotaSalaPesi.html',stanze=stanze,tableVisible=tableVisible,formVisible=formVisible)      
+
+    if(data<=datetime.today() or data>=(datetime.today() +timedelta(days=14) )):
+        flash("non puoi cercare prenotazioni antecedenti alla data odierna o successive ai prossimi 14 giorni")
+        stanze=session.query(Course_Room).all()
+        tableVisible=''' hidden="hidden" ''' #now the table is NOT visible
+        formVisible='''  ''' # now the form is visible
+        return render_template('/User/prenotaSalaPesi.html',stanze=stanze,tableVisible=tableVisible,formVisible=formVisible)      
+
+ 
+    titleTable = "Slot prenotabili"
+    #ricavo la policy con il numero massimo di slot e la sala pesi
+    print(roomID)
+    try:    
+        dayWithPolicy=session.query(Day).filter(Day.date==data).first()
+        room=session.query(Weight_Room).filter(Weight_Room.id==roomID).first()
+        policy=dayWithPolicy.policy_obj
+        print(policy.name,policy.room_percent,policy.max_user_reserv)
+    except Exception as e:        
+        flash("nessuno slot prenotazione disponibile in questa giornata")
+
+    #prendo gli slot della giornata,sono costretto a prenderli senza tutti i filtri per come funziona sqlORM
+    slots=session.query(Reservation_Slot).filter(Reservation_Slot.day == data).all()
+    slotlist=list(slots)
+    #controllo aggiuntivo se percaso jinja non ha preso correttamente i campi
+    if(room and dayWithPolicy and policy):
+        prenotationRemaining=policy.max_user_reserv
+        for slot in slots:
+            if not slot.slotFull(int(room.max_capacity*(policy.room_percent/100)),roomID) :
+                for weightReservation in slot.weight_reservations_obj:
+                    #controllo se ho uno slot qualsiasi già prenotato nella giornata
+                    if (weightReservation.user==current_user.id):
+                        prenotationRemaining=prenotationRemaining-1
+                        slotlist.remove(slot)
+                    
+                else:
+                    slotlist.remove(slot)
+        if(len(slotlist)==0):
+            flash("nessuno slot prenotazione disponibile in questa giornata")
+    else:
+        flash("seleziona tutti i campi prima di effettuare la ricerca")
+    slotTuple=tuple(slotlist)
     # weightRooms = QUERY FOR SLOTS NEEDED
-    return render_template('/User/prenotaSalaPesi.html',userName=userName,dataString=dataString,dove=dove,tableVisible=tableVisible,formVisible=formVisible)
+    return render_template('/User/prenotaSalaPesi.html',dataString=dataString,dove=roomID,tableVisible=tableVisible,formVisible=formVisible,weightRoomsSlot=slotTuple)
+
 
 
 # Function to book weight room on a specific time slot
