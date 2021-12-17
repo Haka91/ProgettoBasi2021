@@ -1,3 +1,4 @@
+from datetime import date, datetime, timedelta
 from flask.helpers import flash
 from sqlalchemy import Column
 from sqlalchemy import create_engine
@@ -8,6 +9,7 @@ from sqlalchemy import or_
 from sqlalchemy import String
 from sqlalchemy.sql.expression import false
 from sqlalchemy.sql.schema import CheckConstraint
+from sqlalchemy import (String,DateTime,Date,Time)
 
 
 from sqlalchemy.ext.declarative import declared_attr
@@ -35,7 +37,7 @@ class Course(Base):
     maxcostumers= Column(Integer,CheckConstraint('maxcostumers<101'),CheckConstraint('maxcostumers>0'),nullable=False,default=100)
 
 
-    lessons_obj= relationship("Lesson",back_populates="course_obj")
+    lessons_obj= relationship("Lesson",back_populates="course_obj", cascade="all, delete")
     trainer_obj= relationship("User", back_populates="courses_obj")
    
     
@@ -57,9 +59,10 @@ class Course(Base):
                 return False
         else:
             flash("non puoi rendere visibile un corso senza lezioni")
-            return(False)
+            return False
 
-
+    def numberofLesson(self):
+        return len(self.lessons_obj)
 
   
     def add_obj(self):
@@ -83,4 +86,13 @@ class Course(Base):
             session.rollback()
             return False
 
+    def isDeletable(self):
+        deletable=True
+        if len(self.lessons_obj)==0:
+            return deletable
+        else:
+            for lesson in self.lessons_obj:
+               if(lesson.reservation_slot_obj.day >(date.today()- timedelta(days=30))):
+                   deletable=False
+        return deletable
 

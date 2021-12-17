@@ -1,6 +1,6 @@
 from os import name
 from flask import Flask, sessions, g, render_template
-
+from datetime import datetime,timedelta
 
 from config import DATABASE_CONNECTION_URI,secret_key
 
@@ -15,6 +15,9 @@ from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 app.secret_key=secret_key
+#we add this to fix some unwanted behaviour with rememberme and setduration
+app.permanent_session_lifetime =timedelta(minutes=15)
+#app.config["PERMANENT_SESSION_LIFETIME"]= timedelta(seconds=5)
 #we initialize the flask-login
 from flask_login import LoginManager,current_user
 

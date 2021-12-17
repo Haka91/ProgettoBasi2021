@@ -168,22 +168,26 @@ def attivaDisattivaUser(idUser):
     return redirect(url_for('manager.gestioneUtenti'))
 
 
-# Function to trasform User in Trainer
+# Function to change role of  User in Trainer
 @manager.route('/userToTrainer/<int:idUser>')
 @login_required
 @at_least_manager_required
 def userToTrainer(idUser):
-    # DO STUFF
-    return redirect(url_for('manager.gestioneTrainer'))
+    user=session.query(User).get(idUser)
+    if(not user.update_role(2)):
+        flash("impossibile cambiare ruolo all'utente selezionato")
+    return redirect(url_for('manager.gestioneTrainers'))
 
 
-# Function to delete a Trainer
+# Function to change role of a Trainer to User
 @manager.route('/trainerToUser/<int:idUser>')
 @login_required
 @at_least_manager_required
 def trainerToUser(idUser):
-    # DO STUFF
-    return redirect(url_for('manager.gestioneTrainer'))
+    user=session.query(User).get(idUser)
+    if(not user.update_role(1)):
+        flash("impossibile cambiare ruolo all'utente selezionato")
+    return redirect(url_for('manager.gestioneTrainers'))
 
 
 # Function to delete a room
@@ -209,9 +213,7 @@ def eliminaData(data):
 @login_required
 @at_least_manager_required
 def eliminaPolicy(idPolicy):
-    policy=session.query(Policy).get(idPolicy)
-    print(idPolicy)
-    print(policy)
+    policy=session.query(Policy).get(idPolicy)    
     if( policy.is_deletable()):
         policy.delete_obj()
     
@@ -223,7 +225,9 @@ def eliminaPolicy(idPolicy):
 @login_required
 @at_least_manager_required
 def eliminaCorso(idCorso):
-    # DO STUFF
+    course=session.query(Course).get(idCorso)
+    if(course.isDeletable()):
+        course.delete_obj()
     return redirect(url_for('manager.gestioneCorsi'))
 
 
@@ -243,11 +247,15 @@ def gestioneCorsi():
 @manager.route('/infoTrainer/<int:idUser>')
 def infoTrainer(idUser):
     # string to show in the navbar of the page
-    userName = "Ciao "+current_user.name+" ! "
-    # DO WE NEED TO ADD OTHER STUFF?
-    numeroCorsiInsegnati = 2 #QUERY NEEDED
-    numeroLezioni = 2 #QUERY NEEDED
-    return render_template('Manager/infoTrainer.html',userName=userName)
+    userName = "Ciao "+current_user.name+" ! "    
+    
+    trainerObj=session.query(User).get(idUser)
+
+    numeroCorsiInsegnati = len(trainerObj.courses_obj)
+    numeroLezioni = 0
+    for course in trainerObj.courses_obj:
+        numeroLezioni=numeroLezioni + len(course.lessons_obj)
+    return render_template('Manager/infoTrainer.html',userName=userName,numeroLezioni=numeroLezioni,numeroCorsiInsegnati=numeroCorsiInsegnati)
 
 
 # Function that creates a course
@@ -256,13 +264,18 @@ def infoTrainer(idUser):
 @at_least_manager_required
 def creaCorso():
     if request.method=='POST':
-        name=request.form["nome"].lower()
-        description=request.form["descrizione"].lower()
-        trainer=int(request.form.get("selectTrainer"))
-        print(trainer)
+        try:
+            name=request.form["nome"].lower()
+            description=request.form["descrizione"].lower()
+            trainer=int(request.form.get("selectTrainer"))
+            maxcostumers=int(request.form.get("maxcostumers"))
+        except:  
+            flash("Errore nei campi","error") 
+            courses=session.query(Course).all() 
+            return redirect(url_for('manager.gestioneCorsi',corsi=courses))
       
-        if(name and description and trainer):
-            courseToAdd=Course(name,description,trainer)
+        if(name and description and trainer and maxcostumers):
+            courseToAdd=Course(name,description,trainer ,maxcostumers)
             if not (courseToAdd.add_obj()): 
                 flash("Impossibile aggiungere corso")
 
@@ -280,10 +293,8 @@ def creaCorso():
 @login_required
 @at_least_manager_required
 def attivaDisattivaCorso(idCorso):
-    corso = session.query(Course).get(idCorso).first()
-    # HERE NEEDS TO HAPPEN THE ACTIVATION / DEACTIVATION OF THE COURSE
-    # IMPLEMENTION NEEDED
-    #corso.activate_or_deactivate_obj()
+    corso = session.query(Course).get(idCorso)
+    corso.activate_or_deactivate_obj()
     return redirect(url_for('manager.gestioneCorsi'))
 
 
@@ -292,5 +303,9 @@ def attivaDisattivaCorso(idCorso):
 @login_required
 @at_least_manager_required
 def eliminazioneOrariPalestra(idDay):
-    # DELETE DAY
+    dayToDelete=session.query(Day).get(idDay)
+    if(dayToDelete.is_deletable()):
+        dayToDelete.delete_obj()
+    else:
+        flash("Impossibile elimare il giorno")
     return redirect(url_for('manager.gestioneOrariPalestra'))

@@ -1,10 +1,10 @@
 #Questa blueprint sarà per le pagine senza login e per la pagina di login e registrazione
 
+from datetime import datetime, timedelta
 from flask import Flask,request
 from flask import Blueprint, render_template,flash
 from flask.helpers import url_for
 from flask_login import current_user,login_user, logout_user,login_manager
-from sqlalchemy.sql.expression import true
 from werkzeug.utils import redirect
 from Models.Users import User
 from Models.Courses import Course
@@ -46,7 +46,9 @@ def loginFunzione():
         user_session=session.query(User).filter_by(email=login_email).first()
         if user_session:
             if user_session.checkpsw(login_password):
-                login_user(user_session,true,force=true)               
+                login_user(user_session,True,force=True)
+                #we make the session expire after 15 minutes by default
+                session.permanent=True               
                 #flash("login avvenuto con successo","Success")
                 if user_session.role==1:
                      #return render_template('/User/introduzione.html')  
@@ -88,16 +90,20 @@ def registerFunction():
         password=request.form["password"].lower()
         password2=request.form["password2"].lower()
         if(name and surname and address and city and email and cellular and password and password2):
-            # INSERT CHECK OF PASSWORD AND PASSWORD2
-            temp_user=User(name,surname,email,cellular,address,city,password,1)
-            if(temp_user.add_obj()):
-                print("user registrato")
-                return render_template('/General/login.html')   
+            if(password ==password2):
+                temp_user=User(name,surname,email,cellular,address,city,password,1)
+                if(temp_user.add_obj()):
+                    flash("user registrato")
+                    return render_template('/General/login.html')   
+                else:
+                    flash("user non registrato")
+                    return render_template('/General/register.html')
             else:
-                print("user non registrato")
-                return render_template('/General/register.html')   
+                flash("le password devono combaciare")
+                return render_template('/General/register.html')
+
         else:
-            print("campi vuoti")
+            print("i campi non devono essere vuoit")
             return render_template('/General/register.html')   
        
     return render_template('/General/register.html')

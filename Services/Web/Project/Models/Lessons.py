@@ -73,7 +73,19 @@ class Lesson(Base):
             return False
 
     def is_deletable(self):
-        #se ci sono prenotazioni a questa lezione non posso cancellarla
+        #se ci sono prenotazioni in questa lezione non posso cancellarla
         return len(self.course_reservations_obj)==0
+
+    def reservations(self):
+        return len(self.course_reservations_obj)
+
+    def reservationsUsers(self):
+        listOfUsers=list()
+        for courseReservation in self.course_reservations_obj:
+           listOfUsers.append(courseReservation.user_obj)
+        tupleOfUsers=tuple(listOfUsers)
+        return tupleOfUsers
+
+    
 
    
