@@ -74,7 +74,6 @@
         <tr>
             <th style="text-align: center;" scope="col">Nome</th>
             <th style="text-align: center;" scope="col">Stanza</th>
-            <th style="text-align: center;" scope="col">Lista iscritti</th>
         </tr>
     </thead>
     <tbody>
@@ -82,9 +81,6 @@
             <tr>
                 <td style="text-align: center; width: 10%;">{{ Course.name }}</td>
                 <td style="text-align: center; width: 10%;">{{ Course.description }}</td>
-                <td style="text-align: center; width: 10%;">
-                    <a href="{{url_for('instructor.listaIscrittiCorso', idCorso=Course.id, nomeCorso=Course.name)}}">lista iscritti</a>
-                </td>
             </tr>
         {% endfor %}
     </tbody>

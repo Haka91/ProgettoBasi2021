@@ -41,15 +41,14 @@ def introduzione():
 
 
 # Page that shows, for a specific course, the list of users booked for the course
-@instructor.route('/listaIscrittiCorso/<int:idCorso>,<string:nomeCorso>')
+@instructor.route('/listaIscrittiLezione/<int:idLezione>,<string:nomeCorso>')
 @login_required
 @at_least_trainer_required
-def listaIscrittiCorso(idCorso,nomeCorso):
+def listaIscrittiLezione(idLezione,nomeCorso):
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
     utentiIscritti = session.query(User).all() # RETRIEVE LIST OF USERS 
-    corso = session.query(Course).filter_by(id=idCorso).all() 
-    return render_template('/Instructor/listaIscrittiCorso.html',userName=userName,nomeCorso=nomeCorso,utentiIscritti=utentiIscritti)
+    return render_template('/Instructor/listaIscrittiLezione.html',userName=userName,nomeCorso=nomeCorso,utentiIscritti=utentiIscritti)
 
 
 # Page where the next lessons are listed
