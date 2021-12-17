@@ -35,12 +35,12 @@ class Reservation_Slot(Base):
         self.day=day
 
     #lo uso per capire se uno slot è libero per le prenotazioni della sala pesi specifica
-    def slotFull(self,maxPrenotations,idRoom):
+    def slotFree(self,maxPrenotations,idRoom):
         totalPrenotation=0
         for weightreservation in self.weight_reservations_obj:
             if weightreservation.weight_room==idRoom:
                 totalPrenotation+=1
-        return maxPrenotations>=totalPrenotation
+        return maxPrenotations>totalPrenotation
     
 
     #ritorna il numero di slot occupati
