@@ -41,7 +41,9 @@ class Day(Base):
             if(self.opening>=self.closing):
                 flash("Orario di chiusura precedente a apertura")
                 return False
-                      
+            if(self.break_time is not None and self.opening>=self.break_time ):
+                flash("Orario di break precedente ad apertura")
+                return False       
             session.add(self)            
             guard=True
             startTime=self.opening
@@ -70,7 +72,7 @@ class Day(Base):
             session.commit()
             return True
         except Exception as e:
-            #questo errore lo vediamo solo lato admin se mai dovesse succedere,possiamo considerare il manager un utente "sicuro" per mostrargli errori specifici
+             #questo errore lo vediamo solo lato admin se mai dovesse succedere,possiamo considerare il manager un utente "sicuro" per mostrargli errori specifici
             if " duplicate key value violates unique constraint" in e.__str__():
                 flash("Uno o piu' giorno già esistenti nel DB")
             else:

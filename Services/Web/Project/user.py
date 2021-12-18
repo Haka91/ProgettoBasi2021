@@ -75,8 +75,7 @@ def filtraSlotSalaPesi():
     try :
         
         dataString=request.form.get('data')
-        roomID = int(request.form["chooseroom"])      
-        print(dataString)
+        roomID = int(request.form["chooseroom"])
         data=datetime.strptime(dataString,'%Y-%m-%d')
         
     except :        
@@ -98,7 +97,7 @@ def filtraSlotSalaPesi():
  
     titleTable = "Slot prenotabili"
     #ricavo la policy con il numero massimo di slot e la sala pesi
-    print(roomID)
+    
     try:    
         dayWithPolicy=session.query(Day).filter(Day.date==data).first()
         room=session.query(Weight_Room).filter(Weight_Room.id==roomID).first()
@@ -111,7 +110,7 @@ def filtraSlotSalaPesi():
         slotTuple=tuple(slotlist)    
         return render_template('/User/prenotaSalaPesi.html',dataString=dataString,dove=roomID,tableVisible=tableVisible,formVisible=formVisible,weightRoomsSlot=slotTuple)
 
-    #prendo gli slot della giornata,sono costretto a prenderli senza tutti i filtri per come funziona sqlORM
+    #prendo gli slot della giornata,sono costretto a prenderli senza tutti i filtri per come funziona alchemyORM
     slots=session.query(Reservation_Slot).filter(Reservation_Slot.day == data).all()
     slotlist=list(slots)
     #controllo aggiuntivo se percaso jinja non ha preso correttamente i campi    
@@ -124,13 +123,13 @@ def filtraSlotSalaPesi():
             if  slot.slotFree(int(room.max_capacity*(policy.room_percent/100)),roomID) :
                 for weightReservation in slot.weight_reservations_obj:
                     #controllo se ho uno slot qualsiasi già prenotato nella giornata
-                    print(weightReservation.user,current_user.id)
+                   
                     if (weightReservation.user==current_user.id):
+                       
                         prenotationRemaining=prenotationRemaining-1
                         slotlist.remove(slot)
                     
-                    else:
-                        slotlist.remove(slot)
+                  
             
         if(len(slotlist)==0):
             flash("nessuno slot prenotazione disponibile in questa giornata")
