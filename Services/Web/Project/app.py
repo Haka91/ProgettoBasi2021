@@ -1,8 +1,7 @@
-from os import name
-from flask import Flask, sessions, g, render_template
-from datetime import datetime,timedelta
+from flask import Flask
+from datetime import timedelta
 
-from config import DATABASE_CONNECTION_URI,secret_key
+from config import secret_key
 
 from flask_bcrypt import Bcrypt
 

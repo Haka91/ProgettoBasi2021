@@ -1,18 +1,14 @@
 
 from sqlalchemy import (Column,ForeignKey,Integer,String)
 from sqlalchemy.orm import relationship
-from sqlalchemy.util.langhelpers import NoneType
 from DbController import Base,session
 from flask_login import UserMixin,current_user
 from werkzeug.utils import redirect
 from functools import wraps
 from flask.helpers import url_for,flash
-
 from app import bcrypt,login_manager
 
-#from Lessons import Lesson
-#from Reservations import Reservation
-#from Roles import Role
+
 
 
 
@@ -32,14 +28,12 @@ class User(UserMixin,Base):
     password = Column( String, nullable=False)    
     role = Column(Integer,ForeignKey("Roles.id"),nullable=False,default=3)
      
-    #is_authenticated = Column( Boolean, default=False, nullable=False)
-    #is_active = Column( Boolean, default=False, nullable=False)
-    #is_anonymous=Column( Boolean, default=False, nullable=False)
+  
 
     role_obj=relationship("Role",back_populates="users_obj")
 
-    courses_obj=relationship("Course",back_populates="trainer_obj")
-    reservations_obj=relationship("Reservation",back_populates="user_obj")
+    courses_obj=relationship("Course",back_populates="trainer_obj",cascade="all, delete")
+    reservations_obj=relationship("Reservation",back_populates="user_obj",cascade="all, delete")
 
 
 

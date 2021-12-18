@@ -1,21 +1,9 @@
 from flask.helpers import flash
 from sqlalchemy import Column
-from sqlalchemy import create_engine
 from sqlalchemy import ForeignKey
-from sqlalchemy import inspect
 from sqlalchemy import Integer
-from sqlalchemy import or_
-from sqlalchemy import (String,DateTime,Date,Time)
-
-from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship
-from sqlalchemy.orm import Session
-from sqlalchemy.orm import with_polymorphic
-from sqlalchemy.sql.expression import false, true
 from sqlalchemy.schema import UniqueConstraint
-#from Models.Courses import Course
-#from Models.Reservations import Course_Reservations
-#from Models.Users import User
 from DbController import Base,session
 
 

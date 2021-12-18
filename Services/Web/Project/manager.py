@@ -1,10 +1,9 @@
 # Blueprint per la sezione user
 
-from flask import Flask,request
+from flask import request
 from flask import Blueprint, render_template
 from flask_login.utils import login_required
 from flask.helpers import flash, url_for
-from sqlalchemy.sql.sqltypes import ARRAY
 from werkzeug.utils import redirect
 from DbController import session
 from Models.Users import User,at_least_manager_required

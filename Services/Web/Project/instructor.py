@@ -1,18 +1,17 @@
 # Blueprint per la sezione user
 
-from flask import Flask, request
+from flask import  request
 from datetime import datetime, timedelta
 from flask import Blueprint, render_template, redirect, url_for
 from flask_login.utils import login_required
 from flask.helpers import flash, url_for
-from sqlalchemy.orm import joinedload
-from sqlalchemy.sql.expression import true
+
 from DbController import session
 from flask_login import current_user
 from Models.Courses import Course
 from Models.Lessons import Lesson
 from Models.Rooms import Room, Course_Room
-from Models.Users import User,at_least_trainer_required
+from Models.Users import at_least_trainer_required
 from Models.Reservation_Slots import Reservation_Slot
 
 

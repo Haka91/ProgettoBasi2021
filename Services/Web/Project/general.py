@@ -1,14 +1,14 @@
 #Questa blueprint sarà per le pagine senza login e per la pagina di login e registrazione
 
-from datetime import datetime, timedelta
-from flask import Flask,request
+
+from flask import request
 from flask import Blueprint, render_template,flash
 from flask.helpers import url_for
-from flask_login import current_user,login_user, logout_user,login_manager
+from flask_login import current_user,login_user, logout_user
 from werkzeug.utils import redirect
 from Models.Users import User
 from Models.Courses import Course
-from Models.Rooms import Room, Weight_Room, Course_Room
+from Models.Rooms import  Weight_Room, Course_Room
 
 from DbController import session
 

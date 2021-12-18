@@ -1,22 +1,10 @@
 from sqlalchemy import Column
-
 from sqlalchemy import ForeignKey
-from sqlalchemy import inspect
 from sqlalchemy import Integer
-from sqlalchemy import or_
-from sqlalchemy import (String,DateTime,Date,Time)
-
-from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship
-from sqlalchemy.orm import Session
-from sqlalchemy.orm import with_polymorphic
-from sqlalchemy.sql.expression import false, select, true
 from sqlalchemy.sql.sqltypes import Boolean
 from DbController import Base,session
-from sqlalchemy.schema import UniqueConstraint
-#from Lessons import Lesson
-#from Rooms import Weight_Room
-#from Users import User
+
 
 
 #JOINED TABLE INHERITANCE
@@ -46,7 +34,7 @@ class Weight_Room_Reservation(Reservation):
         id = Column(Integer,ForeignKey(Reservation.id),primary_key=True)
         
         weight_room = Column(Integer,ForeignKey("Weight_Rooms.id"),nullable=False)
-        reservation_slot=Column(Integer,ForeignKey("Reservation_slots.id"),nullable=false)
+        reservation_slot=Column(Integer,ForeignKey("Reservation_slots.id"),nullable=False)
 
         reservation_slot_obj=relationship("Reservation_Slot",back_populates="weight_reservations_obj")
         weight_room_obj=relationship("Weight_Room",back_populates="weight_reservations_obj")    

@@ -1,14 +1,13 @@
 # Blueprint per la sezione user
 
-from flask import Flask, request
+from flask import request
 from flask import Blueprint, render_template
 from flask.helpers import url_for, flash
 from flask_login.utils import login_required
 from werkzeug.utils import redirect
 from DbController import session
 from Models.Users import User,at_least_user_required
-from Models.Policies import Policy
-from Models.Rooms import Weight_Room,Course_Room,Room
+from Models.Rooms import Weight_Room,Course_Room
 from Models.Reservations import Reservation
 from Models.Reservation_Slots import Reservation_Slot
 from Models.Lessons import Lesson

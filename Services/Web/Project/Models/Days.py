@@ -1,21 +1,11 @@
-from datetime import date, datetime, timedelta
+from datetime import date, timedelta
 from sqlalchemy import Column
-from sqlalchemy import create_engine
 from sqlalchemy import ForeignKey
-from sqlalchemy import inspect
 from sqlalchemy import Integer
-from sqlalchemy import or_
-from sqlalchemy import (String,DateTime,Date,Time)
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.ext.declarative import declared_attr
+from sqlalchemy import (DateTime,Date)
 from sqlalchemy.orm import relationship
-from sqlalchemy.orm import Session
-from sqlalchemy.orm import with_polymorphic
-from sqlalchemy.orm.util import CascadeOptions
 from sqlalchemy.sql.schema import CheckConstraint
-from sqlalchemy.sql.type_api import NULLTYPE
 from DbController import Base,session
-from Models.Reservation_Slots import Reservation_Slot
 from flask.helpers import flash
 
 

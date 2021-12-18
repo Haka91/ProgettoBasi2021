@@ -1,16 +1,8 @@
 from sqlalchemy import Column
-from sqlalchemy import create_engine
-from datetime import date, datetime, timedelta
-from sqlalchemy import ForeignKey
-from sqlalchemy import inspect
+from datetime import date, timedelta
 from sqlalchemy import Integer
-from sqlalchemy import or_
 from sqlalchemy import String
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship
-from sqlalchemy.orm import Session
-from sqlalchemy.orm import with_polymorphic
 from sqlalchemy.sql.schema import CheckConstraint
 from DbController import Base,session
 from flask.helpers import flash
