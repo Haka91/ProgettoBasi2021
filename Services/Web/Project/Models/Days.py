@@ -70,7 +70,7 @@ class Day(Base):
             session.commit()
             return True
         except Exception as e:
-            
+            #questo errore lo vediamo solo lato admin se mai dovesse succedere,possiamo considerare il manager un utente "sicuro" per mostrargli errori specifici
             if " duplicate key value violates unique constraint" in e.__str__():
                 flash("Uno o piu' giorno già esistenti nel DB")
             else:
@@ -86,11 +86,13 @@ class Day(Base):
                 session.commit()
                 return True
             except Exception as e:
+                #questo errore lo vediamo solo lato admin se mai dovesse succedere,possiamo considerare il manager un utente "sicuro" per mostrargli errori specifici
                 flash(e)
                 session.rollback()
                 return False
         else:
             flash("non puoi cancellare questo giorno")
+
 
 
     def is_deletable(self):

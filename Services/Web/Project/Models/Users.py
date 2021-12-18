@@ -1,4 +1,5 @@
 
+from datetime import datetime, timedelta
 from sqlalchemy import (Column,ForeignKey,Integer,String)
 from sqlalchemy.orm import relationship
 from DbController import Base,session
@@ -118,6 +119,42 @@ class User(UserMixin,Base):
         except:
             
             return 0
+
+    def contactTracing(self):
+        #lo dichiaro nella funzione per evitare un possibile circular input
+        from Models.Reservations import Weight_Room_Reservation
+        usersListWithDuplicates=list()
+        #mi aggiungo per essere sicuro di essere nella lista da rimuovere alla fine
+        usersListWithDuplicates.append(self)
+        for reservation in self.reservations_obj:
+            if(reservation.is_weight):
+               #recupero tutte le prenotazioni fatte nello stesso slot,nella stessa ora,nella stessa stanza,tra 7 giorni fa e ieri
+               reservationsForRoomAndSlot= session.query(Weight_Room_Reservation).filter(Weight_Room_Reservation.weight_room==reservation.weight_room and Weight_Room_Reservation.reservation_slot==reservation.reservation_slot and Weight_Room_Reservation.reservation_slot_obj.day<datetime.today().date() and Weight_Room_Reservation.reservation_slot_obj.day>(datetime.today()-timedelta(days=7)).date())
+               for weightReservation in reservationsForRoomAndSlot:
+                  usersListWithDuplicates.append(weightReservation.user_obj)
+            else:
+                #la lezione è stata fatta tra 7 giorni fa e ieri?
+                if reservation.lesson_obj.reservation_slot_obj.day<(datetime.today().date()) and reservation.lesson_obj.reservation_slot_obj.day>(datetime.today()-timedelta(days=7)).date() :
+                    #anche il trainer viene a contatto quindi lo riprendo dal corso della lezione
+                    usersListWithDuplicates.append(reservation.lesson_obj.course_obj.trainer_obj)
+                    for courseReservation in reservation.lesson_obj.course_reservations_obj:
+                        usersListWithDuplicates.append(courseReservation.user_obj)
+        #un utente potrebbe essere un trainer oppure potrebbe essere stato un trainer ed ora è uno user,controllo se ha mai tenuto corsi(l'impossibilità di cancellare i corsi prima di 30 gg mi garantisce il ritrovamento di essi)
+        for course in self.courses_obj:
+            for lesson in course.lessons_obj:
+                #lezione tenuta tra 7 giorni fa e ieri?
+                if lesson.reservation_slot_obj.day<(datetime.today().date()) and lesson.reservation_slot_obj.day>(datetime.today()-timedelta(days=7)).date() :
+                    for personalCourseReservation in lesson.course_reservations_obj:
+                        usersListWithDuplicates.append(personalCourseReservation.user_obj)
+
+        #ora ho una lista piena di duplicati probabilmente che sistemo con il set __eq__ ed __hash__ sono già integrati da flask ed sqlalchemy
+        
+        userlistWithNoDuplicate=list(set(usersListWithDuplicates))
+        #rimuovo me stesso dai miei contatti       
+        userlistWithNoDuplicate.remove(self)             
+        
+        return tuple(userlistWithNoDuplicate)
+        
 
 
 

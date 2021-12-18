@@ -170,7 +170,12 @@ def gestionePolicy():
 def contattiUtente(idUser,nome):
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
-    users = session.query(User).order_by(User.surname).all()  # CORRECT QUERY!!!
+    
+    #richiamo l'oggetto user per evocare il metodo di contact tracing
+    user=session.query(User).get(idUser)
+    nome=user.surname + " " + user.name
+    users=user.contactTracing()
+    
     return render_template('/Manager/contattiUtente.html',userName=userName,users=users,nome=nome)
 
 # funzione delete User
@@ -276,7 +281,7 @@ def gestioneCorsi():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
     courses=session.query(Course).all()   
-    trainers= session.query(User).order_by(User.surname).filter(User.role==2).all()
+    trainers= session.query(User).order_by(User.surname).filter(User.role>=2).all()
     return render_template('Manager/gestioneCorsi.html',userName=userName,corsi=courses,trainers=trainers)
 
 
