@@ -69,12 +69,13 @@ class Lesson(Base):
     def reservations(self):
         return len(self.course_reservations_obj)
 
+
     #controllo se lo slot è libero
     def lessonSlotFree(self):        
        
         return self.course_obj.maxcostumers>len(self.course_reservations_obj)
         
-
+    #torna la lista degli iscritti alla lezione
     def reservationsUsers(self):
         listOfUsers=list()
         for courseReservation in self.course_reservations_obj:

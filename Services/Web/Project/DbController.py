@@ -72,7 +72,8 @@ def create_db_users():
     standardPolicy.add_obj()
     standardPolicy2=Policies.Policy("special",50,3)
     standardPolicy2.add_obj()
-    yogaCourse=Courses.Course("yoga","fa tanto figo",trainer=2)
+    yogaCourse=Courses.Course("yoga","fa tanto figo",trainer=2,maxcostumers=2)
+    yogaCourse.isvisible=True
     yogaCourse.add_obj()
     pilatesCourse=Courses.Course("pilates","ci vanno le milf",trainer=2)
     pilatesCourse.add_obj()

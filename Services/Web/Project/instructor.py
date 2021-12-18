@@ -13,6 +13,8 @@ from Models.Lessons import Lesson
 from Models.Rooms import Room, Course_Room
 from Models.Users import at_least_trainer_required
 from Models.Reservation_Slots import Reservation_Slot
+from Models.Days import Day
+
 
 
 
@@ -124,18 +126,35 @@ def inserisciLezioni():
 
  
     titleTable = "Slot prenotabili"
-    #prendo gli slot della giornata,sono costretto a prenderli senza tutti i filtri per come funziona sqlORM
-    slots=session.query(Reservation_Slot).filter(Reservation_Slot.day == data).all()
-    slotlist=list(slots)
-    for slot in slots:
-        for lesson in slot.lessons_obj:
-            if lesson.course_room==dove:
+    #controllo se la stanza scelta è grande abbastanza per i massimi iscritti alla lezione del corso
+    course=session.query(Course).get(corso)
+    room=session.query(Room).get(dove)
+    dayForPolicy=session.query(Day).filter(Day.date==data).first()
+    policy=dayForPolicy.policy_obj
+    #se la stanza è piena non torno slot liberi
+    if course.maxcostumers>(int(room.max_capacity*(policy.room_percent/100))):
+        userName = "Ciao "+current_user.name+" ! "
+        slotTuple=tuple()
+        flash("Capienza giornaliera stanza inferiore a massime registrazioni alla lezione,cambia stanza o prova un altro giorno")
+        return render_template('/Instructor/creaLezioni.html',userName=userName,tableVisible=tableVisible,formVisible=formVisible,titleTable=titleTable,corso=corso,dove=dove,slot=slotTuple)
+    else:
+        
+        #prendo gli slot della giornata,sono costretto a prenderli senza tutti i filtri per come funziona sqlORM
+        slots=session.query(Reservation_Slot).filter(Reservation_Slot.day == data).all()
+        slotlist=list(slots)
+        for slot in slots:
+            for lesson in slot.lessons_obj:
+                #se il trainer tiene già una lezione in quel corso rimuovo lo slot
+                if lesson.course_obj.trainer==current_user.id:
                     slotlist.remove(slot)
-    slotTuple=tuple(slotlist)
-    #titleTable ="Slot prenotabili per il corso: "+corso+", data: "+data+", dove: "+dove+", slot: "+slot+"."
-    # string to show in the navbar of the page
-    userName = "Ciao "+current_user.name+" ! "
-    return render_template('/Instructor/creaLezioni.html',userName=userName,tableVisible=tableVisible,formVisible=formVisible,titleTable=titleTable,corso=corso,dove=dove,slot=slotTuple)
+                #se c'è una lezione in corso in quella sala rimuovo lo slot
+                elif lesson.course_room==dove:
+                        slotlist.remove(slot)
+        slotTuple=tuple(slotlist)
+        #titleTable ="Slot prenotabili per il corso: "+corso+", data: "+data+", dove: "+dove+", slot: "+slot+"."
+        # string to show in the navbar of the page
+        userName = "Ciao "+current_user.name+" ! "
+        return render_template('/Instructor/creaLezioni.html',userName=userName,tableVisible=tableVisible,formVisible=formVisible,titleTable=titleTable,corso=corso,dove=dove,slot=slotTuple)
  
 
 

@@ -17,7 +17,7 @@ class Room(Base):
 
 
     id = Column("id",Integer, primary_key=True)
-    name = Column(String(50),nullable=False)
+    name = Column(String(50),nullable=False,unique=True)
     description=Column(String(200),nullable=False)
     max_capacity=Column(Integer,nullable=False)
     is_weight=Column(Boolean)

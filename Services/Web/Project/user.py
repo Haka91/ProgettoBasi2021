@@ -275,7 +275,7 @@ def filtraLezioniCorsi():
         lessonsTuple=corso.lessons_obj
         
         for lesson in lessonsTuple:
-           
+            
             if lesson.lessonSlotFree():                         
                 #controllo che la prenotazione non sia più vecchia di oggi e che l'user non ne abbia già fatta una
                 alreadyRegistered=False
@@ -289,8 +289,7 @@ def filtraLezioniCorsi():
                     if not alreadyRegistered:
                             lessons.append(lesson)
                 
-            else:
-                 lessons.append(lesson)
+            
             
        
     except Exception as e:
@@ -311,7 +310,7 @@ def faiPrenotazioneLezione(idLezione):
         courseReservation=Course_Reservation(idLezione,current_user.id)
         if not courseReservation.add_obj():
             flash("impossibile iscriversi alla lezione")
-       
+        else :flash("prenotazione effettuata con successo")
     else:
         flash("impossibile iscriversi alla lezione")
     return redirect(url_for('user.iscrizioneAiCorsi'))
