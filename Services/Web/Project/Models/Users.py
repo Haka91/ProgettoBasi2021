@@ -155,17 +155,18 @@ class User(UserMixin,Base):
         
         return tuple(userlistWithNoDuplicate)
         
+    #torno le prenotazioni da oggi a 3 giorni per la home utente
     def soonReservations(self):
         reservationList=list()
         for reservation in  self.reservations_obj:
             if(reservation.is_weight):
-                if reservation.reservation_slot_obj.day<(datetime.today()+timedelta(days=4)).date() and reservation.reservation_slot_obj.day>(datetime.today().date()) :
+                if reservation.reservation_slot_obj.day<(datetime.today()+timedelta(days=4)).date() and reservation.reservation_slot_obj.day>=(datetime.today().date()) :
                   reservationList.append(reservation)
             else:
-                if reservation.lesson_obj.reservation_slot_obj.day<(datetime.today()+timedelta(days=4)).date() and reservation.lesson_obj.reservation_slot_obj.day>(datetime.today().date()):
+                if reservation.lesson_obj.reservation_slot_obj.day<(datetime.today()+timedelta(days=4)).date() and reservation.lesson_obj.reservation_slot_obj.day>=(datetime.today().date()):
                     reservationList.append(reservation)
         return tuple(reservationList)
-        
+
 #metodo richiesto da FLASK-LOGIN 
 
 @login_manager.user_loader
