@@ -70,7 +70,7 @@ def filtraSlotSalaPesi():
     userName = "Ciao "+current_user.name+" ! "
     tableVisible='''  ''' #now the table will be visible
     formVisible=''' hidden="hidden" ''' # now the form is NOT visible
-    prenotazioniRimaste = 1 # HERE A QUERY IN NEEDED TO RETRIEVE THE NUMBER OF BOOKINGS LEFT!!!
+    
 
     try :
         
@@ -102,7 +102,8 @@ def filtraSlotSalaPesi():
     try:    
         dayWithPolicy=session.query(Day).filter(Day.date==data).first()
         room=session.query(Weight_Room).filter(Weight_Room.id==roomID).first()
-        policy=dayWithPolicy.policy_obj        
+        policy=dayWithPolicy.policy_obj 
+        prenotationRemaining=policy.max_user_reserv       
     except Exception as e:        
         flash("nessuno slot prenotazione disponibile in questa giornata")
         slots=session.query(Reservation_Slot).filter(Reservation_Slot.day == data).all()
@@ -140,7 +141,7 @@ def filtraSlotSalaPesi():
         flash("seleziona tutti i campi prima di effettuare la ricerca")
     slotTuple=tuple(slotlist)
     
-    return render_template('/User/prenotaSalaPesi.html',prenotazioniRimaste=prenotazioniRimaste,roomID=roomID,userName=userName,dataString=dataString,dove=roomID,tableVisible=tableVisible,formVisible=formVisible,weightRoomsSlot=slotTuple)
+    return render_template('/User/prenotaSalaPesi.html',prenotazioniRimaste=prenotationRemaining,roomID=roomID,userName=userName,dataString=dataString,dove=roomID,tableVisible=tableVisible,formVisible=formVisible,weightRoomsSlot=slotTuple)
 
 
 
