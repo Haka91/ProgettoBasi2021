@@ -1,18 +1,9 @@
-from os import error
+
 from sqlalchemy import (Column,ForeignKey,Integer,String)
-from sqlalchemy import create_engine,inspect
-from sqlalchemy import or_
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship
-from sqlalchemy.orm import validates
-from sqlalchemy.orm import with_polymorphic
-from sqlalchemy.sql.expression import column, false
-from sqlalchemy.sql.sqltypes import (Boolean)
+from sqlalchemy.util.langhelpers import NoneType
 from DbController import Base,session
 from flask_login import UserMixin,current_user
-from itsdangerous import TimedJSONWebSignatureSerializer as Timed_URL_Serializer
-from config import secret_key
 from werkzeug.utils import redirect
 from functools import wraps
 from flask.helpers import url_for,flash
@@ -35,7 +26,7 @@ class User(UserMixin,Base):
     name = Column(String(50), nullable=False)
     surname = Column( String(50), nullable=False)
     email = Column(String(40), nullable=False,unique=True)
-    cellular=Column(String(40), nullable=False,unique=True)
+    cellular=Column(String(40), nullable=False)
     address = Column( String(30), nullable=False)
     city = Column(String(30), nullable=False)
     password = Column( String, nullable=False)    
@@ -88,16 +79,17 @@ class User(UserMixin,Base):
                return False
 
 
-    def update_obj(self,name,surname,email,cellular,address,city):
-        try:
+    def update_obj(self,name,surname,cellular,address,city):
+        try:          
+            
             self.name=name 
-            self.surname=surname
-            self.email=email
+            self.surname=surname                
             self.cellular=cellular
             self.address=address
             self.city=city             
             session.commit()
             return True
+        
         except:
             session.rollback()
             return False

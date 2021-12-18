@@ -14,7 +14,7 @@ from Models.Reservation_Slots import Reservation_Slot
 from Models.Lessons import Lesson
 from Models.Courses import Course
 from DbController import session
-from flask_login import current_user
+from flask_login import current_user,logout_user
 from datetime import date, datetime, timedelta
 from Models.Days import Day
 from Models.Reservations import Weight_Room_Reservation
@@ -27,6 +27,7 @@ user = Blueprint('user',__name__,url_prefix='/user')
 # It shows the next reservation of the user
 @user.route('/introduzione')
 @login_required
+@at_least_user_required
 def introduzione():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
@@ -37,6 +38,7 @@ def introduzione():
 # Active reservations of the user
 @user.route('/prenotazioniAttive')
 @login_required
+@at_least_user_required
 def prenotazioniAttive():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
@@ -48,6 +50,7 @@ def prenotazioniAttive():
 # one of the weight rooms
 @user.route('/prenotaSalaPesi')
 @login_required
+@at_least_user_required
 def prenotaSalaPesi():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
@@ -61,6 +64,7 @@ def prenotaSalaPesi():
 # It shows the slots available in the selected day and room
 @user.route('/filtraSlotSalaPesi', methods = ['POST', 'GET'])
 @login_required
+@at_least_user_required
 def filtraSlotSalaPesi():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
@@ -143,6 +147,7 @@ def filtraSlotSalaPesi():
 # Function to book weight room on a specific time slot
 @user.route('/faiPrenotazioneSalaPesi/<int:idRoom>,<int:idSlot>')
 @login_required
+@at_least_user_required
 def faiPrenotazioneSalaPesi(idRoom,idSlot):
 
     #ricontrollo che sia ancora libero lo slot    
@@ -163,6 +168,7 @@ def faiPrenotazioneSalaPesi(idRoom,idSlot):
 # Page where to gerister for a course
 @user.route('/iscrizioneAiCorsi')
 @login_required
+@at_least_user_required
 def iscrizioneAiCorsi():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
@@ -175,6 +181,7 @@ def iscrizioneAiCorsi():
 # Page to change user's data
 @user.route('/cambiaDatiUtente')
 @login_required
+@at_least_user_required
 def cambiaDatiUtente():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
@@ -190,16 +197,17 @@ def cambiaDatiUtente():
 
 @user.route('/modificaDatiUtente', methods = ['POST', 'GET']) 
 @login_required
+@at_least_user_required
 def modificaDatiUtente():
     
     try:
-        current_user.name = request.form.get('nome')    
-        current_user.surname = request.form.get('cognome')
-        current_user.email = request.form.get('email')
-        current_user.cellular = request.form.get('telefono')
-        current_user.address = request.form.get('indirizzo')
-        current_user.city = request.form.get('citta')
-    
+        name = request.form.get('nome')    
+        surname = request.form.get('cognome')        
+        cellular = request.form.get('telefono')
+        address = request.form.get('indirizzo')
+        city = request.form.get('citta')
+        usertoChange=session.query(User).get(current_user.id)
+        usertoChange.update_obj(name,surname,cellular,address,city)
     except:
         flash("errore nei campi")
         return redirect(url_for('user.cambiaDatiUtente'))
@@ -211,21 +219,25 @@ def modificaDatiUtente():
 # Function to modify user password
 @user.route('/modificaPasswordUtente', methods = ['POST', 'GET'])
 @login_required
+@at_least_user_required
 def modificaPasswordUtente():
     oldPassword = ""
     newPassword = ""
     newPassword2 = ""
 
     try:
-        oldPassword = request.form.get('password')
-        newPassword = request.form.get('newPassword')
-        newPassword2 = request.form.get('newPassword2')
+        oldPassword = request.form['password']
+        newPassword = request.form['newPassword']
+        newPassword2 = request.form['newPassword2']
         if(newPassword == newPassword2):
-            if  (current_user.update_password(oldPassword,newPassword)) :
-                current_user.password = newPassword
+            if  ( not current_user.update_password(oldPassword,newPassword)) :
+                  flash('Errore nel cambio password')
             else:
-                #non torniamo troppe informazioni,potremmo renderci vulnerabili ad attacchi
-                flash('Errore nel cambio password')
+                    logout_user()
+                    flash('Modifica password avvenuta con successo')
+                    return redirect(url_for('general.index'))
+
+               
         else:
             flash('Nuova password e conferma nuova password diverse')
     except:
@@ -238,6 +250,7 @@ def modificaPasswordUtente():
 # Page to see the name, trainer name and description of a specific course
 @user.route('/infoCorso/<int:idCorso>,<string:nomeCorso>,<string:nomeTrainer>,<string:descrizione>')
 @login_required
+@at_least_user_required
 def infoCorso(idCorso,nomeCorso,nomeTrainer,descrizione):
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
@@ -247,6 +260,7 @@ def infoCorso(idCorso,nomeCorso,nomeTrainer,descrizione):
 # Function that filters the lessons based on the selection of a course on the iscrizioneAiCorsi.html page
 @user.route('/filtraLezioniCorsi', methods = ['POST', 'GET'])
 @login_required
+@at_least_user_required
 def filtraLezioniCorsi():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
@@ -266,11 +280,10 @@ def filtraLezioniCorsi():
                 
                 if lesson.reservation_slot_obj.day>date.today(): 
                     for courseReservation in  lesson.course_reservations_obj:
-                        print("cR=",courseReservation.user)
-                        print("cU=",current_user.id)
+                        
                         if(courseReservation.user == current_user.id):
                                alreadyRegistered=True
-                    print("already registered=",alreadyRegistered)           
+                              
                     if not alreadyRegistered:
                             lessons.append(lesson)
                 
@@ -289,6 +302,7 @@ def filtraLezioniCorsi():
 # Function to book a lesson
 @user.route('/faiPrenotazioneLezione/<int:idLezione>')
 @login_required
+@at_least_user_required
 def faiPrenotazioneLezione(idLezione):
     lesson=session.query(Lesson).get(idLezione)
     if(lesson.lessonSlotFree()):
@@ -304,6 +318,7 @@ def faiPrenotazioneLezione(idLezione):
 # Function to delete a booking
 @user.route('/eliminaPrenotazione/<int:idPrenotazione>')
 @login_required
+@at_least_user_required
 def eliminaPrenotazione(idPrenotazione):
     reservation=session.query(Reservation).get(idPrenotazione)
     if(not reservation.delete_obj()):

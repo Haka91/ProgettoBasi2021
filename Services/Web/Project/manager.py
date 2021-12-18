@@ -80,7 +80,7 @@ def gestioneTrainers():
     userName = "Ciao "+current_user.name+" ! "
     trainers= session.query(User).order_by(User.surname).filter(User.role==2).all()
     users= session.query(User).order_by(User.surname).filter(User.role==1).all()
-    return render_template('/Manager/gestioneTrainers.html',userName=userName,trainers=trainers,users=users) # UNA VOLTA PRESENTE LA QUERY PASSARE I DATI AL TEMPLATE
+    return render_template('/Manager/gestioneTrainers.html',userName=userName,trainers=trainers,users=users) 
 
 
 @manager.route('/gestioneOrariPalestra',methods=['POST','GET'])

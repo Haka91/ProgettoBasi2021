@@ -65,9 +65,9 @@
                     <form action="{{url_for('user.modificaDatiUtente')}}" method="post">
                         <input type="text" id="nome" name="nome" class="form-control" placeholder="nome" value="{{nome}}">
                         <label for="nome">nome</label><br><br>
-                        <input type="text" id="cognome" name="cognome" class="form-control" placeholder="cognome" value="{{congnome}}">
+                        <input type="text" id="cognome" name="cognome" class="form-control" placeholder="cognome" value="{{cognome}}">
                         <label for="cognome">cognome</label><br><br>
-                        <input type="text" id="email" name="email" class="form-control" placeholder="email" value="{{email}}">
+                        <input type="email" id="email" name="email" class="form-control" placeholder="email" value="{{email}}">
                         <label for="email">email</label><br><br>
                         <input type="text" id="telefono" name="telefono" class="form-control" placeholder="telefono" value="{{telefono}}">
                         <label for="telefono">telefono</label><br><br>
@@ -103,7 +103,7 @@
             <div class="col-lg-12 login-form">
                 <div class="col-lg-12 login-form">
                     <form action="{{url_for('user.modificaPasswordUtente')}}" method="post">
-                        <input type="text" id="password" name="password" class="form-control" placeholder="">
+                        <input type="password" id="password" name="password" class="form-control" placeholder="">
                         <label for="password">password corrente</label><br><br>
                         <input type="password" id="newPassword" name="newPassword" class="form-control">
                         <label for="newPassword">nuova password</label><br><br>

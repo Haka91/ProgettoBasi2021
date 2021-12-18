@@ -41,7 +41,7 @@ def loginPage():
 @general.route('/loginFunzione',methods=['POST'])
 def loginFunzione():
     if request.method=='POST':
-        login_email=request.form["email"]
+        login_email=request.form["email"].lower()
         login_password=request.form["password"]  
         user_session=session.query(User).filter_by(email=login_email).first()
         if user_session:
@@ -87,8 +87,8 @@ def registerFunction():
         city=request.form["città"].lower()
         email=request.form["email"].lower()
         cellular=request.form["telefono"].lower()
-        password=request.form["password"].lower()
-        password2=request.form["password2"].lower()
+        password=request.form["password"]
+        password2=request.form["password2"]
         if(name and surname and address and city and email and cellular and password and password2):
             if(password ==password2):
                 temp_user=User(name,surname,email,cellular,address,city,password,1)
@@ -103,7 +103,7 @@ def registerFunction():
                 return render_template('/General/register.html')
 
         else:
-            print("i campi non devono essere vuoit")
+            print("i campi non devono essere vuoti")
             return render_template('/General/register.html')   
        
     return render_template('/General/register.html')
