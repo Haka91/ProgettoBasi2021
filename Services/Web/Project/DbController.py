@@ -175,12 +175,13 @@ def create_db_users():
 
     les=1
     while les<51:
+
             u=1
             while u<13:
+                if((u+les)%3==0):
                 
-                
-                weightReservationToAdd=Reservations.Course_Reservation(1,u)
-                weightReservationToAdd.add_obj()                  
+                    weightReservationToAdd=Reservations.Course_Reservation(1,u)
+                    weightReservationToAdd.add_obj()                  
                     
                 
                 u=u+1
