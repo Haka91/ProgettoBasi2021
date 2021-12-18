@@ -11,7 +11,7 @@ from flask_login import current_user
 from Models.Courses import Course
 from Models.Lessons import Lesson
 from Models.Rooms import Room, Course_Room
-from Models.Users import at_least_trainer_required
+from Models.Users import at_least_trainer_required, User
 from Models.Reservation_Slots import Reservation_Slot
 from Models.Days import Day
 
@@ -28,7 +28,8 @@ instructor = Blueprint('instructor',__name__,url_prefix='/instructor')
 def introduzione():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
-    corsi=session.query(Course).filter_by(trainer=current_user.id).all()     
+    corsi=session.query(Course).filter_by(trainer=current_user.id).all()    
+    user=session.query(User).get(current_user.id)  
     courses=current_user.courses_obj    
     lessonlist=list()
     for course in courses:             
@@ -37,7 +38,7 @@ def introduzione():
             if(lesson.reservation_slot_obj.day>=(datetime.today().date())and lesson.reservation_slot_obj.day<=((datetime.today()+timedelta(days=7)).date())):          
              lessonlist.append(lesson)
     lessontuple=tuple(lessonlist)  
-    return render_template('/Instructor/introduzione.html',userName=userName,lezioni=lessontuple,corsi=corsi) 
+    return render_template('/Instructor/introduzione.html',ruolo=user.role,userName=userName,lezioni=lessontuple,corsi=corsi) 
 
 
 # Page that shows, for a specific course, the list of users booked for the course

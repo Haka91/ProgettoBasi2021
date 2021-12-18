@@ -38,6 +38,16 @@
   {% endif %}
 {% endwith %}
 
+<!-- Links to switch logged area -->
+<br><br>
+<h1 align="center"> Ora sei nell'area riservata INSTRUCTOR </h1>  {{ruolo}}
+{% if ruolo == 3 %}
+<p align="center">
+    <a href="{{url_for('manager.introduzione')}}">Passa a Manager</a><br>
+</p>
+{% endif %}
+
+
 <br><br>
 
 <!-- Stampa la lista delle lezioni da insegnare questa settimana -->

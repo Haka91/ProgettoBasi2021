@@ -31,8 +31,9 @@ def introduzione():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
     user=session.query(User).get(current_user.id) 
-    
-    return render_template('/User/introduzione.html',userName=userName, prenotazioni=user.soonReservations())
+    # query to get the role of the logged user
+    #ruolo=session.query(User).get(current_user.role)
+    return render_template('/User/introduzione.html',userName=userName, ruolo=user.role, prenotazioni=user.soonReservations())
 
 
 # Active reservations of the user
@@ -248,16 +249,6 @@ def modificaPasswordUtente():
 
     
     return redirect(url_for('user.cambiaDatiUtente'))
-
-
-# Page to see the name, trainer name and description of a specific course
-@user.route('/infoCorso/<int:idCorso>,<string:nomeCorso>,<string:nomeTrainer>,<string:descrizione>')
-@login_required
-@at_least_user_required
-def infoCorso(idCorso,nomeCorso,nomeTrainer,descrizione):
-    # string to show in the navbar of the page
-    userName = "Ciao "+current_user.name+" ! "
-    return render_template('/User/infoCorso.html',userName=userName,nomeCorso=nomeCorso,nomeTrainer=nomeTrainer,descrizione=descrizione)
 
 
 # Function that filters the lessons based on the selection of a course on the iscrizioneAiCorsi.html page

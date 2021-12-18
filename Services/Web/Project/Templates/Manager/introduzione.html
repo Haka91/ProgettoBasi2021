@@ -50,6 +50,17 @@
   {% endif %}
 {% endwith %}
 
+
+<!-- Links to switch logged area -->
+<br><br>
+<h1 align="center"> Ora sei nell'area riservata MANAGER </h1>  {{ruolo}}
+<p align="center">
+    <a href="{{url_for('instructor.introduzione')}}">Passa a Istruttore</a><br>
+    <a href="{{url_for('user.introduzione')}}">Passa a User</a><br>
+</p>
+
+
+
 <br><br>
 
 <h1 align="center"> Numero di trainers: {{numTrainers}} </h1>
