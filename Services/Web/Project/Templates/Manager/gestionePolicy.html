@@ -72,11 +72,12 @@
                 <td style="text-align: center; width: 10%;">{{ Policy.name }}</td>
                 <td style="text-align: center; width: 10%;">{{ Policy.room_percent }}</td>
                 <td style="text-align: center; width: 10%;">{{ Policy.max_user_reserv }}</td>
-                {% if Policy.is_deletable() %}
                 <td style="text-align: center; width: 10%;">
-                    <a href="{{url_for('manager.eliminaPolicy', idPolicy=Policy.id)}}">Elimina</a>
+                    {% if Policy.is_deletable() %}
+                        <a href="{{url_for('manager.eliminaPolicy', idPolicy=Policy.id)}}">Elimina</a>
+                    {% else %}
                 </td>
-                {% else %}
+                
                 
                 {% endif %}
      

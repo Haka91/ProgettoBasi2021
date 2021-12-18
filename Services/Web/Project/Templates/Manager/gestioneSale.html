@@ -78,11 +78,13 @@
                     <a href="{{url_for('manager.cambiaStatoSala', idSala=Room.id)}}">Cambia Visibilità</a>
                 </td>
 
-                {% if  Room.is_deletable() %}
+                
                 <td style="text-align: center; width: 10%;">
-                    <a href="{{url_for('manager.eliminaSala', idSala=Room.id)}}">Elimina</a>
+                    {% if  Room.is_deletable() %}
+                        <a href="{{url_for('manager.eliminaSala', idSala=Room.id)}}">Elimina</a>
+                    {% else %}
                 </td>
-                {% else %}
+                
                 
                 {% endif %}
             </tr>
@@ -117,11 +119,13 @@
                 <td style="text-align: center; width: 10%;">
                     <a href="{{url_for('manager.cambiaStatoSala', idSala=Room.id)}}">Cambia Visibilità</a>
                 </td>
-                {% if Room.is_deletable() %}
+                
                 <td style="text-align: center; width: 10%;">
-                    <a href="{{url_for('manager.eliminaSala', idSala=Room.id)}}">Elimina</a>
+                    {% if Room.is_deletable() %}
+                        <a href="{{url_for('manager.eliminaSala', idSala=Room.id)}}">Elimina</a>
+                    {% else %}
                 </td>
-                {% else %}
+                
                 
                 {% endif %}
                

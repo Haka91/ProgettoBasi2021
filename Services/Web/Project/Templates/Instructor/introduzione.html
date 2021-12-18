@@ -44,6 +44,12 @@
 {% if ruolo == 3 %}
 <p align="center">
     <a href="{{url_for('manager.introduzione')}}">Passa a Manager</a><br>
+    <a href="{{url_for('user.introduzione')}}">Passa a User</a><br>
+</p>
+{% endif %}
+{% if ruolo == 2 %}
+<p align="center">
+    <a href="{{url_for('user.introduzione')}}">Passa a User</a><br>
 </p>
 {% endif %}
 

@@ -82,11 +82,11 @@
                 <td style="text-align: center; width: 10%;">
                     <a href="{{url_for('manager.attivaDisattivaCorso', idCorso=Course.id)}}">Attiva / Disattiva</a>
                 </td> 
-                {% if Course.isDeletable() %}
                 <td style="text-align: center; width: 10%;">
-                    <a href="{{url_for('manager.eliminaCorso', idCorso=Course.id)}}">Elimina</a>
+                    {% if Course.isDeletable() %}
+                        <a href="{{url_for('manager.eliminaCorso', idCorso=Course.id)}}">Elimina</a>
+                    {% else %}    
                 </td>
-                {% else %}
              
                 {% endif %}       
               
