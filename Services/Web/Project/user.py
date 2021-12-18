@@ -30,8 +30,9 @@ user = Blueprint('user',__name__,url_prefix='/user')
 def introduzione():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
-    prenotazioni=session.query(Reservation) # CORRECT THE QUERY
-    return render_template('/User/introduzione.html',userName=userName, prenotazioni=prenotazioni)
+    user=session.query(User).get(current_user.id) 
+    
+    return render_template('/User/introduzione.html',userName=userName, prenotazioni=user.soonReservations())
 
 
 # Active reservations of the user
@@ -208,12 +209,13 @@ def modificaDatiUtente():
         address = request.form.get('indirizzo')
         city = request.form.get('citta')
         usertoChange=session.query(User).get(current_user.id)
-        usertoChange.update_obj(name,surname,cellular,address,city)
+        if(usertoChange.update_obj(name,surname,cellular,address,city)):
+            flash("modifica dati utente avvenuta con successo!")
     except:
         flash("errore nei campi")
         return redirect(url_for('user.cambiaDatiUtente'))
 
-    flash("modifica dati utente avvenuta con successo!")
+    
     return redirect(url_for('user.cambiaDatiUtente'))
 
 
@@ -244,7 +246,7 @@ def modificaPasswordUtente():
     except:
         flash('Errore nel cambio password controlla i campi')
 
-    flash('Password cambiata correttamente')
+    
     return redirect(url_for('user.cambiaDatiUtente'))
 
 

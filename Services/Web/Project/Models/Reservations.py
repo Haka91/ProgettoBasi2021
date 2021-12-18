@@ -12,7 +12,7 @@ from DbController import Base,session
 class Reservation(Base):
 
     __tablename__='Reservations'
- 
+    
 
     id = Column("id",Integer, primary_key=True)     
     is_weight=Column(Boolean)

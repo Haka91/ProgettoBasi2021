@@ -52,21 +52,37 @@
 <table id="table" class="table">
     <thead class="thead-dark">
         <tr>
-            <th style="text-align: center;" scope="col">Id</th>
-            <th style="text-align: center;" scope="col">Corso</th>
+            <th style="text-align: center;" scope="col">Tipo Prenotazione</th>
+            <th style="text-align: center;" scope="col">Data</th>
+            <th style="text-align: center;" scope="col">Slot orario</th>
             <th style="text-align: center;" scope="col">Stanza</th>
-            <th style="text-align: center;" scope="col">Trainer</th>
-            <th style="text-align: center;" scope="col">slot orario</th>
+            <th style="text-align: center;" scope="col">Elimina</th>
         </tr>
     </thead>
     <tbody>
-        {% for Lesson in lezioni %}
-            <tr>
-                <td style="text-align: center; width: 10%;">{{ Lesson.id }}</td>
-                <td style="text-align: center; width: 10%;">{{ Lesson.course_name }}</td>
-                <td style="text-align: center; width: 10%;">{{ Lesson.room }}</td>
-            </tr>
-        {% endfor %}
+        {% for Reservation in prenotazioni %}
+        <tr>
+            {% if  Reservation.is_weight %}
+           
+            <td style="text-align: center; width: 10%;">Sala pesi</td>  
+            <td style="text-align: center; width: 10%;">{{ Reservation.reservation_slot_obj.day.strftime('%Y-%m-%d') }}</td>
+            <td style="text-align: center; width: 10%;">{{ Reservation.reservation_slot_obj.slot_time }}</td>
+            <td style="text-align: center; width: 10%;">{{ Reservation.weight_room_obj.name }}</td>
+            
+
+            {% else %}
+            <td style="text-align: center; width: 10%;">Lezione</td>  
+            <td style="text-align: center; width: 10%;">{{ Reservation.lesson_obj.reservation_slot_obj.day }}</td>
+            <td style="text-align: center; width: 10%;">{{ Reservation.lesson_obj.reservation_slot_obj.slot_time }}</td>
+            <td style="text-align: center; width: 10%;">{{ Reservation.lesson_obj.course_room_obj.name }}</td>
+            {% endif %}
+
+            <td style="text-align: center; width: 10%;">
+                <a href="{{url_for('user.eliminaPrenotazione', idPrenotazione=Reservation.id)}}">elimina</a>
+            </td> 
+
+        </tr>
+    {% endfor %}
     </tbody>
 </table>
 

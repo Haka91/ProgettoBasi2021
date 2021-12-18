@@ -10,7 +10,7 @@ from DbController import Base,session
 class Role(Base):
 
     __tablename__='Roles'
-  
+   
 
     id = Column("id",Integer, primary_key=True)
     name = Column(String(50))

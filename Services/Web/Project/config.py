@@ -15,3 +15,4 @@ secret_key=os.environ['SECRET_KEY']
 #port = '5432'
 #secret-key='Not_The_Best_password'
 DATABASE_CONNECTION_URI = f'postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}'
+#DATABASE_CONNECTION_URI = f'postgresql+psycopg2://standard:standard@{host}:{port}/{database}'

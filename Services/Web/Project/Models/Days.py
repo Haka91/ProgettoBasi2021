@@ -13,6 +13,7 @@ from flask.helpers import flash
 
 class Day(Base):
 
+    
     __tablename__='Days'    
     id=Column(Integer,primary_key=True)
     date = Column(Date,nullable=False,unique=True)

@@ -88,13 +88,118 @@ def create_db_users():
 
     
      
+     
     try:
-        conn.execute("CREATE USER manager WITH password 'manager';")
-        conn.execute("CREATE USER trainer WITH password 'trainer';")
-        conn.execute("CREATE USER customer WITH password 'customer';")
-        conn.execute("CREATE USER anonymous WITH password 'anonymous';")
-    except:
-        print('figa è esploso tutto') #ti prego ricordati di modificare l'alert 
+        #creo solo un utente per la connessione alla mia app,per la spiegazione consultare documentazione
+        conn.execute("CREATE USER standard WITH password 'standard';")    
+        
+    except Exception as e:
+        print('utente di connessione già creato nel db') 
+     
+    
+
+    try:
+        #so che essendo lo schema PUBLIC ha già di base l'usage,ma se un giorno cambiamo schema e non usiamo public è già pronto      
+        conn.execute('GRANT USAGE ON SCHEMA "public" TO standard;')              
+    except Exception as e:
+        print('privilegi di accesso già dati a standard') 
+
+    try:             
+        conn.execute('GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA "public" TO standard;')        
+    except Exception as e:
+        print(e) 
+      
+    try:             
+        conn.execute('GRANT SELECT, DELETE, INSERT,UPDATE ON TABLE "public"."Courses" TO standard;')        
+    except Exception as e:
+        print(e) 
+
+  
+
+
+       
+    try:       
+        conn.execute('GRANT SELECT, DELETE, INSERT,UPDATE ON TABLE "public"."Days" TO standard;')        
+    except Exception as e:       
+        print(e) 
+
+
+    try:      
+        conn.execute('GRANT SELECT, DELETE, INSERT,UPDATE ON TABLE "public"."Lessons" TO standard;')        
+    except Exception as e:    
+        print(e) 
+
+
+
+    try:      
+        conn.execute('GRANT SELECT, DELETE, INSERT,UPDATE ON TABLE "public"."Policies" TO standard;')        
+    except Exception as e:        
+        print(e) 
+
+
+
+    try:          
+        conn.execute('GRANT SELECT, DELETE, INSERT,UPDATE ON TABLE "public"."Reservation_slots" TO standard;')        
+    except Exception as e:
+        print(e) 
+
+
+    
+    try:         
+        conn.execute('GRANT SELECT, DELETE, INSERT,UPDATE ON TABLE "public"."Reservations" TO standard;')        
+    except Exception as e:     
+        print(e) 
+
+
+
+    try:         
+        conn.execute('GRANT SELECT, DELETE, INSERT,UPDATE ON TABLE "public"."Weight_Room_Reservations" TO standard;')        
+    except Exception as e:     
+        print(e) 
+
+
+
+    try:         
+        conn.execute('GRANT SELECT, DELETE, INSERT,UPDATE ON TABLE "public"."Course_Reservations" TO standard;')        
+    except Exception as e:     
+        print(e) 
+
+
+
+    try: 
+        #nonostante sia un solo user per tutti non voglio che nessuno possa inserire e rimuovere Roles,quelle  DEVONO essere fisse      
+        conn.execute('GRANT SELECT ON TABLE "public"."Roles" TO standard;')        
+    except Exception as e:      
+        print(e) 
+
+
+
+    try:             
+        conn.execute('GRANT SELECT, DELETE, INSERT,UPDATE ON TABLE "public"."Rooms" TO standard;')        
+    except Exception as e:      
+        print(e) 
+
+
+    
+    try:             
+        conn.execute('GRANT SELECT, DELETE, INSERT,UPDATE ON TABLE "public"."Course_Rooms" TO standard;')        
+    except Exception as e:      
+        print(e) 
+
+
+
+    try:             
+        conn.execute('GRANT SELECT, DELETE, INSERT,UPDATE ON TABLE "public"."Weight_Rooms" TO standard;')        
+    except Exception as e:      
+        print(e) 
+
+
+
+    try:           
+        conn.execute('GRANT SELECT, DELETE, INSERT,UPDATE ON TABLE "public"."Users" TO standard;')        
+    except Exception as e:        
+        print(e)  
+
 
 
 
