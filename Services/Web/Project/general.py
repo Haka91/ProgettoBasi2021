@@ -25,9 +25,10 @@ def index():
     userName=""
     if current_user.is_anonymous == False:
         userName = "Ciao "+current_user.name+" ! "
-    corsi = session.query(Course).all()
-    salaPesi = session.query(Weight_Room).all()
-    salaCorsi = session.query(Course_Room).all() 
+    #filtro per i corsi che decido di rendere visibili
+    corsi = session.query(Course).filter(Course.isvisible).all()
+    salaPesi = session.query(Weight_Room).filter(Weight_Room.isvisible).all()
+    salaCorsi = session.query(Course_Room).filter(Course_Room.isvisible).all() 
     return render_template('/General/homepage.html',userName=userName,user=user,corsi=corsi,salaPesi=salaPesi,salaCorsi=salaCorsi) # UNA VOLTA PRESENTI LE QUERY PASSARE I DATI AL TEMPLATE
 
 

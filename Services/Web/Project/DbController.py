@@ -64,7 +64,7 @@ def create_db_users():
     weightRoom.add_obj()
     weightRoom2=Rooms.Weight_Room("sala pesi2","2",30)
     weightRoom2.add_obj()
-    courseRoom=Rooms.Course_Room("sala corsi","usata come magazzino",12)
+    courseRoom=Rooms.Course_Room("sala corsi","usata come magazzino",12,False)
     courseRoom.add_obj()
     courseRoom2=Rooms.Course_Room("sala corsi2","2",12)
     courseRoom2.add_obj()

@@ -37,7 +37,7 @@ def introduzione():
 def gestioneUtenti():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
-    users= session.query(User).order_by(User.surname).all()
+    users= session.query(User).order_by(User.surname).filter(User.role < 3).all() 
     return render_template('/Manager/gestioneUtenti.html',userName=userName,utenti=users)
 
 
@@ -87,7 +87,7 @@ def gestioneTrainers():
 @at_least_manager_required
 def gestioneOrariPalestra():
     from Models.Days import Day
-    from datetime import date, datetime, time, timedelta
+    from datetime import datetime, timedelta
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
     if request.method=='POST':
@@ -173,6 +173,20 @@ def contattiUtente(idUser,nome):
     users = session.query(User).order_by(User.surname).all()  # CORRECT QUERY!!!
     return render_template('/Manager/contattiUtente.html',userName=userName,users=users,nome=nome)
 
+# funzione delete User
+@manager.route('/cancellaUtente/<int:idUser>')
+@login_required
+@at_least_manager_required
+def cancellaUtente(idUser):
+    # string to show in the navbar of the page
+    userName = "Ciao "+current_user.name+" ! "
+    
+    usertoDelete = session.query(User).get(idUser)
+    if(not usertoDelete.delete_obj()):
+        flash("impossibile cancellare User")
+    users = session.query(User).order_by(User.surname).filter(User.role < 3).all() 
+    return render_template('/Manager/gestioneUtenti.html',userName=userName,utenti=users)
+
 
 # Function to change role of  User in Trainer
 @manager.route('/userToTrainer/<int:idUser>')
@@ -211,6 +225,20 @@ def eliminaSala(idSala):
         courseRoom=session.query(Course_Room).get(idSala)
         if courseRoom.is_deletable():
             courseRoom.delete_obj()
+
+    return redirect(url_for('manager.gestioneSale'))
+
+# Function to delete a room
+@manager.route('/cambiaStatoSala/<int:idSala>')
+@login_required
+@at_least_manager_required
+def cambiaStatoSala(idSala):
+    room=session.query(Room).get(idSala)
+    #dato che è uso la joinetable inheritance su Rooms devo controllare cosa sono
+    if( not room.activate_or_deactivate_obj()):
+        flash("impossibile cambiare stato sala")
+        
+    
 
     return redirect(url_for('manager.gestioneSale'))
 

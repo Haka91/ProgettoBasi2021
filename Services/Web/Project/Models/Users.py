@@ -107,24 +107,10 @@ class User(UserMixin,Base):
             self.role=role
             session.commit()
             return True
-        except:
-            print("error")
+        except:            
             session.rollback()
             return False
 
-    def activate_or_deactivate_obj(self):
-        try:
-                      
-            self.is_active=(not self.is_active)
-           
-            session.commit()
-            
-            return True
-        except Exception as e:
-            print(e)
-
-            session.rollback()
-            return False
 
     def get_role(self):
         try:
@@ -133,9 +119,9 @@ class User(UserMixin,Base):
             
             return 0
 
+
+
 #metodo richiesto da FLASK-LOGIN 
-
-
 
 @login_manager.user_loader
 def load_user(id_user):
@@ -149,7 +135,7 @@ def load_user(id_user):
 
 
 #dobbiamo inserire qui le funzioni per evitare i circular import
-
+#qui forzo la selezione della Role uguale all'admin,se creassimo una nuova role avrebbe più' poteri di admin 
 def at_least_manager_required(f):
     @wraps(f)
     def wrapper(*args, **kwargs):

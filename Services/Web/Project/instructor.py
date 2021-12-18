@@ -26,8 +26,7 @@ instructor = Blueprint('instructor',__name__,url_prefix='/instructor')
 def introduzione():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
-    corsi=session.query(Course).filter_by(trainer=current_user.id).all() 
-    #FILTRARE SOLO PER LE LEZIONI DEI CORSI CHE FA L'ISTRUTTORE NELLA PROSSIMA SETTIMANA (O NEI PROSSIMI GIORNI)
+    corsi=session.query(Course).filter_by(trainer=current_user.id).all()     
     courses=current_user.courses_obj    
     lessonlist=list()
     for course in courses:             
@@ -81,21 +80,11 @@ def creaLezioni():
     userName = "Ciao "+current_user.name+" ! "
   
  
-    #FILTRARE SOLO I CORSI INSEGNATI DALL'ISTRUTTORE
-    stanze=session.query(Course_Room).all()
-    courses=current_user.courses_obj
-
-    #ROBA DI PROVA DA EDITARE
-    rooms=session.query(Room).all()  
-    lessonsSameDaySameRoom=session.query(Lesson).filter(Lesson.course_room==1).all()
+    #filtro per le stanze visibili
+    stanze=session.query(Course_Room).filter(Course_Room.isvisible).all() 
+    courses=current_user.courses_obj   
     
-    
-    listOfSlotOccupied=list()
-    for lesson in lessonsSameDaySameRoom:
-        print(lesson.reservation_slot_obj)
-        listOfSlotOccupied.append(lesson.reservation_slot_obj)
 
-    #PROVE MIE
     
     return render_template('/Instructor/creaLezioni.html',userName=userName,tableVisible=tableVisible,formVisible=formVisible,corsi=courses,stanze=stanze)
 
@@ -119,7 +108,7 @@ def inserisciLezioni():
         
     except :        
         flash("errore nei campi")
-        stanze=session.query(Course_Room).all()
+        stanze=session.query(Course_Room).filter(Course_Room.isvisible).all()
         courses=current_user.courses_obj
         # string to show in the navbar of the page
         userName = "Ciao "+current_user.name+" ! "
@@ -127,7 +116,7 @@ def inserisciLezioni():
 
     if(data<=datetime.today()):
         flash("non puoi creare lezioni antecedenti alla data odierna")
-        stanze=session.query(Course_Room).all()
+        stanze=session.query(Course_Room).filter(Course_Room.isvisible).all()
         courses=current_user.courses_obj
         # string to show in the navbar of the page
         userName = "Ciao "+current_user.name+" ! "

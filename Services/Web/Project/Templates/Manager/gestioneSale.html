@@ -62,6 +62,8 @@
             <th style="text-align: center;" scope="col">Nome</th>
             <th style="text-align: center;" scope="col">Descrizione</th>
             <th style="text-align: center;" scope="col">Capacità Massima</th>
+            <th style="text-align: center;" scope="col">Visibile</th>
+            <th style="text-align: center;" scope="col">Cambia Visibilità</th>
             <th style="text-align: center;" scope="col">Elimina</th>
         </tr>
     </thead>
@@ -71,6 +73,11 @@
                 <td style="text-align: center; width: 10%;">{{ Room.name }}</td>
                 <td style="text-align: center; width: 10%;">{{ Room.description }}</td>
                 <td style="text-align: center; width: 10%;">{{ Room.max_capacity }}</td>
+                <td style="text-align: center; width: 10%;">{{ Room.isvisible }}</td>
+                <td style="text-align: center; width: 10%;">
+                    <a href="{{url_for('manager.cambiaStatoSala', idSala=Room.id)}}">Cambia Visibilità</a>
+                </td>
+
                 {% if  Room.is_deletable() %}
                 <td style="text-align: center; width: 10%;">
                     <a href="{{url_for('manager.eliminaSala', idSala=Room.id)}}">Elimina</a>
@@ -95,6 +102,8 @@
             <th style="text-align: center;" scope="col">Nome</th>
             <th style="text-align: center;" scope="col">Descrizione</th>
             <th style="text-align: center;" scope="col">Capacità Massima</th>
+            <th style="text-align: center;" scope="col">Visibile</th>
+            <th style="text-align: center;" scope="col">Cambia Visibilità</th>
             <th style="text-align: center;" scope="col">Elimina</th>
         </tr>
     </thead>
@@ -104,6 +113,10 @@
                 <td style="text-align: center; width: 10%;">{{ Room.name }}</td>
                 <td style="text-align: center; width: 10%;">{{ Room.description }}</td>
                 <td style="text-align: center; width: 10%;">{{ Room.max_capacity }}</td>
+                <td style="text-align: center; width: 10%;">{{ Room.isvisible }}</td>
+                <td style="text-align: center; width: 10%;">
+                    <a href="{{url_for('manager.cambiaStatoSala', idSala=Room.id)}}">Cambia Visibilità</a>
+                </td>
                 {% if Room.is_deletable() %}
                 <td style="text-align: center; width: 10%;">
                     <a href="{{url_for('manager.eliminaSala', idSala=Room.id)}}">Elimina</a>

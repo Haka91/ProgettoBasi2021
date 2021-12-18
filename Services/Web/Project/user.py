@@ -7,7 +7,7 @@ from flask_login.utils import login_required
 from werkzeug.utils import redirect
 from DbController import session
 from Models.Users import User,at_least_user_required
-from Models.Rooms import Weight_Room,Course_Room
+from Models.Rooms import Weight_Room
 from Models.Reservations import Reservation
 from Models.Reservation_Slots import Reservation_Slot
 from Models.Lessons import Lesson
@@ -53,7 +53,8 @@ def prenotazioniAttive():
 def prenotaSalaPesi():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
-    stanze = session.query(Weight_Room).all()
+    #filtro per le stanze visibili
+    stanze = session.query(Weight_Room).filter(Weight_Room.isvisible).all()
     tableVisible=''' hidden="hidden" ''' #now the table is NOT visible
     formVisible='''  ''' # now the form is visible
     return render_template('/User/prenotaSalaPesi.html',userName=userName,stanze=stanze,tableVisible=tableVisible,formVisible=formVisible) 
@@ -89,7 +90,7 @@ def filtraSlotSalaPesi():
 
     if(data<=datetime.today() or data>=(datetime.today() +timedelta(days=14) )):
         flash("non puoi cercare prenotazioni antecedenti alla data odierna o successive ai prossimi 14 giorni")
-        stanze=session.query(Course_Room).all()
+        stanze=session.query(Weight_Room).filter(Weight_Room.isvisible).all()
         tableVisible=''' hidden="hidden" ''' #now the table is NOT visible
         formVisible='''  ''' # now the form is visible
         return render_template('/User/prenotaSalaPesi.html',userName=userName,stanze=stanze,tableVisible=tableVisible,formVisible=formVisible)      
@@ -172,7 +173,8 @@ def faiPrenotazioneSalaPesi(idRoom,idSlot):
 def iscrizioneAiCorsi():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
-    courses=session.query(Course)
+    #filtro per i corsi visibili
+    courses=session.query(Course).filter(Course.isvisible).all()
     tableVisible=''' hidden="hidden" ''' #now the table will be hidden
     formVisible='''  ''' # now the form is visible
     return render_template('/User/iscrizioneAiCorsi.html',userName=userName,courses=courses,tableVisible=tableVisible,formVisible=formVisible)

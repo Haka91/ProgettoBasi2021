@@ -6,6 +6,7 @@ from sqlalchemy import (String)
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import Boolean
 from DbController import Base,session
+from flask.helpers import flash
 
 
 
@@ -20,6 +21,19 @@ class Room(Base):
     description=Column(String(200),nullable=False)
     max_capacity=Column(Integer,nullable=False)
     is_weight=Column(Boolean)
+    isvisible = Column(Boolean,default=True)
+
+    #funzione generica per nascondere o rendere visibile sala
+    def activate_or_deactivate_obj(self):
+        
+            try:
+                self.isvisible=not self.isvisible            
+                session.commit()
+                return True
+            except:
+                session.rollback()
+                return False
+        
 
     __mapper_args__={
       
@@ -34,10 +48,11 @@ class Weight_Room(Room):
 
     weight_reservations_obj=relationship("Weight_Room_Reservation" ,back_populates="weight_room_obj",cascade="all, delete")
 
-    def __init__(self,name,description,max_capacity):
+    def __init__(self,name,description,max_capacity,isVisible=True):
         self.name=name
         self.description=description
         self.max_capacity=max_capacity
+        self.isvisible=isVisible
 
     def add_obj(self):
 
@@ -86,10 +101,11 @@ class Course_Room(Room):
     lessons_obj=relationship("Lesson",back_populates="course_room_obj",cascade="all, delete")
  
 
-    def __init__(self,name,description,max_capacity):
+    def __init__(self,name,description,max_capacity,isVisible=True):
         self.name=name
         self.description=description
-        self.max_capacity=max_capacity  
+        self.max_capacity=max_capacity
+        self.isvisible=isVisible  
 
     def add_obj(self):
 
