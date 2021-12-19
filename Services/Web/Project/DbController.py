@@ -187,6 +187,8 @@ def create_db_users():
 
     numpreno=session.query(Reservations.Course_Reservation).all()
     print("create",len(numpreno),"prenotazioni a lezioni")# 50 lezioni create
+
+
     
     conn= engine.connect() 
      
