@@ -13,7 +13,7 @@ class Role(Base):
    
 
     id = Column("id",Integer, primary_key=True)
-    name = Column(String(50),unique=True)
+    name = Column(String(50),nullable=False,unique=True)
 
     users_obj=relationship("User",back_populates="role_obj", cascade="all, delete")
 

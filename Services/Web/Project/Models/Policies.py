@@ -15,7 +15,7 @@ class Policy(Base):
    
 
     id = Column("id",Integer, primary_key=True)
-    name = Column(String(50),unique=True)
+    name = Column(String(50),nullable=False,unique=True)
     room_percent=Column(Integer,CheckConstraint('room_percent<101'),CheckConstraint('room_percent>0'),nullable=False,default=100)
     max_user_reserv=Column(Integer,CheckConstraint('max_user_reserv>0'),CheckConstraint('max_user_reserv<49'),nullable=False,default=48)
 

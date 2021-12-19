@@ -21,8 +21,8 @@ class Course(Base):
  
 
     id= Column("id",Integer, primary_key=True)
-    name = Column(String(50),unique=True)
-    description=Column(String(50))    
+    name = Column(String(50),nullable=False,unique=True)
+    description=Column(String(50),nullable=False)    
     trainer = Column(Integer,ForeignKey("Users.id"),nullable=False)
     isvisible = Column(Boolean,default=False)
     maxcostumers= Column(Integer,CheckConstraint('maxcostumers<101'),CheckConstraint('maxcostumers>0'),nullable=False,default=100)
