@@ -1,4 +1,4 @@
-from datetime import date, datetime, timedelta
+from datetime import  datetime, timedelta
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -22,8 +22,18 @@ session = Session()
  
 # create all tables that don't yet exist
 
-
-
+#se è già creato non 
+def db_start_already_loaded():   
+    from Models import Courses
+    from Models import Days
+    from Models import Policies
+    from Models import Reservation_Slots
+    from Models import Roles
+    from Models import Rooms
+    from Models import Users
+    from Models import Lessons #2
+    from Models import Reservations #3    
+    Base.metadata.create_all(engine)
 
 
 
@@ -143,7 +153,7 @@ def create_db_users():
         i=i+1
     
 
-    print("create prenotazioni sala pesi")#132 preno create
+    print("create prenotazioni sala pesi")
 
     q=1   
     print("lezioni in creazione,ci vorrà un po")

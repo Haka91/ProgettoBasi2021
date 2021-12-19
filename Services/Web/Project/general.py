@@ -29,7 +29,7 @@ def index():
     corsi = session.query(Course).filter(Course.isvisible).all()
     salaPesi = session.query(Weight_Room).filter(Weight_Room.isvisible).all()
     salaCorsi = session.query(Course_Room).filter(Course_Room.isvisible).all() 
-    return render_template('/General/homepage.html',userName=userName,user=user,corsi=corsi,salaPesi=salaPesi,salaCorsi=salaCorsi) # UNA VOLTA PRESENTI LE QUERY PASSARE I DATI AL TEMPLATE
+    return render_template('/General/homepage.html',userName=userName,user=user,corsi=corsi,salaPesi=salaPesi,salaCorsi=salaCorsi) 
 
 
 # login page
@@ -48,17 +48,17 @@ def loginFunzione():
         if user_session:
             if user_session.checkpsw(login_password):
                 login_user(user_session,True,force=True)
-                #we make the session expire after 15 minutes by default
+                #we make the session expire after 30 minutes by default
                 session.permanent=True               
-                #flash("login avvenuto con successo","Success")
+                
                 if user_session.role==1:
-                     #return render_template('/User/introduzione.html')  
+                      
                      return redirect(url_for('user.introduzione'))  
                 elif user_session.role==2:
-                     #return render_template('/Instructor/introduzione.html') 
+                    
                      return redirect(url_for('instructor.introduzione'))   
                 elif user_session.role==3:
-                     #return render_template('/Manager/introduzione.html')   
+                      
                      return redirect(url_for('manager.introduzione')) 
 
                

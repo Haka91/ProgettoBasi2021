@@ -27,7 +27,7 @@ class Course(Base):
     isvisible = Column(Boolean,default=False)
     maxcostumers= Column(Integer,CheckConstraint('maxcostumers<101'),CheckConstraint('maxcostumers>0'),nullable=False,default=100)
 
-
+    #relationship ORM
     lessons_obj= relationship("Lesson",back_populates="course_obj", cascade="all, delete")
     trainer_obj= relationship("User", back_populates="courses_obj")
    

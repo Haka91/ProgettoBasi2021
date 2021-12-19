@@ -98,7 +98,7 @@ def filtraSlotSalaPesi():
 
  
     titleTable = "Slot prenotabili"
-    #ricavo la policy con il numero massimo di slot e la sala pesi
+    #ricavo la policy assieme al  numero massimo di slot e la sala pesi
     
     try:    
         dayWithPolicy=session.query(Day).filter(Day.date==data).first()
@@ -112,13 +112,12 @@ def filtraSlotSalaPesi():
         slotTuple=tuple(slotlist)    
         return render_template('/User/prenotaSalaPesi.html',dataString=dataString,dove=roomID,tableVisible=tableVisible,formVisible=formVisible,weightRoomsSlot=slotTuple)
 
-    #prendo gli slot della giornata,sono costretto a prenderli senza tutti i filtri per come funziona alchemyORM
+    #prendo gli slot della giornata
     slots=session.query(Reservation_Slot).filter(Reservation_Slot.day == data).all()
     slotlist=list(slots)
     #controllo aggiuntivo se percaso jinja non ha preso correttamente i campi    
     if(room is not None and dayWithPolicy is not None  and policy is not None):
-        prenotationRemaining=policy.max_user_reserv
-        
+        prenotationRemaining=policy.max_user_reserv        
         
         for slot in slots:
           
@@ -129,9 +128,7 @@ def filtraSlotSalaPesi():
                     if (weightReservation.user==current_user.id):
                        
                         prenotationRemaining=prenotationRemaining-1
-                        slotlist.remove(slot)
-                    
-                  
+                        slotlist.remove(slot)   
             
         if(len(slotlist)==0):
             flash("nessuno slot prenotazione disponibile in questa giornata")
@@ -151,12 +148,11 @@ def filtraSlotSalaPesi():
 @login_required
 @at_least_user_required
 def faiPrenotazioneSalaPesi(idRoom,idSlot):
-
-    #ricontrollo che sia ancora libero lo slot    
+     
     slot=session.query(Reservation_Slot).get(idSlot)
     policy=slot.day_obj.policy_obj
     room=session.query(Weight_Room).filter(Weight_Room.id==idRoom).first()
-       
+    #ricontrollo che sia ancora libero lo slot   
     if(slot.slotFree(int(room.max_capacity*(policy.room_percent/100)),idRoom)):
        reservation= Weight_Room_Reservation(idRoom,idSlot,current_user.id)       
        if(not reservation.add_obj() ):
@@ -269,7 +265,7 @@ def filtraLezioniCorsi():
         for lesson in lessonsTuple:
             
             if lesson.lessonSlotFree():                         
-                #controllo che la prenotazione non sia più vecchia di oggi e che l'user non ne abbia già fatta una
+                #controllo che la prenotazione non sia più vecchia di oggi e che l'user non ne abbia già fatta una nello stesso slot
                 alreadyRegistered=False
                 
                 if lesson.reservation_slot_obj.day>date.today(): 

@@ -49,7 +49,7 @@ def listaIscrittiLezione(idLezione,nomeCorso):
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
     lesson=session.query(Lesson).get(idLezione)
-    #recupero la lista dalla funzione
+    #recupero la lista di utenti dalla funzione di user
     utentiIscritti = lesson.reservationsUsers()
     return render_template('/Instructor/listaIscrittiLezione.html',userName=userName,nomeCorso=nomeCorso,utentiIscritti=utentiIscritti)
 
@@ -140,7 +140,7 @@ def inserisciLezioni():
         return render_template('/Instructor/creaLezioni.html',userName=userName,tableVisible=tableVisible,formVisible=formVisible,titleTable=titleTable,corso=corso,dove=dove,slot=slotTuple)
     else:
         
-        #prendo gli slot della giornata,sono costretto a prenderli senza tutti i filtri per come funziona sqlORM
+        #prendo gli slot della giornata
         slots=session.query(Reservation_Slot).filter(Reservation_Slot.day == data).all()
         slotlist=list(slots)
         for slot in slots:

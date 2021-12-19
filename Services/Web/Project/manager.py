@@ -54,6 +54,7 @@ def gestioneSale():
         description=request.form["descrizione"].lower()
         roomCapacity=request.form["capienza"].lower()
         isWeight=request.form.get("isWeight")
+        #controllo se i campi sono stati inseriti correttamente
         if(name and roomCapacity and description):
             if(isWeight):
                 tempRoom=Weight_Room(name,description,roomCapacity)
@@ -93,6 +94,7 @@ def gestioneOrariPalestra():
     userName = "Ciao "+current_user.name+" ! "
     if request.method=='POST':
         policy=request.form.get("policy")
+        #sono costretto a mettere i try sui cast perchè certe volte il campo non si popola correttamente
         try :
             startingDateString=request.form.get('dataInizio')
             startingDate=datetime.strptime(startingDateString,'%Y-%m-%d')
@@ -109,6 +111,7 @@ def gestioneOrariPalestra():
             policies=session.query(Policy).all()
             flash("non puoi creare giorni posteriori ad oggi")
             return render_template('/Manager/gestioneOrariPalestra.html',userName=userName,policies=policies,days=days)
+        #come sopra
         try :
             openingTimeH=int(request.form['ora_apertura'])
             openingTimeM=int(request.form['minuto_apertura'])
@@ -123,15 +126,14 @@ def gestioneOrariPalestra():
             policies=session.query(Policy).all()
             return render_template('/Manager/gestioneOrariPalestra.html',userName=userName,policies=policies,days=days)
 
+        #creo giorni finchè non raggiungo la data indicata
         while startingDate <=endingDate:
             if(breakTimeDuration>0 and breakTimeH and breakTimeM):
                 day=Day(startingDate,datetime(startingDate.year,startingDate.month,startingDate.day,openingTimeH,openingTimeM),datetime(startingDate.year,startingDate.month,startingDate.day,closingTimeH,closingTimeM),policy=policy,break_slot=breakTimeDuration,break_time=datetime(startingDate.year,startingDate.month,startingDate.day,breakTimeH,breakTimeM))     
             else:    
                 day=Day(startingDate,datetime(startingDate.year,startingDate.month,startingDate.day,openingTimeH,openingTimeM),datetime(startingDate.year,startingDate.month,startingDate.day,closingTimeH,closingTimeM),policy=policy,break_slot=0) 
             
-            day.add_obj()                
-           
-               
+            day.add_obj() 
 
             startingDate=startingDate + timedelta(days=1) 
 
@@ -239,13 +241,9 @@ def eliminaSala(idSala):
 @login_required
 @at_least_manager_required
 def cambiaStatoSala(idSala):
-    room=session.query(Room).get(idSala)
-    #dato che è uso la joinetable inheritance su Rooms devo controllare cosa sono
+    room=session.query(Room).get(idSala)    
     if( not room.activate_or_deactivate_obj()):
-        flash("impossibile cambiare stato sala")
-        
-    
-
+        flash("impossibile cambiare stato sala")    
     return redirect(url_for('manager.gestioneSale'))
 
 
@@ -307,6 +305,7 @@ def infoTrainer(idUser):
 @at_least_manager_required
 def creaCorso():
     if request.method=='POST':
+        #commento i cast sui campi per evitare crash dovuti ad inserimenti errati
         try:
             name=request.form["nome"].lower()
             description=request.form["descrizione"].lower()
@@ -321,7 +320,6 @@ def creaCorso():
             courseToAdd=Course(name,description,trainer ,maxcostumers)
             if not (courseToAdd.add_obj()): 
                 flash("Impossibile aggiungere corso")
-
           
         else:
                 flash("Errore nei campi","error")

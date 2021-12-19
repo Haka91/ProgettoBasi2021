@@ -11,16 +11,15 @@ from flask.helpers import flash
 
 class Policy(Base):
 
-    __tablename__='Policies'
-   
+    __tablename__='Policies'   
 
     id = Column("id",Integer, primary_key=True)
     name = Column(String(50),nullable=False,unique=True)
     room_percent=Column(Integer,CheckConstraint('room_percent<101'),CheckConstraint('room_percent>0'),nullable=False,default=100)
     max_user_reserv=Column(Integer,CheckConstraint('max_user_reserv>0'),CheckConstraint('max_user_reserv<49'),nullable=False,default=48)
 
-    days_obj=relationship("Day",back_populates="policy_obj", cascade="all, delete")
-  
+    #relationship ORM
+    days_obj=relationship("Day",back_populates="policy_obj", cascade="all, delete")  
    
     def __init__(self,name,room_percent,max_user_reserv):
         self.name=name

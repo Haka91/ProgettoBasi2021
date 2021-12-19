@@ -19,10 +19,10 @@ class Lesson(Base):
     course = Column(Integer,ForeignKey("Courses.id"),nullable=False)   
     course_room = Column(Integer,ForeignKey("Course_Rooms.id"),nullable=False)
 
+    #relationship ORM
 
     course_room_obj=relationship("Course_Room",back_populates="lessons_obj")
-    course_obj =  relationship("Course",back_populates="lessons_obj")
-   
+    course_obj =  relationship("Course",back_populates="lessons_obj")   
     reservation_slot_obj=relationship("Reservation_Slot",back_populates="lessons_obj")
     course_reservations_obj=relationship("Course_Reservation",back_populates="lesson_obj", cascade="all, delete")
     

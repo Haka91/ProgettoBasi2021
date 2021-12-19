@@ -14,8 +14,8 @@ from flask.helpers import flash
 
 #JOINED TABLE INHERITANCE
 class Room(Base):
-    __tablename__='Rooms'
 
+    __tablename__='Rooms'
 
     id = Column("id",Integer, primary_key=True)
     name = Column(String(50),nullable=False,unique=True)
@@ -47,7 +47,10 @@ class Weight_Room(Room):
          
     id = Column(Integer,ForeignKey(Room.id),primary_key=True)
 
+    #relationship ORM
+
     weight_reservations_obj=relationship("Weight_Room_Reservation" ,back_populates="weight_room_obj",cascade="all, delete")
+
 
     def __init__(self,name,description,max_capacity,isVisible=True):
         self.name=name
@@ -97,7 +100,9 @@ class Course_Room(Room):
 
     __tablename__='Course_Rooms' 
         
-    id = Column(Integer,ForeignKey(Room.id),primary_key=True)  
+    id = Column(Integer,ForeignKey(Room.id),primary_key=True) 
+
+    #relationship ORM 
 
     lessons_obj=relationship("Lesson",back_populates="course_room_obj",cascade="all, delete")
  

@@ -12,9 +12,9 @@ from flask.helpers import flash
 
 
 class Day(Base):
-
     
     __tablename__='Days'    
+
     id=Column(Integer,primary_key=True)
     date = Column(Date,nullable=False,unique=True)
     opening=Column(DateTime,nullable=False)
@@ -23,7 +23,7 @@ class Day(Base):
     break_slot =Column(Integer,CheckConstraint('break_slot>=0'),CheckConstraint('break_slot<47'),nullable=False,default=0)
     policy=Column(Integer,ForeignKey("Policies.id"),nullable=False,default=1)
 
-  
+    #relationship ORM
     reservation_slots_obj=relationship("Reservation_Slot",back_populates="day_obj", cascade="all, delete")
     policy_obj=relationship("Policy",back_populates="days_obj")
      
@@ -62,7 +62,6 @@ class Day(Base):
                         if(startTime<self.break_time or startTime>(self.break_time +timedelta(minutes=(self.break_slot*30)))):
                                 tempReservation=Reservation_Slot(startTime,self.date)
                                 guard=tempReservation.add_obj()
-
                          
                         startTime=startTime + timedelta(minutes=30)
                 else:

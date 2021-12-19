@@ -16,8 +16,7 @@ from app import bcrypt,login_manager
 
 class User(UserMixin,Base):
 
-    __tablename__='Users'
-  
+    __tablename__='Users'  
 
     id = Column("id",Integer, primary_key=True)
     name = Column(String(50), nullable=False)
@@ -29,10 +28,9 @@ class User(UserMixin,Base):
     password = Column( String, nullable=False)    
     role = Column(Integer,ForeignKey("Roles.id"),nullable=False,default=3)
      
-  
+    #relationship ORM
 
     role_obj=relationship("Role",back_populates="users_obj")
-
     courses_obj=relationship("Course",back_populates="trainer_obj",cascade="all, delete")
     reservations_obj=relationship("Reservation",back_populates="user_obj",cascade="all, delete")
 
@@ -179,6 +177,7 @@ class User(UserMixin,Base):
                     reservationList.append(reservation)
         return tuple(reservationList)
 
+
 #metodo richiesto da FLASK-LOGIN 
 
 @login_manager.user_loader
@@ -191,8 +190,8 @@ def load_user(id_user):
 
 
 
-
 #dobbiamo inserire qui le funzioni per evitare i circular import
+#decoratori per proteggere gli endopoint dell' App
 #qui forzo la selezione della Role uguale all'admin,se creassimo una nuova role avrebbe più' poteri di admin 
 def at_least_manager_required(f):
     @wraps(f)
