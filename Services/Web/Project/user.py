@@ -43,8 +43,8 @@ def introduzione():
 def prenotazioniAttive():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
-    print(len(current_user.reservations_obj))
-    return render_template('/User/prenotazioniAttive.html',userName=userName,prenotazioni=current_user.reservations_obj) 
+    
+    return render_template('/User/prenotazioniAttive.html',userName=userName,prenotazioni=current_user.fromTodayReservations()) 
 
 
 # Page where is possible to see the bookings for the weight rooms and it is possible to book a reservation for

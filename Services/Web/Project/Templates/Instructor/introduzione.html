@@ -40,8 +40,8 @@
 
 <!-- Links to switch logged area -->
 <br><br>
-<h1 align="center"> Ora sei nell'area riservata INSTRUCTOR </h1>  {{ruolo}}
-{% if ruolo == 3 %}
+<h2 align="center"> Ora sei nell'area riservata INSTRUCTOR </h1>  
+{% if ruolo == 3  %}
 <p align="center">
     <a href="{{url_for('manager.introduzione')}}">Passa a Manager</a><br>
     <a href="{{url_for('user.introduzione')}}">Passa a User</a><br>
@@ -50,8 +50,7 @@
 {% if ruolo == 2 %}
 <p align="center">
     <a href="{{url_for('user.introduzione')}}">Passa a User</a><br>
-</p>
-{% endif %}
+</p>{% endif %}
 
 
 <br><br>
@@ -66,6 +65,7 @@
             <th style="text-align: center;" scope="col">Corso</th>
             <th style="text-align: center;" scope="col">Stanza</th>
             <th style="text-align: center;" scope="col">Slot</th>
+            <th style="text-align: center;" scope="col">Attualmente Iscritti</th>
         </tr>
     </thead>
     <tbody>
@@ -75,6 +75,7 @@
                 <td style="text-align: center; width: 10%;">{{ Lesson.course_obj.name }}</td>
                 <td style="text-align: center; width: 10%;">{{ Lesson.course_room_obj.name }}</td>
                 <td style="text-align: center; width: 10%;">{{ Lesson.reservation_slot_obj.slot_time }}</td>
+                <td style="text-align: center; width: 10%;">{{ Lesson.reservations() }}</td>
             </tr>
         {% endfor %}
     </tbody>
@@ -89,7 +90,7 @@
     <thead class="thead-dark">
         <tr>
             <th style="text-align: center;" scope="col">Nome</th>
-            <th style="text-align: center;" scope="col">Stanza</th>
+            <th style="text-align: center;" scope="col">Descrizione Corso</th>
         </tr>
     </thead>
     <tbody>

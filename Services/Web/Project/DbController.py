@@ -83,15 +83,15 @@ def create_db_users():
     print("creo stanze")
     weightRoom=Rooms.Weight_Room("sala pesi","piena di gente alle 7",50)
     weightRoom.add_obj()
-    weightRoom2=Rooms.Weight_Room("sala pesi 2","2",30)
+    weightRoom2=Rooms.Weight_Room("sala pesi 2","sala pesi 2",30)
     weightRoom2.add_obj()
-    weightRoom3=Rooms.Weight_Room("sala pesi 3","2",100)
+    weightRoom3=Rooms.Weight_Room("sala pesi 3","sala pesi 3",100)
     weightRoom3.add_obj()
     courseRoom=Rooms.Course_Room("sala corsi Celeste","usata come magazzino di solito",12,True)
     courseRoom.add_obj()
     courseRoom2=Rooms.Course_Room("sala corsi Bianca","sala più piccola,ma che da una sensazione di familiarità",16)
     courseRoom2.add_obj()
-    courseRoom2=Rooms.Course_Room("sala corsi Ross","sala più piccola,ma che da una sensazione di familiarità",100)
+    courseRoom2=Rooms.Course_Room("sala corsi Ross","sala enorme,nei weekend balera",100)
     courseRoom2.add_obj()
     print("creo policy")
     standardPolicy=Policies.Policy("default",100,5)
@@ -124,7 +124,7 @@ def create_db_users():
         day.add_obj() 
         startDate=startDate+timedelta(days=1)   
     
-    print(len(session.query(Reservation_Slots.Reservation_Slot).all()))
+    
     
     i=1   
     print("prenotazioni in creazione,ci vorrà un po")  
@@ -133,19 +133,18 @@ def create_db_users():
             u=1
             while u<13:
                 r=1
-                while r<4:
-                    weightReservationToAdd=Reservations.Weight_Room_Reservation(r,i,u)
-                    weightReservationToAdd.add_obj()
-                    r=r+1
+                
+                weightReservationToAdd=Reservations.Weight_Room_Reservation(r%3,i,u)
+                weightReservationToAdd.add_obj()
+                    
                     
                 
                 u=u+1
         i=i+1
     
     numpreno=session.query(Reservations.Weight_Room_Reservation).all()
-    print("create",len(numpreno),"prenotazioni sala pesi")#396 preno create
+    print("create",len(numpreno),"prenotazioni sala pesi")#132 preno create
 
-    
     q=1   
     print("lezioni in creazione,ci vorrà un po")
     while q < 704:        
@@ -169,7 +168,6 @@ def create_db_users():
 
     numpreno=session.query(Lessons.Lesson).all()
     print("create",len(numpreno),"lezioni")# 50 lezioni create
-                 
 
     print("prenotazioni lezioni in creazione,ci vorrà un po")
 
@@ -178,9 +176,9 @@ def create_db_users():
 
             u=1
             while u<13:
-                if((u+les)%3==0):
+                if((les)%3==0):
                 
-                    weightReservationToAdd=Reservations.Course_Reservation(1,u)
+                    weightReservationToAdd=Reservations.Course_Reservation(les,u)
                     weightReservationToAdd.add_obj()                  
                     
                 
@@ -189,11 +187,6 @@ def create_db_users():
 
     numpreno=session.query(Reservations.Course_Reservation).all()
     print("create",len(numpreno),"prenotazioni a lezioni")# 50 lezioni create
-
-    
-
-
-
     
     conn= engine.connect() 
      

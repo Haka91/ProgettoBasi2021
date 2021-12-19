@@ -167,6 +167,18 @@ class User(UserMixin,Base):
                     reservationList.append(reservation)
         return tuple(reservationList)
 
+    #torno le prenotazioni da oggi in poi
+    def fromTodayReservations(self):
+        reservationList=list()
+        for reservation in  self.reservations_obj:
+            if(reservation.is_weight):
+                if reservation.reservation_slot_obj.day>=(datetime.today().date()) :
+                  reservationList.append(reservation)
+            else:
+                if reservation.lesson_obj.reservation_slot_obj.day>=(datetime.today().date()):
+                    reservationList.append(reservation)
+        return tuple(reservationList)
+
 #metodo richiesto da FLASK-LOGIN 
 
 @login_manager.user_loader
