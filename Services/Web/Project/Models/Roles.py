@@ -15,7 +15,7 @@ class Role(Base):
     id = Column("id",Integer, primary_key=True)
     name = Column(String(50))
 
-    users_obj=relationship("User",back_populates="role_obj")
+    users_obj=relationship("User",back_populates="role_obj", cascade="all, delete")
 
     def __init__(self,name):
         self.name=name
