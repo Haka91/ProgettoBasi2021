@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+<!-- Links in the navbar -->
+{% block navbar %}
+<ul class="navbar-nav navbar-light">
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('instructor.introduzione')}}">Introduzione</a> 
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('instructor.prossimeLezioni')}}">Prossime Lezioni</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('instructor.creaLezioni')}}">Crea Lezioni</a>  
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('general.logout')}}">Logout</a>  
+    </li>
+</ul>
+<!-- Name of the user logged in -->
+<ul class="navbar-nav ml-auto">
+    <li class="nav_item">
+        <a class="nav-link">{{userName}}</a>
+    </li>
+</ul>
+{% endblock %}
+
+
+<!-- Block body -->
+{% block body %}
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<!-- Form to add new lessons to an existing course, available only if the course is teached by the instructor -->
+<div class="container" {{formVisible}} ><br><br>
+    <div class="row">
+        <div class="col-lg-3 col-md-2"></div>
+        <div class="col-lg-6 col-md-8 login-box">
+            <div class="col-lg-12 login-key">
+                <i class="fa fa-key" aria-hidden="true"></i>
+            </div>
+            <h1 align="center">
+                Crea lezioni
+            </h1>
+
+            <br>
+
+            <div class="col-lg-12 login-form">
+                <div class="col-lg-12 login-form">
+                    <form action="{{url_for('instructor.inserisciLezioni')}}" method="post"> 
+                        <!-- Choose course in which add lessons -->
+                        <select id="course" name="course">
+                            {% for Course in corsi %}
+                                <option value="{{Course.id}}">{{Course.name}}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="course">nome corso</label><br><br>
+                        <!-- Choose date of beginning of the course -->
+                        <input type="date" id="datalezione" name="datalezione">
+                        <label for="datalezione">data lezione</label> <br><br>
+                        <!-- Choose room -->
+                        <select id="chooseroom" name="chooseroom">
+                            {% for Room in stanze %}
+                                <option value="{{Room.id}}">{{Room.name}}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="chooseroom">Dove</label><br><br>
+                        <!-- Button to search -->
+                        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Cerca" name="Cerca" />
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-2"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Table for select  -->
+<br><br>
+<h2 align="center" {{tableVisible}} > {{titleTable}} </h2><br><br>
+<table id="table" class="table" {{tableVisible}}>
+    <thead class="thead-dark">
+        <tr>
+            <th style="text-align: center;" scope="col">Data</th>   
+            <th style="text-align: center;" scope="col">Slot Prenotabile</th>
+            <th style="text-align: center;" scope="col">Prenota</th>   
+        </tr>
+    </thead>
+    <tbody>
+        {% for Reservation_Slot in slot %}
+            <tr>
+                <td style="text-align: center; width: 10%;">{{ Reservation_Slot.day }}</td>  
+                <td style="text-align: center; width: 10%;">{{ Reservation_Slot.slot_time }}</td>
+                
+                <td style="text-align: center; width: 10%;">
+                    <a href="{{url_for('instructor.reserveSlot',idSlot=Reservation_Slot.id,idCorso=corso,idRoom=dove)}}">Prenota</a>
+                </td>           
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br><br><br>
+
+{% endblock %}
