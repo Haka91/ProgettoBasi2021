@@ -108,3 +108,12 @@ class Day(Base):
                     return False
             return True
 
+    def reservationsInDay(self):
+        totalReservations=0
+        for reservationSlot in self.reservation_slots_obj:
+            totalReservations=totalReservations+ len( reservationSlot.weight_reservations_obj )
+            for lessons in reservationSlot.lessons_obj:
+                totalReservations=totalReservations+ len(lessons.course_reservations_obj)
+        return totalReservations
+
+
