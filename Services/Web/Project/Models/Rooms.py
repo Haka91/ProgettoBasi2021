@@ -6,6 +6,7 @@ from sqlalchemy import (String)
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import Boolean
 from DbController import Base,session
+from sqlalchemy.sql.schema import CheckConstraint
 from flask.helpers import flash
 
 
@@ -19,7 +20,7 @@ class Room(Base):
     id = Column("id",Integer, primary_key=True)
     name = Column(String(50),nullable=False,unique=True)
     description=Column(String(200),nullable=False)
-    max_capacity=Column(Integer,nullable=False)
+    max_capacity=Column(Integer,CheckConstraint('max_capacity>0'),nullable=False)
     is_weight=Column(Boolean)
     isvisible = Column(Boolean,default=True)
 
