@@ -27,9 +27,9 @@ def introduzione():
     # string to show in the navbar of the page
     userName = "Ciao "+current_user.name+" ! "
     user=session.query(User).get(current_user.id)  
-    numTrainers=session.query(User).filter(User.role==2).count()
-    numUsers=session.query(User).filter(User.role==3).count()
-    return render_template('/Manager/introduzione.html',ruolo=user.role,userName=userName,numTrainers=numTrainers,numUsers=numUsers)
+    numTrainers=session.query(User).filter(User.role==2).all()
+    numUsers=session.query(User).filter(User.role==1).all()
+    return render_template('/Manager/introduzione.html',ruolo=user.role,userName=userName,numTrainers=len(numTrainers),numUsers=len(numUsers))
 
 
 @manager.route('/gestioneUtenti')
