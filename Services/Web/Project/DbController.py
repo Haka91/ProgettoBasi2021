@@ -142,8 +142,8 @@ def create_db_users():
                 u=u+1
         i=i+1
     
-    numpreno=session.query(Reservations.Weight_Room_Reservation).all()
-    print("create",len(numpreno),"prenotazioni sala pesi")#132 preno create
+
+    print("create prenotazioni sala pesi")#132 preno create
 
     q=1   
     print("lezioni in creazione,ci vorrà un po")
@@ -166,8 +166,8 @@ def create_db_users():
            
         q=q+1
 
-    numpreno=session.query(Lessons.Lesson).all()
-    print("create",len(numpreno),"lezioni")# 50 lezioni create
+    
+    print("create lezioni")# 50 lezioni create
 
     print("prenotazioni lezioni in creazione,ci vorrà un po")
 
@@ -185,8 +185,8 @@ def create_db_users():
                 u=u+1
             les=les+1
 
-    numpreno=session.query(Reservations.Course_Reservation).all()
-    print("create",len(numpreno),"prenotazioni a lezioni")# 50 lezioni create
+   
+    print("create prenotazioni a lezioni")# 50 lezioni create
 
 
     
